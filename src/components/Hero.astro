@@ -350,3 +350,68 @@ import BurningCounter from './react/BurningCounter.tsx';
     .hero__pillar { opacity: 1; transform: none; }
   }
 </style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  (function () {
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const label = hero.querySelector('[data-hero-label]');
+    const headline = hero.querySelector('[data-hero-headline]');
+    const sub = hero.querySelector('[data-hero-sub]');
+    const pillars = hero.querySelector('[data-hero-pillars]');
+    const resolution = hero.querySelector('[data-hero-resolution]');
+    const counter = hero.querySelector('[data-hero-counter]');
+    const cta = hero.querySelector('[data-hero-cta]');
+    const bar = hero.querySelector('[data-hero-bar]');
+
+    if (prefersReduced) {
+      [label, sub, pillars, resolution, counter, cta, bar].forEach(el => {
+        if (el) el.classList.add('is-revealed');
+      });
+      if (headline) {
+        headline.querySelectorAll('.h-word').forEach(w => w.classList.add('is-visible'));
+      }
+      return;
+    }
+
+    function runSequence() {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      if (label) tl.call(() => label.classList.add('is-revealed'), [], 0);
+
+      if (headline) {
+        const words = headline.querySelectorAll('.h-word');
+        tl.call(() => {
+          let i = 0;
+          words.forEach((w) => {
+            (w as HTMLElement).style.transitionDelay = `${i * 0.08}s`;
+            w.classList.add('is-visible');
+            i++;
+          });
+        }, [], 0.3);
+      }
+
+      if (sub) tl.call(() => sub.classList.add('is-revealed'), [], 1.4);
+      if (pillars) tl.call(() => pillars.classList.add('is-revealed'), [], 1.6);
+      if (resolution) tl.call(() => resolution.classList.add('is-revealed'), [], 2.0);
+      if (counter) tl.call(() => counter.classList.add('is-revealed'), [], 2.2);
+      if (cta) tl.call(() => cta.classList.add('is-revealed'), [], 2.4);
+      if (bar) tl.call(() => bar.classList.add('is-revealed'), [], 2.8);
+    }
+
+    if (document.querySelector('.preloader')) {
+      window.addEventListener('preloader-done', runSequence, { once: true });
+    } else {
+      runSequence();
+    }
+
+    document.addEventListener('astro:before-swap', () => {
+      gsap.killTweensOf('*');
+    }, { once: true });
+  })();
+</script>
