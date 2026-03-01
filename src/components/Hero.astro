@@ -1,76 +1,85 @@
 ---
 import SectionLabel from './SectionLabel.astro';
-import BrandMarquee from './BrandMarquee.astro';
 import SplitWords from './SplitWords.astro';
+import BrandMarquee from './BrandMarquee.astro';
+import BurningCounter from './react/BurningCounter.tsx';
 ---
 
 <section id="hero" class="hero">
-  <!-- Background canvas -->
-  <div class="hero__canvas-wrap" aria-hidden="true">
-    <canvas id="heroCanvas" class="hero__canvas"></canvas>
-    <div class="hero__canvas-overlay"></div>
+  <!-- Gradient mesh background -->
+  <div class="hero__mesh" aria-hidden="true">
+    <div class="hero__blob hero__blob--cyan"></div>
+    <div class="hero__blob hero__blob--pink"></div>
+    <div class="hero__blob hero__blob--purple"></div>
+    <div class="hero__grain"></div>
   </div>
 
   <div class="container hero__container">
-    <!-- Section label -->
-    <div class="reveal">
-      <SectionLabel text="Performance Marketing Agentur" />
+    <!-- Monospace label -->
+    <div class="hero__label" data-hero-label>
+      <SectionLabel text="Performance Marketing Infrastruktur" />
     </div>
 
-    <!-- Giant typographic block -->
-    <div class="hero__type headline-reveal">
-      <span class="h-line hero__type-line hero__type-line--cyan" style="overflow:hidden" aria-hidden="true"><SplitWords text="ADS." /></span>
-      <span class="h-line hero__type-line hero__type-line--outline" style="overflow:hidden" aria-hidden="true"><SplitWords text="TRACKING." /></span>
-      <span class="h-line hero__type-line hero__type-line--cyan" style="overflow:hidden" aria-hidden="true"><SplitWords text="WEBDESIGN." /></span>
-    </div>
-
-    <!-- Semantic H1 (smaller, for SEO) -->
-    <h1 class="hero__h1 reveal">
-      Wir bauen die Performance-Infrastruktur f&uuml;r Unternehmen, die mit ihrem Marketing-Budget nicht mehr experimentieren wollen.
+    <!-- Main headline -->
+    <h1 class="hero__headline headline-reveal" data-hero-headline>
+      <span class="h-line" style="overflow:hidden">
+        <SplitWords text="Dein Marketing" />
+      </span>
+      <span class="h-line hero__headline--accent" style="overflow:hidden">
+        <SplitWords text="könnte mehr." />
+      </span>
     </h1>
 
-    <!-- Trust line -->
-    <div class="hero__trust reveal">
-      <span>&#10003; 15 Jahre Expertise</span>
-      <span>&middot;</span>
-      <span>&#10003; &euro;8M+ verwaltetes Budget</span>
-      <span>&middot;</span>
-      <span>&#10003; DSGVO-konform</span>
+    <!-- Subheadline -->
+    <p class="hero__sub" data-hero-sub>
+      Die meisten Unternehmen verlieren 40% ihrer Daten &mdash;
+      und wundern sich, warum ihre Kampagnen nicht skalieren.
+    </p>
+
+    <!-- Service pillars -->
+    <div class="hero__pillars" data-hero-pillars>
+      <span class="hero__pillar">Google &amp; Social Ads</span>
+      <span class="hero__pillar">Server-Side Tracking</span>
+      <span class="hero__pillar">Webdesign &amp; CRO</span>
+      <span class="hero__pillar">Strategie</span>
+    </div>
+
+    <!-- Resolution -->
+    <p class="hero__resolution" data-hero-resolution>
+      Wir bauen die Infrastruktur, die alles verbindet &mdash;
+      von sauberem Tracking bis zur Kampagne, die performt.
+    </p>
+
+    <!-- Burning counter -->
+    <div class="hero__counter" data-hero-counter>
+      <BurningCounter client:visible />
     </div>
 
     <!-- CTA buttons -->
-    <div class="hero__cta reveal">
-      <a href="#kontakt" class="btn-primary btn--lg" data-magnetic>Kostenloses Audit anfragen</a>
-      <a href="#leistungen" class="btn-ghost btn--lg" data-magnetic>Leistungen ansehen &darr;</a>
+    <div class="hero__cta" data-hero-cta>
+      <a href="#kontakt" class="btn-primary btn--lg" data-magnetic>
+        Kostenloses Audit anfragen
+      </a>
+      <a href="#leistungen" class="btn-ghost btn--lg" data-magnetic>
+        Was wir machen &darr;
+      </a>
     </div>
 
-    <!-- Bottom trust bar -->
-    <div class="hero__bar reveal">
+    <!-- Trust bar -->
+    <div class="hero__bar" data-hero-bar>
       <div class="hero__bar-founders">
-        <img
-          src="/assets/team/christina.webp"
-          alt="Christina Bauer, Co-Founderin"
-          width="80"
-          height="80"
-          class="hero__bar-avatar"
-          loading="eager"
-        />
-        <img
-          src="/assets/team/mike.webp"
-          alt="Mike Wendl, Co-Founder"
-          width="80"
-          height="80"
-          class="hero__bar-avatar hero__bar-avatar--overlap"
-          loading="eager"
-        />
+        <img src="/assets/team/christina.webp" alt="Christina Bauer, Co-Founderin" width="80" height="80" class="hero__bar-avatar" loading="eager" />
+        <img src="/assets/team/mike.webp" alt="Mike Wendl, Co-Founder" width="80" height="80" class="hero__bar-avatar hero__bar-avatar--overlap" loading="eager" />
       </div>
-
       <span class="hero__bar-divider" aria-hidden="true"></span>
-
-      <span class="hero__bar-text">&Uuml;ber &euro;8M verwaltetes Werbebudget</span>
-
+      <div class="hero__bar-trust">
+        <span>&#10003; 15 Jahre Expertise</span>
+        <span>&middot;</span>
+        <span>&#10003; &euro;8M+ verwaltetes Budget</span>
+        <span>&middot;</span>
+        <span>&#10003; DSGVO-konform</span>
+      </div>
       <span class="hero__bar-divider" aria-hidden="true"></span>
-
       <div class="hero__bar-reviews">
         <span class="hero__bar-stars" aria-label="5 von 5 Sternen">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
         <span class="hero__bar-rating">5.0 Google Reviews</span>
@@ -79,453 +88,4 @@ import SplitWords from './SplitWords.astro';
   </div>
 </section>
 
-<!-- Client logos marquee -->
 <BrandMarquee />
-
-<style>
-  /* ==========================================================================
-     HERO - Full viewport, giant typographic centerpiece
-     ========================================================================== */
-
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding-top: 8rem;
-    padding-bottom: 3rem;
-    overflow: hidden;
-  }
-
-  .hero__container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  /* --- Background canvas --- */
-
-  .hero__canvas-wrap {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-  }
-
-  .hero__canvas {
-    width: 100%;
-    height: 100%;
-    opacity: 0.55;
-  }
-
-  .hero__canvas-overlay {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 50% 60% at 25% 40%, rgba(0,212,255,0.05), transparent),
-      radial-gradient(ellipse 40% 40% at 75% 70%, rgba(255,45,120,0.03), transparent),
-      linear-gradient(to top, var(--bg-primary) 0%, transparent 35%);
-  }
-
-  /* --- Giant type block --- */
-
-  .hero__type {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero__type-line {
-    font-family: 'Unbounded', system-ui, sans-serif;
-    font-size: clamp(3rem, 9vw, 6rem);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    transform-origin: left center;
-    cursor: default;
-  }
-
-  .hero__type-line:hover {
-    transform: scaleX(1.05);
-  }
-
-  .hero__type-line--cyan {
-    color: var(--accent-cyan);
-    text-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
-  }
-
-  .hero__type-line--outline {
-    color: transparent;
-    -webkit-text-stroke: 2px var(--text-primary);
-  }
-
-  /* --- Semantic H1 (small, SEO-focused) --- */
-
-  .hero__h1 {
-    font: 400 1.125rem/1.6 var(--font-body);
-    letter-spacing: 0;
-    color: var(--text-secondary);
-    max-width: 650px;
-    margin-bottom: 2rem;
-  }
-
-  /* --- Trust line --- */
-
-  .hero__trust {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: var(--accent-cyan);
-    margin-bottom: 2.5rem;
-  }
-
-  /* --- CTA buttons --- */
-
-  .hero__cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 3.5rem;
-  }
-
-  .btn-primary.btn--lg {
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-  }
-
-  .btn-ghost.btn--lg {
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-  }
-
-  /* --- Bottom trust bar --- */
-
-  .hero__bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.25rem;
-    margin-top: auto;
-  }
-
-  .hero__bar-founders {
-    display: flex;
-    align-items: center;
-  }
-
-  .hero__bar-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--bg-primary);
-    display: block;
-  }
-
-  .hero__bar-avatar--overlap {
-    margin-left: -20px;
-  }
-
-  .hero__bar-divider {
-    width: 1px;
-    height: 40px;
-    background: var(--border);
-    flex-shrink: 0;
-  }
-
-  .hero__bar-text {
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    white-space: nowrap;
-  }
-
-  .hero__bar-reviews {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .hero__bar-stars {
-    color: var(--accent-yellow);
-    font-size: 1.125rem;
-    letter-spacing: 0.05em;
-  }
-
-  .hero__bar-rating {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    white-space: nowrap;
-  }
-
-  /* --- Responsive --- */
-
-  @media (max-width: 1023px) {
-    .hero {
-      min-height: auto;
-      padding-top: 7rem;
-      padding-bottom: 2.5rem;
-    }
-
-    .hero__bar-divider {
-      display: none;
-    }
-
-    .hero__bar {
-      gap: 1rem;
-    }
-
-    .hero__bar-avatar {
-      width: 56px;
-      height: 56px;
-    }
-  }
-
-  @media (max-width: 639px) {
-    .hero {
-      padding-top: 6rem;
-    }
-
-    .hero__cta {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .hero__cta a {
-      text-align: center;
-    }
-  }
-
-  /* --- Reduced motion --- */
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero__type-line {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-</style>
-
-<script>
-  (function () {
-    const canvas = document.getElementById('heroCanvas');
-    if (!canvas || !(canvas instanceof HTMLCanvasElement)) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile = window.innerWidth < 768;
-
-    let w = 0, h = 0;
-    let nodes = [];
-    let particles = [];
-    let mouseX = -1000, mouseY = -1000;
-    let animId = 0;
-
-    function resize() {
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      const rect = parent.getBoundingClientRect();
-      w = rect.width;
-      h = rect.height;
-      const dpr = Math.min(devicePixelRatio, 2);
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function createNodes() {
-      let count = Math.max(30, Math.floor(w * h / 25000));
-      if (isMobile) count = Math.floor(count * 0.5);
-      nodes = [];
-      for (let i = 0; i < count; i++) {
-        nodes.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.7,
-          vy: (Math.random() - 0.5) * 0.7,
-          radius: 0.8 + Math.random() * 1.8,
-          pulse: Math.random() * Math.PI * 2,
-          hub: Math.random() < 0.22
-        });
-      }
-    }
-
-    function createParticles() {
-      particles = [];
-      for (let i = 0; i < 25; i++) {
-        particles.push({ active: false, fromIdx: 0, toIdx: 0, t: 0, speed: 0 });
-      }
-    }
-
-    function update() {
-      for (const node of nodes) {
-        node.x += node.vx;
-        node.y += node.vy;
-        node.vx *= 0.997;
-        node.vy *= 0.997;
-        node.pulse += 0.015;
-
-        if (node.x < 0 || node.x > w) node.vx *= -1;
-        if (node.y < 0 || node.y > h) node.vy *= -1;
-        node.x = Math.max(0, Math.min(w, node.x));
-        node.y = Math.max(0, Math.min(h, node.y));
-
-        if (!isMobile && mouseX > -500) {
-          const dx = node.x - mouseX;
-          const dy = node.y - mouseY;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 180 && dist > 0) {
-            const force = (180 - dist) / 180 * 0.12;
-            node.vx += (dx / dist) * force;
-            node.vy += (dy / dist) * force;
-          }
-        }
-      }
-
-      for (const p of particles) {
-        if (!p.active) {
-          if (Math.random() < 0.015) {
-            const i = Math.floor(Math.random() * nodes.length);
-            const j = Math.floor(Math.random() * nodes.length);
-            if (i !== j) {
-              const dx = nodes[i].x - nodes[j].x;
-              const dy = nodes[i].y - nodes[j].y;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-              const threshold = (nodes[i].hub || nodes[j].hub) ? 220 : 130;
-              if (dist < threshold) {
-                p.active = true;
-                p.fromIdx = i;
-                p.toIdx = j;
-                p.t = 0;
-                p.speed = 0.002 + Math.random() * 0.007;
-              }
-            }
-          }
-        } else {
-          p.t += p.speed;
-          if (p.t >= 1) p.active = false;
-        }
-      }
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, w, h);
-
-      ctx.lineWidth = 0.6;
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i];
-          const b = nodes[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const threshold = (a.hub || b.hub) ? 220 : 130;
-          if (dist < threshold) {
-            const alpha = (1 - dist / threshold) * 0.28;
-            ctx.strokeStyle = `rgba(0,212,255,${alpha})`;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      for (const node of nodes) {
-        const glowPulse = Math.sin(node.pulse) * 0.3 + 0.7;
-        if (node.hub) {
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius + 5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0,212,255,${0.05 * glowPulse})`;
-          ctx.fill();
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0,212,255,${0.65 * glowPulse})`;
-          ctx.fill();
-        } else {
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0,212,255,${0.3 * glowPulse})`;
-          ctx.fill();
-        }
-      }
-
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = 'rgba(0,212,255,1)';
-      for (const p of particles) {
-        if (!p.active) continue;
-        const a = nodes[p.fromIdx];
-        const b = nodes[p.toIdx];
-        const x = a.x + (b.x - a.x) * p.t;
-        const y = a.y + (b.y - a.y) * p.t;
-        ctx.beginPath();
-        ctx.arc(x, y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0,212,255,1)';
-        ctx.fill();
-      }
-      ctx.shadowBlur = 0;
-    }
-
-    function loop() {
-      update();
-      draw();
-      animId = requestAnimationFrame(loop);
-    }
-
-    function startCanvas() {
-      resize();
-      createNodes();
-      createParticles();
-
-      if (reducedMotion) {
-        draw();
-      } else {
-        loop();
-
-        if (!isMobile) {
-          const parent = canvas.parentElement;
-          if (parent) {
-            parent.addEventListener('mousemove', (e) => {
-              const rect = canvas.getBoundingClientRect();
-              mouseX = e.clientX - rect.left;
-              mouseY = e.clientY - rect.top;
-            }, { passive: true });
-
-            parent.addEventListener('mouseleave', () => {
-              mouseX = -1000;
-              mouseY = -1000;
-            });
-          }
-        }
-      }
-    }
-
-    // Wait for preloader to finish before starting canvas animation
-    if (document.querySelector('.preloader')) {
-      window.addEventListener('preloader-done', startCanvas, { once: true });
-    } else {
-      startCanvas();
-    }
-
-    window.addEventListener('resize', () => {
-      resize();
-      createNodes();
-      createParticles();
-    });
-
-    document.addEventListener('astro:before-swap', () => {
-      if (animId) cancelAnimationFrame(animId);
-    });
-  })();
-</script>
