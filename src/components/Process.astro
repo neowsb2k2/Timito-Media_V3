@@ -2,759 +2,115 @@
 import SectionLabel from './SectionLabel.astro';
 import SplitWords from './SplitWords.astro';
 
-const milestones = [
+const scenes = [
   {
-    index: 0,
-    badge: 'Meilenstein 1',
-    time: 'Nach Woche 2',
-    title: 'Dein <span class="process__accent">Fundament</span> steht.',
-    desc: 'Wir scannen dein gesamtes Setup — Tracking, Kampagnen, Kanäle, Website. Du bekommst einen Report mit konkreten Zahlen und einer klaren Roadmap für alles, was danach kommt.',
-    metricVal: '100%',
-    metricLbl: 'kostenlos — du entscheidest danach',
-    color: '0, 212, 255',
-    tiles: [
-      { icon: '📊', title: 'Full-Stack Audit', desc: 'Tracking, Google Ads, Social Ads, Website — alles auf dem Tisch' },
-      { icon: '🗺️', title: 'Kanal-Roadmap', desc: 'Welche Kanäle zuerst, wo liegt der größte Hebel' },
-      { icon: '💰', title: 'Budget-Potenzialanalyse', desc: 'Was du aktuell verlierst — und was möglich wäre' },
-      { icon: '🎯', title: 'Quick-Win Liste', desc: 'Sofort umsetzbar — oft schon vor Projektstart' },
+    phase: '01',
+    accent: '--accent-cyan',
+    accentRgb: '0, 212, 255',
+    headline: 'Du siehst, wo dein Geld verschwindet.',
+    description: 'Vollständiges Audit deines Trackings, deiner Ads und deiner Website. Du bekommst eine klare Roadmap — keine PowerPoint-Wüste.',
+    time: 'Woche 2',
+    deliverables: [
+      'Tracking Audit',
+      'Ads & Channel Analyse',
+      'Budget-Potenzial Report',
+      'Quick-Win Liste',
     ],
   },
   {
-    index: 1,
-    badge: 'Meilenstein 2',
+    phase: '02',
+    accent: '--accent-pink',
+    accentRgb: '255, 45, 120',
+    headline: 'Deine Kampagnen bringen Ergebnisse.',
+    description: 'Google Ads, Social Ads und Landing Pages — live, optimiert und mit sauberem Tracking verbunden.',
     time: 'Woche 3–8',
-    title: 'Deine <span class="process__accent">Kampagnen</span> laufen.',
-    desc: 'Tracking ist gefixt, Daten fließen sauber. Jetzt bauen wir deine Kampagnen auf — Google Ads, Social Ads, Landingpages. Alles aus einem Guss, alles auf derselben Datenbasis.',
-    metricVal: '1 Team',
-    metricLbl: 'für Tracking, Ads, Web & Strategie — keine Silos',
-    color: '255, 45, 120',
-    tiles: [
-      { icon: '🔍', title: 'Google Ads Setup', desc: 'Search, Shopping, PMax — strukturiert nach Profitabilität' },
-      { icon: '📱', title: 'Social Ads Strategie', desc: 'Meta, TikTok, LinkedIn — Funnel-Aufbau & Creatives' },
-      { icon: '🖥️', title: 'Live-Dashboard', desc: 'Alle Kanäle auf einen Blick — Echtzeit, 24/7 Zugriff' },
-      { icon: '🌐', title: 'Landingpages & CRO', desc: 'Conversion-optimierte Seiten, die aus Klicks Kunden machen' },
+    deliverables: [
+      'Google & Social Ads Setup',
+      'Server-Side Tracking',
+      'Landing Pages & CRO',
+      'Live Performance Dashboard',
     ],
   },
   {
-    index: 2,
-    badge: 'Meilenstein 3',
+    phase: '03',
+    accent: '--accent-green',
+    accentRgb: '63, 185, 80',
+    headline: 'Dein Marketing skaliert von allein.',
+    description: 'Cross-Channel Optimierung, systematisches Testing und monatliche Strategie-Calls direkt mit den Gründern.',
     time: 'Ab Monat 3',
-    title: 'Dein Marketing <span class="process__accent">skaliert.</span>',
-    desc: 'Tracking, Kampagnen und Creatives laufen. Jetzt optimieren wir kanalübergreifend: Budget dahin verschieben wo es performt, neue Audiences testen, Creatives iterieren.',
-    metricVal: '+91%',
-    metricLbl: 'Ø ROAS-Steigerung über alle Kanäle',
-    color: '63, 185, 80',
-    tiles: [
-      { icon: '📈', title: 'Cross-Channel Optimierung', desc: 'Google + Social + Web gemeinsam optimieren, nicht isoliert' },
-      { icon: '🧪', title: 'Systematische Tests', desc: 'Creatives, Audiences, Bidding, Landingpages — datengetrieben' },
-      { icon: '🚀', title: 'Budget-Skalierung', desc: 'Mehr Budget in Gewinner, Verlierer stoppen — in Echtzeit' },
-      { icon: '👤', title: 'Monatliches Sparring', desc: 'Strategie-Call mit Christina & Mike — keine Account Manager' },
+    deliverables: [
+      'Cross-Channel Optimierung',
+      'Systematisches A/B Testing',
+      'Budget Scaling Strategie',
+      'Monatliche Founder Calls',
     ],
   },
-];
-
-const cardPositions = [
-  'right: 10%;',
-  'left: 10%;',
-  'right: 10%;',
 ];
 ---
 
-<section id="ablauf" class="section process">
+<section id="ablauf" class="process-section">
+  <!-- Header (before pin) -->
   <div class="container">
     <div class="process__header">
-      <SectionLabel text="Zusammenarbeit" />
+      <SectionLabel text="Unser Prozess" />
       <h2 class="giant-title headline-reveal">
-        <span class="h-line" style="overflow:hidden"><SplitWords text="Was du" /></span>
-        <span class="h-line line-accent" style="overflow:hidden"><SplitWords text="bekommst." /></span>
+        <span class="h-line" style="overflow:hidden"><SplitWords text="So arbeiten" /></span>
+        <span class="h-line line-accent" style="overflow:hidden"><SplitWords text="wir." /></span>
       </h2>
-      <p class="process__sub">Erst die Datenbasis reparieren, dann Kampagnen bauen, dann skalieren. Drei Meilensteine — und bei jedem weißt du genau, was auf deinem Schreibtisch liegt.</p>
+      <p class="process__sub reveal">Drei Phasen. Ein Ziel: Marketing, das skaliert.</p>
     </div>
   </div>
 
-  <div class="process__pin-wrap" data-pin-wrap>
-    <div class="process__sticky">
-      <!-- SVG roadmap -->
-      <svg
-        class="process__svg"
-        viewBox="0 0 1200 700"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <defs>
-          <linearGradient id="roadmap-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="rgb(0, 212, 255)" />
-            <stop offset="50%" stop-color="rgb(255, 45, 120)" />
-            <stop offset="100%" stop-color="rgb(63, 185, 80)" />
-          </linearGradient>
-          <filter id="dot-glow">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <filter id="node-glow">
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
+  <!-- Pinned scroll area -->
+  <div class="process__pin" data-process-pin>
+    <div class="process__bg-blob" data-process-blob aria-hidden="true"></div>
+    <div class="process__grain" aria-hidden="true"></div>
 
-        <!-- Ghost path -->
-        <path
-          class="process__path-bg"
-          d="M 600 30 C 600 120, 200 120, 200 210 C 200 300, 1000 300, 1000 390 C 1000 480, 200 480, 200 560 C 200 620, 600 640, 600 670"
-          stroke="rgba(255,255,255,0.05)"
-          stroke-width="3"
-          stroke-linecap="round"
-          fill="none"
-        />
+    <div class="process__scenes" data-process-scenes>
+      {scenes.map((scene, i) => (
+        <div
+          class={`process__scene ${i === 0 ? 'is-active' : ''}`}
+          data-scene={i}
+          style={`--scene-accent: var(${scene.accent}); --scene-rgb: ${scene.accentRgb};`}
+        >
+          <span class="process__deco-num" aria-hidden="true" data-scene-deco>
+            {scenes[i + 1]?.phase || '✓'}
+          </span>
 
-        <!-- Draw path -->
-        <path
-          class="process__path-draw"
-          d="M 600 30 C 600 120, 200 120, 200 210 C 200 300, 1000 300, 1000 390 C 1000 480, 200 480, 200 560 C 200 620, 600 640, 600 670"
-          stroke="url(#roadmap-grad)"
-          stroke-width="3"
-          stroke-linecap="round"
-          fill="none"
-        />
-
-        <!-- Traveling dot -->
-        <circle
-          class="process__dot"
-          r="6"
-          fill="#fff"
-          filter="url(#dot-glow)"
-          cx="600"
-          cy="30"
-        />
-
-        <!-- Node 1 (cyan) -->
-        <g class="process__svg-node" data-node="0">
-          <circle r="20" fill="rgba(0,212,255,0.08)" stroke="rgba(0,212,255,0.3)" stroke-width="2" />
-          <text text-anchor="middle" dominant-baseline="central" fill="rgb(0,212,255)" font-family="var(--font-mono, monospace)" font-size="11" font-weight="700">01</text>
-        </g>
-
-        <!-- Node 2 (pink) -->
-        <g class="process__svg-node" data-node="1">
-          <circle r="20" fill="rgba(255,45,120,0.08)" stroke="rgba(255,45,120,0.3)" stroke-width="2" />
-          <text text-anchor="middle" dominant-baseline="central" fill="rgb(255,45,120)" font-family="var(--font-mono, monospace)" font-size="11" font-weight="700">02</text>
-        </g>
-
-        <!-- Node 3 (green) -->
-        <g class="process__svg-node" data-node="2">
-          <circle r="20" fill="rgba(63,185,80,0.08)" stroke="rgba(63,185,80,0.3)" stroke-width="2" />
-          <text text-anchor="middle" dominant-baseline="central" fill="rgb(63,185,80)" font-family="var(--font-mono, monospace)" font-size="11" font-weight="700">03</text>
-        </g>
-      </svg>
-
-      <!-- Floating cards -->
-      <div class="process__cards">
-        {milestones.map((ms, i) => (
-          <div
-            class="process__card"
-            data-card={i}
-            style={`--ms-c: ${ms.color}; ${cardPositions[i]}`}
-          >
-            <div class="process__badge-row">
-              <span class="process__badge">{ms.badge}</span>
-              <span class="process__time">{ms.time}</span>
-            </div>
-            <h3 class="process__title" set:html={ms.title} />
-            <p class="process__desc">{ms.desc}</p>
-            <div class="process__metric">
-              <span class="process__metric-val">{ms.metricVal}</span>
-              <span class="process__metric-lbl">{ms.metricLbl}</span>
-            </div>
-            <div class="process__deliverables">
-              {ms.tiles.map((tile) => (
-                <div class="process__tile">
-                  <span class="process__tile-icon">{tile.icon}</span>
-                  <div>
-                    <strong>{tile.title}</strong>
-                    <span>{tile.desc}</span>
-                  </div>
-                </div>
+          <div class="process__scene-content">
+            <span class="process__phase" data-scene-phase>Phase {scene.phase}</span>
+            <h3 class="process__scene-title" data-scene-title>{scene.headline}</h3>
+            <p class="process__scene-desc" data-scene-desc>{scene.description}</p>
+            <span class="process__time-badge" data-scene-badge>→ {scene.time}</span>
+            <ul class="process__deliverables" data-scene-deliverables>
+              {scene.deliverables.map((d) => (
+                <li class="process__deliverable">
+                  <span class="process__check" aria-hidden="true">✓</span>
+                  {d}
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
+    </div>
 
-      <!-- Scroll hint -->
-      <div class="process__scroll-hint" data-scroll-hint>
-        <span class="process__scroll-hint-text">Scrollen</span>
-        <svg width="16" height="24" viewBox="0 0 16 24" fill="none" aria-hidden="true">
-          <rect x="1" y="1" width="14" height="22" rx="7" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
-          <circle class="process__scroll-dot" cx="8" cy="7" r="2" fill="rgba(255,255,255,0.6)" />
-        </svg>
+    <!-- Progress bar -->
+    <div class="process__progress" data-process-progress aria-hidden="true">
+      <div class="process__progress-fill" data-process-fill></div>
+      <div class="process__progress-dots">
+        <span class="process__progress-dot" data-dot="0"></span>
+        <span class="process__progress-dot" data-dot="1"></span>
+        <span class="process__progress-dot" data-dot="2"></span>
       </div>
     </div>
   </div>
 
-  <!-- CTA -->
   <div class="container">
     <div class="process__cta reveal">
-      <a href="#kontakt" class="btn-primary btn--lg" data-magnetic>Kostenloses Audit starten &rarr;</a>
+      <a href="#kontakt" class="btn-primary btn--lg" data-magnetic>
+        Kostenloses Audit starten &rarr;
+      </a>
     </div>
   </div>
 </section>
-
-<script>
-(function () {
-  const pinWrap = document.querySelector<HTMLElement>('[data-pin-wrap]');
-  if (!pinWrap) return;
-
-  const svg = pinWrap.querySelector<SVGSVGElement>('.process__svg');
-  const drawPath = pinWrap.querySelector<SVGPathElement>('.process__path-draw');
-  const dot = pinWrap.querySelector<SVGCircleElement>('.process__dot');
-  const nodes = pinWrap.querySelectorAll<SVGGElement>('.process__svg-node');
-  const cards = pinWrap.querySelectorAll<HTMLElement>('.process__card');
-  const scrollHint = document.querySelector<HTMLElement>('[data-scroll-hint]');
-
-  const CARD_THRESHOLDS = [0.15, 0.48, 0.80];
-  const NODE_THRESHOLDS = [0.20, 0.45, 0.75];
-  const DOT_TABLE_SIZE = 200;
-
-  let pathLength = 0;
-  let dotTable: { x: number; y: number }[] = [];
-  let rafId = 0;
-  let lastProgress = -1;
-  let isVisible = false;
-  let isMobile = false;
-
-  // ── Reduced motion guard ──
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReduced) {
-    cards.forEach(c => c.classList.add('is-active'));
-    nodes.forEach(n => n.classList.add('is-active'));
-    if (drawPath) drawPath.style.strokeDashoffset = '0';
-    if (dot) dot.style.display = 'none';
-    if (scrollHint) scrollHint.style.display = 'none';
-    return;
-  }
-
-  // ── Mobile check ──
-  function checkMobile() {
-    isMobile = window.innerWidth < 768;
-  }
-
-  // ── Measure path & build dot lookup table ──
-  function measurePath() {
-    if (!drawPath || !svg || isMobile) return;
-
-    pathLength = drawPath.getTotalLength();
-    drawPath.style.strokeDasharray = String(pathLength);
-    drawPath.style.strokeDashoffset = String(pathLength);
-
-    // Build dot lookup table
-    dotTable = [];
-    for (let i = 0; i <= DOT_TABLE_SIZE; i++) {
-      const pt = drawPath.getPointAtLength((i / DOT_TABLE_SIZE) * pathLength);
-      dotTable.push({ x: pt.x, y: pt.y });
-    }
-
-    // Position node circles at 25%, 50%, 75% of path
-    const nodePositions = [0.25, 0.50, 0.75];
-    nodes.forEach((node, i) => {
-      const pt = drawPath.getPointAtLength(nodePositions[i] * pathLength);
-      node.setAttribute('transform', `translate(${pt.x}, ${pt.y})`);
-    });
-  }
-
-  // ── Scroll progress ──
-  function getProgress(): number {
-    const rect = pinWrap!.getBoundingClientRect();
-    const scrollRange = pinWrap!.offsetHeight - window.innerHeight;
-    if (scrollRange <= 0) return 0;
-    return Math.max(0, Math.min(1, -rect.top / scrollRange));
-  }
-
-  // ── Animation tick ──
-  function tick() {
-    if (!isVisible || isMobile) {
-      rafId = 0;
-      return;
-    }
-
-    const progress = getProgress();
-
-    // Delta threshold — skip DOM writes when nothing changed
-    if (Math.abs(progress - lastProgress) > 0.0005) {
-      lastProgress = progress;
-
-      // Draw path
-      if (drawPath) {
-        drawPath.style.strokeDashoffset = String(pathLength * (1 - progress));
-      }
-
-      // Traveling dot
-      if (dot && dotTable.length > 0) {
-        const idx = Math.min(Math.round(progress * DOT_TABLE_SIZE), DOT_TABLE_SIZE);
-        const pt = dotTable[idx];
-        if (pt) {
-          dot.setAttribute('cx', String(pt.x));
-          dot.setAttribute('cy', String(pt.y));
-        }
-        dot.style.opacity = progress > 0.01 ? '1' : '0';
-      }
-
-      // Card activation — only one visible at a time
-      let activeCard = -1;
-      for (let i = CARD_THRESHOLDS.length - 1; i >= 0; i--) {
-        if (progress >= CARD_THRESHOLDS[i]) { activeCard = i; break; }
-      }
-      cards.forEach((card, i) => {
-        card.classList.toggle('is-active', i === activeCard);
-      });
-
-      // Node activation
-      nodes.forEach((node, i) => {
-        node.classList.toggle('is-active', progress >= NODE_THRESHOLDS[i]);
-      });
-
-      // Scroll hint fade
-      if (scrollHint) {
-        scrollHint.style.opacity = progress > 0.05 ? '0' : '1';
-      }
-    }
-
-    rafId = requestAnimationFrame(tick);
-  }
-
-  // ── Visibility observer (gates rAF) ──
-  const visObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      isVisible = e.isIntersecting;
-      if (isVisible && !rafId && !isMobile) {
-        rafId = requestAnimationFrame(tick);
-      }
-    });
-  }, { threshold: 0 });
-
-  // ── Mobile fallback: IntersectionObserver reveals ──
-  let mobileObserver: IntersectionObserver | null = null;
-
-  function setupMobile() {
-    cards.forEach(c => c.classList.remove('is-active'));
-    mobileObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          (e.target as HTMLElement).classList.add('is-active');
-          mobileObserver?.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.2 });
-    cards.forEach(c => mobileObserver!.observe(c));
-  }
-
-  function teardownMobile() {
-    if (mobileObserver) {
-      mobileObserver.disconnect();
-      mobileObserver = null;
-    }
-  }
-
-  // ── Resize handler ──
-  let resizeTimer: ReturnType<typeof setTimeout>;
-  function onResize() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      const wasMobile = isMobile;
-      checkMobile();
-      if (isMobile && !wasMobile) {
-        // Switched to mobile
-        if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
-        cards.forEach(c => c.classList.remove('is-active'));
-        setupMobile();
-      } else if (!isMobile && wasMobile) {
-        // Switched to desktop
-        teardownMobile();
-        measurePath();
-        lastProgress = -1;
-        if (isVisible) rafId = requestAnimationFrame(tick);
-      } else if (!isMobile) {
-        // Desktop resize — rebuild measurements
-        measurePath();
-        lastProgress = -1;
-      }
-    }, 150);
-  }
-
-  // ── Init ──
-  checkMobile();
-  if (isMobile) {
-    setupMobile();
-  } else {
-    measurePath();
-  }
-  visObserver.observe(pinWrap);
-  window.addEventListener('resize', onResize);
-
-  // ── Cleanup (Astro SPA navigation) ──
-  document.addEventListener('astro:before-swap', () => {
-    if (rafId) cancelAnimationFrame(rafId);
-    visObserver.disconnect();
-    teardownMobile();
-    window.removeEventListener('resize', onResize);
-    clearTimeout(resizeTimer);
-  }, { once: true });
-})();
-</script>
-
-<style>
-  /* ===== SECTION ===== */
-  .process { position: relative; overflow: visible; }
-
-  /* ===== HEADER ===== */
-  .process__header { text-align: center; margin-bottom: 2rem; }
-  .process__header :global(.section-label) { justify-content: center; }
-  .process__header :global(.giant-title) { text-align: center; }
-
-  .process__sub {
-    color: var(--text-secondary);
-    max-width: 550px;
-    margin: 1rem auto 0;
-    text-align: center;
-  }
-
-  /* ===== PIN WRAP ===== */
-  .process__pin-wrap {
-    height: 400vh;
-    position: relative;
-  }
-
-  .process__sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  /* ===== SVG ===== */
-  .process__svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .process__path-draw {
-    will-change: stroke-dashoffset;
-  }
-
-  .process__dot {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  /* Node glow on activation */
-  .process__svg-node circle {
-    transition: stroke 0.5s ease, fill 0.5s ease, filter 0.5s ease;
-  }
-
-  .process__svg-node.is-active[data-node="0"] circle {
-    stroke: rgb(0, 212, 255);
-    fill: rgba(0, 212, 255, 0.15);
-    filter: url(#node-glow);
-  }
-
-  .process__svg-node.is-active[data-node="1"] circle {
-    stroke: rgb(255, 45, 120);
-    fill: rgba(255, 45, 120, 0.15);
-    filter: url(#node-glow);
-  }
-
-  .process__svg-node.is-active[data-node="2"] circle {
-    stroke: rgb(63, 185, 80);
-    fill: rgba(63, 185, 80, 0.15);
-    filter: url(#node-glow);
-  }
-
-  /* ===== CARDS OVERLAY ===== */
-  .process__cards {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  .process__card {
-    position: absolute;
-    top: 50%;
-    width: clamp(300px, 38vw, 460px);
-    padding: 1.5rem;
-    border-radius: var(--radius, 12px);
-    background: rgba(17, 17, 24, 0.65);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(var(--ms-c), 0.15);
-    pointer-events: auto;
-
-    /* Hidden state */
-    opacity: 0;
-    transform: translateY(-50%) scale(0.97) translateX(0);
-    transition:
-      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .process__card.is-active {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-    box-shadow: 0 0 24px rgba(var(--ms-c), 0.12);
-  }
-
-  /* ===== CARD CONTENT ===== */
-  .process__badge-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .process__badge {
-    font: 700 0.6rem/1 var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 0.3rem 0.65rem;
-    border-radius: 4px;
-    color: #0a0e14;
-    background: rgb(var(--ms-c));
-  }
-
-  .process__time {
-    font: 500 0.65rem/1 var(--font-mono);
-    color: var(--text-muted);
-  }
-
-  .process__title {
-    font: 700 clamp(1.05rem, 1.6vw, 1.35rem)/1.2 var(--font-heading);
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
-  }
-
-  .process__accent {
-    color: rgb(var(--ms-c));
-    text-shadow: 0 0 20px rgba(var(--ms-c), 0.25);
-  }
-
-  .process__desc {
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-
-  .process__metric {
-    display: flex;
-    align-items: baseline;
-    gap: 0.6rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(var(--ms-c), 0.12);
-    margin-bottom: 1rem;
-  }
-
-  .process__metric-val {
-    font: 700 1.1rem/1 var(--font-mono);
-    color: rgb(var(--ms-c));
-    text-shadow: 0 0 16px rgba(var(--ms-c), 0.3);
-  }
-
-  .process__metric-lbl {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-  }
-
-  /* ===== DELIVERABLES (inside card) ===== */
-  .process__deliverables {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.4rem;
-  }
-
-  .process__tile {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    padding: 0.55rem 0.6rem;
-    border-radius: 8px;
-    background: rgba(var(--ms-c), 0.05);
-    border: 1px solid rgba(var(--ms-c), 0.08);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s ease;
-  }
-
-  .process__card.is-active .process__tile {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .process__card.is-active .process__tile:nth-child(1) { transition-delay: 0.1s; }
-  .process__card.is-active .process__tile:nth-child(2) { transition-delay: 0.2s; }
-  .process__card.is-active .process__tile:nth-child(3) { transition-delay: 0.3s; }
-  .process__card.is-active .process__tile:nth-child(4) { transition-delay: 0.4s; }
-
-  .process__tile:hover {
-    box-shadow: 0 0 12px rgba(var(--ms-c), 0.08);
-    border-color: rgba(var(--ms-c), 0.2);
-  }
-
-  .process__tile-icon {
-    font-size: 0.95rem;
-    flex-shrink: 0;
-    line-height: 1;
-    margin-top: 0.1rem;
-  }
-
-  .process__tile strong {
-    display: block;
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.1rem;
-  }
-
-  .process__tile div span {
-    font-size: 0.62rem;
-    color: var(--text-muted);
-    line-height: 1.3;
-  }
-
-  /* ===== SCROLL HINT ===== */
-  .process__scroll-hint {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    z-index: 3;
-    transition: opacity 0.4s ease;
-  }
-
-  .process__scroll-hint-text {
-    font: 500 0.6rem/1 var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgba(255, 255, 255, 0.3);
-  }
-
-  .process__scroll-dot {
-    animation: scrollDotBounce 1.5s ease-in-out infinite;
-  }
-
-  @keyframes scrollDotBounce {
-    0%, 100% { cy: 7; opacity: 0.6; }
-    50% { cy: 16; opacity: 0.2; }
-  }
-
-  /* ===== CTA ===== */
-  .process__cta {
-    text-align: center;
-    padding: 3rem 0 1rem;
-  }
-
-  /* ===== RESPONSIVE: TABLET ===== */
-  @media (min-width: 768px) and (max-width: 1024px) {
-    .process__card {
-      width: clamp(240px, 40vw, 340px);
-    }
-  }
-
-  /* ===== RESPONSIVE: MOBILE ===== */
-  @media (max-width: 767px) {
-    .process__pin-wrap {
-      height: auto;
-    }
-
-    .process__sticky {
-      position: static;
-      height: auto;
-      flex-direction: column;
-      padding: 0 1.25rem;
-      gap: 1.5rem;
-    }
-
-    .process__svg {
-      display: none;
-    }
-
-    .process__cards {
-      position: static;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .process__card {
-      position: static;
-      width: 100%;
-      opacity: 0;
-      transform: translateY(24px) scale(0.97);
-      top: auto;
-    }
-
-    .process__card.is-active {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    .process__deliverables {
-      grid-template-columns: 1fr;
-    }
-
-    .process__scroll-hint {
-      display: none;
-    }
-  }
-
-  /* ===== REDUCED MOTION ===== */
-  @media (prefers-reduced-motion: reduce) {
-    .process__card {
-      opacity: 1;
-      transform: translateY(-50%);
-      transition: none;
-      will-change: auto;
-    }
-
-    .process__tile {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-
-    .process__path-draw {
-      will-change: auto;
-    }
-
-    .process__dot {
-      display: none;
-    }
-
-    .process__scroll-hint {
-      display: none;
-    }
-
-    .process__scroll-dot {
-      animation: none;
-    }
-  }
-</style>
