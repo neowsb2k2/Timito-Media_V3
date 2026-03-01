@@ -269,6 +269,12 @@ import BurningCounter from './react/BurningCounter.tsx';
     color: var(--accent-cyan);
     text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
     font-variant-numeric: tabular-nums;
+    transition: text-shadow 0.3s ease, color 0.3s ease;
+  }
+
+  :global(.burning-counter__value--pulse) {
+    text-shadow: 0 0 30px rgba(255, 45, 120, 0.5);
+    color: var(--accent-pink);
   }
 
   :global(.burning-counter__footnote) {
@@ -398,8 +404,8 @@ import BurningCounter from './react/BurningCounter.tsx';
 
       if (sub) tl.call(() => sub.classList.add('is-revealed'), [], 1.4);
       if (pillars) tl.call(() => pillars.classList.add('is-revealed'), [], 1.6);
-      if (resolution) tl.call(() => resolution.classList.add('is-revealed'), [], 2.0);
-      if (counter) tl.call(() => counter.classList.add('is-revealed'), [], 2.2);
+      if (counter) tl.call(() => counter.classList.add('is-revealed'), [], 2.0);
+      if (resolution) tl.call(() => resolution.classList.add('is-revealed'), [], 2.2);
       if (cta) tl.call(() => cta.classList.add('is-revealed'), [], 2.4);
       if (bar) tl.call(() => bar.classList.add('is-revealed'), [], 2.8);
     }
