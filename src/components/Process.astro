@@ -114,3 +114,240 @@ const scenes = [
     </div>
   </div>
 </section>
+
+<style>
+  .process-section { position: relative; overflow: visible; }
+
+  .process__header { text-align: center; margin-bottom: 3rem; }
+  .process__header :global(.section-label) { justify-content: center; }
+  .process__sub {
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 1rem auto 0;
+    text-align: center;
+  }
+
+  .process__pin {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .process__bg-blob {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    filter: blur(100px);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent 70%);
+    transition: background 1s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .process__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .process__scenes {
+    position: relative;
+    width: 100%; height: 100%;
+    z-index: 2;
+  }
+
+  .process__scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 max(2rem, calc((100vw - var(--container, 1200px)) / 2 + 2rem));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  .process__scene.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .process__deco-num {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-size: clamp(8rem, 15vw, 12rem);
+    font-weight: 900;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.06);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .process__scene-content { max-width: 560px; }
+
+  .process__phase {
+    display: inline-block;
+    font: 700 0.65rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--scene-accent);
+    padding: 0.3rem 0.65rem;
+    border-radius: 4px;
+    background: rgba(var(--scene-rgb), 0.1);
+    border: 1px solid rgba(var(--scene-rgb), 0.2);
+    margin-bottom: 1.25rem;
+  }
+
+  .process__scene-title {
+    font: 700 clamp(1.6rem, 3.5vw, 2.6rem)/1.15 var(--font-heading);
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .process__scene-desc {
+    font: 400 clamp(0.9rem, 1.2vw, 1.05rem)/1.6 var(--font-body);
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+  }
+
+  .process__time-badge {
+    display: inline-block;
+    font: 600 0.7rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--scene-accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .process__deliverables {
+    list-style: none;
+    padding: 0; margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .process__deliverable {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font: 400 0.85rem/1.4 var(--font-mono);
+    color: var(--text-secondary);
+  }
+
+  .process__check {
+    color: var(--scene-accent);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  .process__progress {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(400px, 80vw);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    z-index: 5;
+  }
+
+  .process__progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent-cyan);
+    border-radius: 2px;
+    transition: width 0.3s ease, background-color 0.6s ease;
+  }
+
+  .process__progress-dots {
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+
+  .process__progress-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .process__progress-dot.is-active {
+    background: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+  }
+
+  .process__cta { text-align: center; padding: 3rem 0 1rem; }
+
+  /* Mobile */
+  @media (max-width: 767px) {
+    .process__pin { height: auto; overflow: visible; }
+
+    .process__scenes {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 1rem 1.25rem 3rem;
+    }
+
+    .process__scene {
+      position: static;
+      opacity: 0;
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+      border-radius: var(--radius);
+      background: rgba(17, 17, 24, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(var(--scene-rgb), 0.12);
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .process__scene.is-mobile-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .process__deco-num {
+      position: static;
+      transform: none;
+      font-size: 3rem;
+      opacity: 0.15;
+      margin-bottom: -1rem;
+    }
+
+    .process__scene-content { max-width: 100%; }
+    .process__progress { display: none; }
+    .process__bg-blob { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .process__scene { opacity: 1; transition: none; }
+    .process__progress-fill { transition: none; }
+    .process__bg-blob { transition: none; }
+  }
+</style>
