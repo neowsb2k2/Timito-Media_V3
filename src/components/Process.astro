@@ -350,6 +350,20 @@ const scenes = [
     .process__progress-fill { transition: none; }
     .process__bg-blob { transition: none; }
   }
+
+  /* No-JS fallback: show all scenes if JS never loads */
+  .process-section:not(.js-ready) .process__pin { height: auto; overflow: visible; }
+  .process-section:not(.js-ready) .process__scenes {
+    display: flex; flex-direction: column; gap: 2rem; padding: 1rem 1.25rem 3rem;
+  }
+  .process-section:not(.js-ready) .process__scene {
+    position: static; opacity: 1; pointer-events: auto;
+    padding: 2rem 1.5rem; border-radius: var(--radius);
+    background: rgba(17, 17, 24, 0.6); border: 1px solid rgba(var(--scene-rgb), 0.12);
+  }
+  .process-section:not(.js-ready) .process__deco-num { position: static; font-size: 3rem; opacity: 0.15; }
+  .process-section:not(.js-ready) .process__progress { display: none; }
+  .process-section:not(.js-ready) .process__bg-blob { display: none; }
 </style>
 
 <script>
@@ -363,8 +377,10 @@ const scenes = [
     const pinEl = document.querySelector<HTMLElement>('[data-process-pin]');
     if (!section || !pinEl) return;
 
+    // Mark JS as loaded for progressive enhancement
+    section.classList.add('js-ready');
+
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile = window.innerWidth < 768;
 
     const scenes = pinEl.querySelectorAll<HTMLElement>('[data-scene]');
     const progressFill = pinEl.querySelector<HTMLElement>('[data-process-fill]');
@@ -377,81 +393,106 @@ const scenes = [
       { rgb: '63, 185, 80', cssVar: 'var(--accent-green)' },
     ];
 
-    // Mobile: intersection-based reveals
-    if (isMobile || prefersReduced) {
-      if (prefersReduced) {
-        scenes.forEach(s => {
-          s.classList.add('is-active');
-          s.classList.add('is-mobile-visible');
-        });
-        return;
-      }
-
-      const mobileObs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            (e.target as HTMLElement).classList.add('is-mobile-visible');
-            mobileObs.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.2 });
-
-      scenes.forEach(s => mobileObs.observe(s));
+    // Reduced motion: show everything immediately
+    if (prefersReduced) {
+      scenes.forEach(s => {
+        s.classList.add('is-active');
+        s.classList.add('is-mobile-visible');
+      });
       return;
     }
 
-    // Desktop: GSAP ScrollTrigger pinned scroll
-    scenes.forEach((s, i) => {
-      if (i > 0) {
-        gsap.set(s, { opacity: 0, x: 60 });
-      }
-    });
+    // Use ScrollTrigger.matchMedia for resize-safe desktop/mobile split
+    let mobileObs: IntersectionObserver | null = null;
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        pin: pinEl,
-        scrub: 1,
-        start: 'top top',
-        end: '+=300%',
-        onUpdate: (self) => {
-          const p = self.progress;
-
-          if (progressFill) {
-            progressFill.style.width = `${p * 100}%`;
+    ScrollTrigger.matchMedia({
+      // Desktop: pinned scroll
+      '(min-width: 768px)': function () {
+        scenes.forEach((s, i) => {
+          if (i > 0) {
+            gsap.set(s, { opacity: 0, x: 60 });
+          } else {
+            gsap.set(s, { opacity: 1, x: 0 });
           }
+        });
 
-          let activeIdx = 0;
-          if (p >= 0.66) activeIdx = 2;
-          else if (p >= 0.33) activeIdx = 1;
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            pin: pinEl,
+            scrub: 1,
+            start: 'top top',
+            end: '+=300%',
+            onUpdate: (self) => {
+              const p = self.progress;
 
-          progressDots.forEach((dot, i) => {
-            dot.classList.toggle('is-active', i <= activeIdx);
+              if (progressFill) {
+                progressFill.style.width = `${p * 100}%`;
+              }
+
+              let activeIdx = 0;
+              if (p >= 0.66) activeIdx = 2;
+              else if (p >= 0.33) activeIdx = 1;
+
+              progressDots.forEach((dot, i) => {
+                dot.classList.toggle('is-active', i <= activeIdx);
+              });
+
+              if (progressFill) {
+                progressFill.style.backgroundColor = COLORS[activeIdx].cssVar;
+              }
+
+              if (bgBlob) {
+                bgBlob.style.background = `radial-gradient(circle, rgba(${COLORS[activeIdx].rgb}, 0.1), transparent 70%)`;
+              }
+            },
+          },
+        });
+
+        // Scene 1 → 2 crossfade transition (intentional overlap for smooth blend)
+        tl.to(scenes[0], { opacity: 0, x: -60, duration: 0.03 }, 0.30);
+        tl.fromTo(scenes[1], { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.04 }, 0.32);
+
+        // Scene 2 → 3 crossfade transition
+        tl.to(scenes[1], { opacity: 0, x: -60, duration: 0.03 }, 0.63);
+        tl.fromTo(scenes[2], { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.04 }, 0.65);
+
+        // matchMedia auto-reverts GSAP tweens when media query no longer matches
+      },
+
+      // Mobile: intersection-based reveals
+      '(max-width: 767px)': function () {
+        // Reset any desktop GSAP inline styles
+        scenes.forEach(s => {
+          gsap.set(s, { clearProps: 'all' });
+        });
+
+        mobileObs = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              (e.target as HTMLElement).classList.add('is-mobile-visible');
+              mobileObs?.unobserve(e.target);
+            }
           });
+        }, { threshold: 0.2 });
 
-          if (progressFill) {
-            progressFill.style.backgroundColor = COLORS[activeIdx].cssVar;
-          }
+        scenes.forEach(s => mobileObs!.observe(s));
 
-          if (bgBlob) {
-            bgBlob.style.background = `radial-gradient(circle, rgba(${COLORS[activeIdx].rgb}, 0.1), transparent 70%)`;
+        return function () {
+          // Cleanup when switching back to desktop
+          if (mobileObs) {
+            mobileObs.disconnect();
+            mobileObs = null;
           }
-        },
+          scenes.forEach(s => s.classList.remove('is-mobile-visible'));
+        };
       },
     });
 
-    // Scene 1 → 2 transition
-    tl.to(scenes[0], { opacity: 0, x: -60, duration: 0.03 }, 0.30);
-    tl.fromTo(scenes[1], { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.04 }, 0.32);
-
-    // Scene 2 → 3 transition
-    tl.to(scenes[1], { opacity: 0, x: -60, duration: 0.03 }, 0.63);
-    tl.fromTo(scenes[2], { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.04 }, 0.65);
-
-    // Cleanup
+    // Cleanup for Astro SPA navigation
     document.addEventListener('astro:before-swap', () => {
       ScrollTrigger.getAll().forEach(st => st.kill());
-      gsap.killTweensOf('*');
+      if (mobileObs) mobileObs.disconnect();
     }, { once: true });
   })();
 </script>

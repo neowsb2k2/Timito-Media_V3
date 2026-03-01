@@ -11,9 +11,11 @@ export default function BurningCounter() {
   const [isPulsing, setIsPulsing] = useState(false);
   const startTimeRef = useRef<number>(0);
   const lastEuroRef = useRef<number>(0);
-  const prefersReduced = typeof window !== 'undefined'
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    : false;
+  const [prefersReduced] = useState(() =>
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false
+  );
 
   useEffect(() => {
     if (prefersReduced) {
@@ -23,6 +25,7 @@ export default function BurningCounter() {
 
     startTimeRef.current = Date.now();
     let frameId: number;
+    const timeouts: number[] = [];
 
     function tick() {
       const elapsed = (Date.now() - startTimeRef.current) / 1000;
@@ -34,27 +37,31 @@ export default function BurningCounter() {
       if (currentEuro > lastEuroRef.current) {
         lastEuroRef.current = currentEuro;
         setIsPulsing(true);
-        setTimeout(() => setIsPulsing(false), 600);
+        timeouts.push(window.setTimeout(() => setIsPulsing(false), 600));
       }
 
       frameId = requestAnimationFrame(tick);
     }
 
     frameId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frameId);
+    return () => {
+      cancelAnimationFrame(frameId);
+      timeouts.forEach(clearTimeout);
+    };
   }, [prefersReduced]);
 
   const euros = value.toFixed(2);
 
   return (
-    <div className="burning-counter">
+    <div className="burning-counter" role="status" aria-label={`Adspend-Verlust: ${euros} Euro`}>
       <span className="burning-counter__label">
         Ø Adspend-Verlust seit Seitenaufruf
       </span>
       <span
         className={`burning-counter__value${isPulsing ? ' burning-counter__value--pulse' : ''}`}
+        aria-live="off"
       >
-        €&thinsp;{euros}
+        €{'\u2009'}{euros}
       </span>
       <span className="burning-counter__footnote">
         * bei €50k/Monat mit branchenüblichem Datenverlust

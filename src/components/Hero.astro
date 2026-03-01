@@ -122,7 +122,6 @@ import BurningCounter from './react/BurningCounter.tsx';
     position: absolute;
     border-radius: 50%;
     filter: blur(80px);
-    will-change: transform;
     animation: blobDrift 20s ease-in-out infinite alternate;
   }
 
@@ -385,14 +384,18 @@ import BurningCounter from './react/BurningCounter.tsx';
       return;
     }
 
-    function runSequence() {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    let heroTimeline: gsap.core.Timeline | null = null;
 
-      if (label) tl.call(() => label.classList.add('is-revealed'), [], 0);
+    function runSequence() {
+      // GSAP timeline orchestrates timing; CSS transitions handle the actual animation.
+      // Keep these in sync: GSAP delay = when element starts, CSS transition = how long it takes.
+      heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      if (label) heroTimeline.call(() => label.classList.add('is-revealed'), [], 0);
 
       if (headline) {
         const words = headline.querySelectorAll('.h-word');
-        tl.call(() => {
+        heroTimeline.call(() => {
           let i = 0;
           words.forEach((w) => {
             (w as HTMLElement).style.transitionDelay = `${i * 0.08}s`;
@@ -402,12 +405,12 @@ import BurningCounter from './react/BurningCounter.tsx';
         }, [], 0.3);
       }
 
-      if (sub) tl.call(() => sub.classList.add('is-revealed'), [], 1.4);
-      if (pillars) tl.call(() => pillars.classList.add('is-revealed'), [], 1.6);
-      if (counter) tl.call(() => counter.classList.add('is-revealed'), [], 2.0);
-      if (resolution) tl.call(() => resolution.classList.add('is-revealed'), [], 2.2);
-      if (cta) tl.call(() => cta.classList.add('is-revealed'), [], 2.4);
-      if (bar) tl.call(() => bar.classList.add('is-revealed'), [], 2.8);
+      if (sub) heroTimeline.call(() => sub.classList.add('is-revealed'), [], 1.4);
+      if (pillars) heroTimeline.call(() => pillars.classList.add('is-revealed'), [], 1.6);
+      if (counter) heroTimeline.call(() => counter.classList.add('is-revealed'), [], 2.0);
+      if (resolution) heroTimeline.call(() => resolution.classList.add('is-revealed'), [], 2.2);
+      if (cta) heroTimeline.call(() => cta.classList.add('is-revealed'), [], 2.4);
+      if (bar) heroTimeline.call(() => bar.classList.add('is-revealed'), [], 2.8);
     }
 
     if (document.querySelector('.preloader')) {
@@ -417,7 +420,7 @@ import BurningCounter from './react/BurningCounter.tsx';
     }
 
     document.addEventListener('astro:before-swap', () => {
-      gsap.killTweensOf('*');
+      if (heroTimeline) heroTimeline.kill();
     }, { once: true });
   })();
 </script>
