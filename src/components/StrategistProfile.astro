@@ -1,0 +1,35 @@
+---
+import SectionLabel from './SectionLabel.astro';
+
+interface Props {
+  name: string;
+  role: string;
+  bio: string;
+  image: string;
+  skills: string[];
+  colorRGB: string;
+}
+
+const { name, role, bio, image, skills, colorRGB } = Astro.props;
+---
+
+<section class="svc-strategist section" style={`--svc-c: ${colorRGB}`}>
+  <div class="container">
+    <SectionLabel text="// Dein Ansprechpartner" />
+    <div class="svc-strategist__grid">
+      <div class="svc-strategist__image-wrap reveal--left">
+        <img src={image} alt={name} class="svc-strategist__image" width="300" height="400" loading="lazy" />
+      </div>
+      <div class="reveal--right">
+        <h2 class="svc-strategist__name">{name}</h2>
+        <p class="svc-strategist__role">{role}</p>
+        <p class="svc-strategist__bio" set:html={bio} />
+        <ul class="svc-strategist__skills">
+          {skills.map(skill => (
+            <li>{skill}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

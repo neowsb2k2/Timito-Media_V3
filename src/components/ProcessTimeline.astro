@@ -1,0 +1,31 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import SplitWords from './SplitWords.astro';
+
+interface Props {
+  sectionTitle: string;
+  steps: Array<{ title: string; text: string; deliverable: string }>;
+  colorRGB: string;
+}
+
+const { sectionTitle, steps, colorRGB } = Astro.props;
+---
+
+<section class="svc-process section" style={`--svc-c: ${colorRGB}`}>
+  <div class="container">
+    <SectionLabel text="// Ablauf" />
+    <h2 class="svc-process__title" data-split-reveal style="overflow:hidden"><SplitWords text={sectionTitle} gap="0.28em" /></h2>
+    <div class="process-steps">
+      {steps.map((step, i) => (
+        <div class="process-step reveal">
+          <span class="process-step__num">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <h3 class="process-step__title">{step.title}</h3>
+            <p class="process-step__text">{step.text}</p>
+            <span class="process-step__deliverable">→ {step.deliverable}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

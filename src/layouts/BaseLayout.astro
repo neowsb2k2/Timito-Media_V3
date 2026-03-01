@@ -1,0 +1,316 @@
+---
+/**
+ * BaseLayout.astro
+ * HTML shell with <head> setup: fonts, meta, OG tags, JSON-LD structured data.
+ * Used by all pages as the root layout.
+ */
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonical?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/assets/images/og-image.webp',
+  canonical = Astro.url.href,
+} = Astro.props;
+
+import '../styles/global.css';
+import Preloader from '../components/Preloader.astro';
+import CustomCursor from '../components/CustomCursor.astro';
+
+const siteUrl = 'https://timito-media.at';
+
+import { faqs } from '../data/faq';
+
+const faqJsonLd = faqs.map((faq) => ({
+  '@type': 'Question',
+  name: faq.question,
+  acceptedAnswer: {
+    '@type': 'Answer',
+    text: faq.answer,
+  },
+}));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'LocalBusiness',
+      '@id': `${siteUrl}/#business`,
+      name: 'Timito Media',
+      description: 'Performance Marketing Agentur aus Österreich. Google Ads, Server-Side Tracking, Social Ads und Webdesign für KMUs im DACH-Raum.',
+      url: siteUrl,
+      telephone: '+43 664 236 4117',
+      email: 'office@timito-media.at',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Würflach',
+        addressRegion: 'Niederösterreich',
+        addressCountry: 'AT',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 47.7175,
+        longitude: 16.0967,
+      },
+      priceRange: '€€',
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:00',
+        closes: '18:00',
+      },
+      founder: [
+        { '@id': `${siteUrl}/#christina` },
+        { '@id': `${siteUrl}/#mike` },
+      ],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '5.0',
+        reviewCount: '1',
+        bestRating: '5',
+      },
+    },
+    {
+      '@type': 'Person',
+      '@id': `${siteUrl}/#christina`,
+      name: 'Christina',
+      jobTitle: 'Co-Founderin · Performance Marketing',
+      worksFor: { '@id': `${siteUrl}/#business` },
+    },
+    {
+      '@type': 'Person',
+      '@id': `${siteUrl}/#mike`,
+      name: 'Mike',
+      jobTitle: 'Co-Founder · Tech & Design',
+      worksFor: { '@id': `${siteUrl}/#business` },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: siteUrl,
+      name: 'Timito Media',
+      publisher: { '@id': `${siteUrl}/#business` },
+      inLanguage: 'de-AT',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: siteUrl,
+        },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqJsonLd,
+    },
+    {
+      '@type': 'Review',
+      author: {
+        '@type': 'Person',
+        name: 'Michael Schwarz',
+      },
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: '5',
+        bestRating: '5',
+      },
+      reviewBody: 'Professionelle Betreuung mit messbaren Ergebnissen. Christina und Mike haben unser Google Ads Setup komplett transformiert. Absolut empfehlenswert!',
+      itemReviewed: { '@id': `${siteUrl}/#business` },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Canonical & hreflang -->
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="de-AT" href={canonical} />
+    <link rel="alternate" hreflang="de-DE" href={canonical} />
+    <link rel="alternate" hreflang="de-CH" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="de_AT" />
+    <meta property="og:site_name" content="Timito Media" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Fonts: Self-hosted (DSGVO-konform, kein Google CDN!) -->
+    <link rel="preload" href="/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Page-specific head content (JSON-LD, etc.) -->
+    <slot name="head" />
+  </head>
+
+  <body>
+    <Preloader />
+    <CustomCursor />
+    <slot />
+
+    <script>
+      import Lenis from 'lenis';
+
+      // ===== 1. Smooth Scroll =====
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        touchMultiplier: 1.5,
+      });
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+      (window as any).__lenis = lenis;
+
+      // ===== 2. Query pre-split elements (split at build time by SplitWords.astro) =====
+      const headlineData: { headline: Element; lines: NodeListOf<Element> }[] = [];
+      document.querySelectorAll('.headline-reveal').forEach((headline) => {
+        const lines = headline.querySelectorAll('.h-line');
+        headlineData.push({ headline, lines });
+      });
+
+      const splitRevealEls = [...document.querySelectorAll('[data-split-reveal]')];
+
+      // ===== 3. Start observers after preloader finishes =====
+      function startRevealObservers() {
+        // Reveal Observer
+        const revealEls = document.querySelectorAll(
+          '.reveal, .reveal--left, .reveal--right, .reveal--scale, .reveal-stagger'
+        );
+        if (revealEls.length > 0) {
+          const obs = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('is-visible');
+                  obs.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+          );
+          revealEls.forEach((el) => obs.observe(el));
+        }
+
+        // Word-by-Word Headline Reveal
+        headlineData.forEach(({ headline, lines }) => {
+          const obs = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                let globalIndex = 0;
+                lines.forEach((line) => {
+                  const words = line.querySelectorAll('.h-word');
+                  words.forEach((word) => {
+                    (word as HTMLElement).style.transitionDelay = `${globalIndex * 0.06}s`;
+                    word.classList.add('is-visible');
+                    globalIndex++;
+                  });
+                });
+                obs.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.2 });
+          obs.observe(headline);
+        });
+
+        // data-split-reveal
+        splitRevealEls.forEach((el) => {
+          const obs = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                el.querySelectorAll('.h-word').forEach((w, i) => {
+                  (w as HTMLElement).style.transitionDelay = `${i * 0.055}s`;
+                  w.classList.add('is-visible');
+                });
+                obs.unobserve(el);
+              }
+            });
+          }, { threshold: 0.25 });
+          obs.observe(el);
+        });
+      }
+
+      // Wait for preloader to finish before starting animations
+      if (document.querySelector('.preloader')) {
+        window.addEventListener('preloader-done', startRevealObservers, { once: true });
+      } else {
+        startRevealObservers();
+      }
+
+      // ===== 5. Magnetic Buttons =====
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        document.querySelectorAll('[data-magnetic]').forEach((el) => {
+          el.addEventListener('mousemove', (e: Event) => {
+            const me = e as MouseEvent;
+            const rect = (el as HTMLElement).getBoundingClientRect();
+            const ox = (me.clientX - rect.left - rect.width / 2) * 0.28;
+            const oy = (me.clientY - rect.top - rect.height / 2) * 0.28;
+            (el as HTMLElement).style.transform = `translate(${ox}px, ${oy}px)`;
+            (el as HTMLElement).style.transition = 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
+          });
+          el.addEventListener('mouseleave', () => {
+            (el as HTMLElement).style.transform = 'translate(0, 0)';
+            (el as HTMLElement).style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+          });
+        });
+      }
+
+      // ===== 6. Smooth Anchor Scroll via Lenis =====
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', (e) => {
+          const href = anchor.getAttribute('href');
+          if (!href || href === '#') return;
+          const target = document.querySelector(href);
+          if (target && (window as any).__lenis) {
+            e.preventDefault();
+            (window as any).__lenis.scrollTo(target, { offset: -80, duration: 1.2 });
+            const menu = document.getElementById('mobile-menu');
+            const burger = document.getElementById('navBurger');
+            if (menu && !menu.hidden) {
+              menu.hidden = true;
+              burger?.setAttribute('aria-expanded', 'false');
+              document.body.style.overflow = '';
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

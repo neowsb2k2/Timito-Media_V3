@@ -1,0 +1,120 @@
+---
+import { team } from '../data/team';
+import SectionLabel from './SectionLabel.astro';
+import TeamMember from './TeamMember.astro';
+---
+
+<section id="team" class="section team-section">
+  <div class="container">
+    <SectionLabel text="Das Team" />
+    <div class="team-section__intro reveal">
+      <h2>Wer pitcht, liefert auch.</h2>
+      <p>Kein Junior, kein Account Manager — du arbeitest direkt mit uns.</p>
+    </div>
+
+    <div class="team-section__members">
+      {team.map((member) => <TeamMember {...member} />)}
+    </div>
+
+    <blockquote class="team-section__quote reveal">
+      <p>"Timito wurde gegr&uuml;ndet, weil die Gr&ouml;&szlig;e einer Agentur weder Qualit&auml;t noch Verantwortung garantiert."</p>
+      <cite>— Christina & Mike</cite>
+    </blockquote>
+
+    <div class="team-section__usps reveal-stagger">
+      <div class="usp-card reveal">
+        <h4>Direkte Verantwortung</h4>
+        <p>Kein Handover, kein Junior-Team.</p>
+      </div>
+      <div class="usp-card reveal">
+        <h4>Live-Dashboard</h4>
+        <p>Echtzeit-Transparenz statt Hochglanz-PDFs.</p>
+      </div>
+      <div class="usp-card reveal">
+        <h4>Performance-Verg&uuml;tung</h4>
+        <p>Wir verdienen an deinem Erfolg, nicht am Budget.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .team-section__intro {
+    margin-bottom: 3rem;
+  }
+
+  .team-section__intro h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .team-section__intro p {
+    color: var(--text-secondary);
+    max-width: 500px;
+  }
+
+  .team-section__members {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .team-section__members {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .team-section__quote {
+    border-left: 3px solid var(--accent-cyan);
+    padding-left: 1.5rem;
+    margin: 3rem 0;
+    max-width: 700px;
+  }
+
+  .team-section__quote p {
+    font-size: 1.125rem;
+    font-style: italic;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .team-section__quote cite {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-style: normal;
+  }
+
+  .team-section__usps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .team-section__usps {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .usp-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+
+  .usp-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .usp-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+</style>

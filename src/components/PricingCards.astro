@@ -1,0 +1,43 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import SplitWords from './SplitWords.astro';
+
+interface Props {
+  sectionTitle: string;
+  note: string;
+  cards: Array<{
+    label: string;
+    featured?: boolean;
+    title: string;
+    description: string;
+    features: string[];
+    ctaText: string;
+  }>;
+  colorRGB: string;
+}
+
+const { sectionTitle, note, cards, colorRGB } = Astro.props;
+---
+
+<section class="svc-pricing section" style={`--svc-c: ${colorRGB}`}>
+  <div class="container">
+    <SectionLabel text="// Zusammenarbeit" />
+    <h2 class="svc-pricing__title" data-split-reveal style="overflow:hidden"><SplitWords text={sectionTitle} gap="0.28em" /></h2>
+    <div class="pricing-grid reveal-stagger">
+      {cards.map(card => (
+        <div class={`pricing-card${card.featured ? ' pricing-card--featured' : ''}`}>
+          <p class="pricing-card__label">{card.label}</p>
+          <h3 class="pricing-card__title">{card.title}</h3>
+          <p class="pricing-card__desc">{card.description}</p>
+          <ul class="pricing-card__features">
+            {card.features.map(f => (
+              <li>{f}</li>
+            ))}
+          </ul>
+          <a href="#kontakt" class="btn-primary btn--full" data-magnetic>{card.ctaText} ↗</a>
+        </div>
+      ))}
+    </div>
+    <p class="svc-pricing__note reveal">{note}</p>
+  </div>
+</section>

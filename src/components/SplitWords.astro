@@ -1,0 +1,18 @@
+---
+/**
+ * SplitWords.astro
+ * Server-side word splitting for reveal animations.
+ * Replaces client-side DOM manipulation to eliminate CLS.
+ */
+interface Props {
+  text: string;
+  gap?: string;
+}
+
+const { text, gap = '0.2em' } = Astro.props;
+const words = text.trim().split(/\s+/);
+---
+
+<span style={`display:flex;flex-wrap:wrap;gap:0 ${gap}`}>{words.map(word => (
+  <span style="overflow:hidden;display:inline-block"><span class="h-word">{word}</span></span>
+))}</span>

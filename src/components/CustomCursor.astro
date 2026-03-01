@@ -1,0 +1,120 @@
+---
+/**
+ * CustomCursor.astro
+ * Dual-element custom cursor: dot (snaps) + ring (follows with lerp).
+ * Scales on hover/click. Skipped on touch devices.
+ */
+---
+
+<div id="cursorDot" class="cursor-dot" aria-hidden="true"></div>
+<div id="cursorRing" class="cursor-ring" aria-hidden="true"></div>
+
+<style>
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  .cursor-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 10px var(--accent-cyan);
+  }
+
+  .cursor-ring {
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid rgba(0, 212, 255, 0.35);
+    transition: border-color 0.3s;
+  }
+
+  .cursor-ring.is-hovered {
+    border-color: var(--accent-cyan);
+  }
+
+  @media (pointer: coarse) {
+    .cursor-dot,
+    .cursor-ring {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor-ring {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    if (!dot || !ring) return;
+
+    let tx = -100, ty = -100, px = -100, py = -100;
+    let hovered = false;
+    let clicking = false;
+
+    document.addEventListener('mousemove', (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+    });
+
+    document.addEventListener('mousedown', () => { clicking = true; });
+    document.addEventListener('mouseup', () => { clicking = false; });
+
+    let prevHovered = false;
+    let running = true;
+
+    function bindHovers() {
+      document.querySelectorAll('a, button, [data-hover], input, textarea, select, [data-magnetic]').forEach((el) => {
+        if (el.dataset.cursorBound) return;
+        el.dataset.cursorBound = 'true';
+        el.addEventListener('mouseenter', () => {
+          hovered = true;
+          if (!prevHovered) { ring.classList.add('is-hovered'); prevHovered = true; }
+        });
+        el.addEventListener('mouseleave', () => {
+          hovered = false;
+          if (prevHovered) { ring.classList.remove('is-hovered'); prevHovered = false; }
+        });
+      });
+    }
+
+    bindHovers();
+
+    const observer = new MutationObserver(() => bindHovers());
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { running = false; }
+      else { running = true; requestAnimationFrame(loop); }
+    });
+
+    function loop() {
+      if (!running) return;
+      px += (tx - px) * 0.12;
+      py += (ty - py) * 0.12;
+
+      const dotScale = clicking ? 0.6 : 1;
+      dot.style.transform = `translate(${tx - 4}px, ${ty - 4}px) scale(${dotScale})`;
+
+      const ringScale = hovered ? 2.2 : clicking ? 0.8 : 1;
+      ring.style.transform = `translate(${px - 22}px, ${py - 22}px) scale(${ringScale})`;
+
+      requestAnimationFrame(loop);
+    }
+
+    requestAnimationFrame(loop);
+  })();
+</script>

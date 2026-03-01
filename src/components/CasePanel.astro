@@ -1,0 +1,84 @@
+---
+import type { CaseStudy } from '../data/cases';
+interface Props extends CaseStudy {}
+const { num, tags, timeline, title, heroStat, lossEstimate, problem, quote, solution, metrics, compareBefore, compareAfter, lesson, color } = Astro.props;
+---
+
+<div class="cs-item" data-color={color}>
+  <button class="cs-header" aria-expanded="false">
+    <span class="cs-num">/{num}</span>
+    <h3 class="cs-title">{title}</h3>
+    <div class="cs-preview">
+      <span class="cs-preview__val">{heroStat.value}</span>
+      <span class="cs-preview__lbl">{heroStat.label}</span>
+    </div>
+    <span class="cs-toggle" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+    </span>
+  </button>
+
+  <div class="cs-panel">
+    <div>
+      <div class="cs-panel__body">
+        <div class="cs-meta">
+          <div class="cs-tags">
+            {tags.map((tag) => <span class="cs-tag">{tag}</span>)}
+          </div>
+          <span class="cs-timeline">{timeline}</span>
+        </div>
+
+        <div class="cs-grid">
+          <div class="cs-left">
+            <div class="cs-col-label">Das Problem</div>
+            {lossEstimate && <p class="cs-loss">{lossEstimate}</p>}
+            <p class="cs-text">{problem}</p>
+            <blockquote class="cs-quote"><p>&ldquo;{quote}&rdquo;</p></blockquote>
+          </div>
+
+          <div class="cs-right">
+            <div class="cs-col-label cs-col-label--accent">Was wir getan haben + Ergebnis</div>
+            <p class="cs-text">{solution}</p>
+            <div class="cs-stats">
+              {metrics.map((m) => (
+                <div class="cs-stat">
+                  <span class="cs-stat__val" data-count={m.value}>{m.value}</span>
+                  <span class="cs-stat__lbl">{m.label}</span>
+                </div>
+              ))}
+            </div>
+            <div class="cs-compare">
+              <div class="cs-compare__col cs-compare__col--before">
+                <div class="cs-compare__head">Vorher</div>
+                {compareBefore.map((b) => (
+                  <div class="cs-compare__row">
+                    <span class="cs-compare__label">{b.label}</span>
+                    <span class="cs-compare__value">{b.value}</span>
+                  </div>
+                ))}
+              </div>
+              <div class="cs-compare__col cs-compare__col--after">
+                <div class="cs-compare__head">Nachher</div>
+                {compareAfter.map((a) => (
+                  <div class="cs-compare__row">
+                    <span class="cs-compare__label">{a.label}</span>
+                    <span class="cs-compare__value">{a.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="cs-dashboard">
+              <div class="cs-dashboard__dots"><span></span><span></span><span></span></div>
+              <div class="cs-dashboard__bars" aria-hidden="true"></div>
+              <div class="cs-dashboard__caption">Anonymisierter Dashboard-Ausschnitt</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-lesson">
+          <p class="cs-lesson__text"><strong>Lehre:</strong> {lesson}</p>
+          <a href="#kontakt" class="cs-lesson__cta">Ähnliches Problem? → Audit anfragen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

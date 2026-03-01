@@ -1,0 +1,437 @@
+---
+import SectionLabel from './SectionLabel.astro';
+---
+
+<section id="probleme" class="section pain-points">
+  <div class="glow glow--cyan" aria-hidden="true"></div>
+  <div class="glow glow--pink" aria-hidden="true"></div>
+  <div class="container">
+    <SectionLabel text="Das Problem" />
+
+    <div class="pain__grid">
+      <!-- Left: Accordion Headlines -->
+      <div class="pain__headings">
+        <button class="pain__heading pain__heading--active" data-pain="1">
+          <span class="pain__heading-text">Bis zu 40% deiner Conversion-Daten fehlen.</span>
+          <span class="pain__arrow">&rarr;</span>
+        </button>
+        <button class="pain__heading" data-pain="2">
+          <span class="pain__heading-text">Der Algorithmus optimiert &mdash; auf die falschen Signale.</span>
+          <span class="pain__arrow">&rarr;</span>
+        </button>
+        <button class="pain__heading" data-pain="3">
+          <span class="pain__heading-text">Dein Setup driftet &mdash; und niemand pr&uuml;ft es.</span>
+          <span class="pain__arrow">&rarr;</span>
+        </button>
+      </div>
+
+      <!-- Right: Expandable Content Panels -->
+      <div class="pain__content">
+        <!-- Panel 1: Data Loss -->
+        <div class="pain__panel pain__panel--active" data-panel="1">
+          <h3 class="pain__panel-title">Dein Dashboard zeigt dir ein falsches Bild.</h3>
+          <p class="pain__panel-text">AdBlocker, iOS-Updates und Cookie-Consent-Ablehnung reduzieren deine messbaren Conversions um bis zu 40&nbsp;%. Algorithmen, die auf unvollst&auml;ndigen Daten trainieren, optimieren systematisch in die falsche Richtung &mdash; und das Budget l&auml;uft trotzdem.</p>
+          <p class="pain__panel-text">Dein Dashboard zeigt dir einen ROAS von 4x &mdash; aber deine Marge sagt etwas anderes. Wenn dein Tracking Conversions doppelt z&auml;hlt oder Events nicht richtig feuern, triffst du Entscheidungen auf Basis von Daten, die nicht stimmen.</p>
+          <div class="pain__callout">
+            <span class="pain__callout-label">Beispiel:</span> Bei 5.000&nbsp;&euro;/Monat Adspend und 35&nbsp;% fehlendem Signal verbrennst du ~1.750&nbsp;&euro; monatlich. Nicht durch schlechte Kampagnen &mdash; durch fehlende Daten.
+          </div>
+          <div class="pain__stat">
+            <span class="pain__stat-number">20&ndash;40%</span>
+            <span class="pain__stat-label">der Conversion-Daten gehen durch Browser-Restriktionen, Ad-Blocker und Cookie-Consent verloren. <span class="pain__stat-source">(Stape.io, 2025)</span></span>
+          </div>
+        </div>
+
+        <!-- Panel 2: Algorithm Misfiring -->
+        <div class="pain__panel" data-panel="2">
+          <h3 class="pain__panel-title">Googles KI ist nur so gut wie deine Datenbasis.</h3>
+          <p class="pain__panel-text">Wenn Meta und Google nur 60&nbsp;% der tats&auml;chlichen Conversions erhalten, entwickeln ihre Modelle systematisch eine Pr&auml;ferenz f&uuml;r Nutzer, die konvertieren &mdash; aber eben die falschen. CPAs steigen, ROAS sinkt, Budget nimmt zu. Ein klassischer negativer Kreislauf.</p>
+          <p class="pain__panel-text">Smart Bidding, Performance Max, Broad Match &mdash; alle Strategien basieren auf Conversion-Daten. Je mehr Budget du in automatisierte Kampagnen steckst, desto teurer wird dieser blinde Fleck.</p>
+          <ul class="pain__bullets">
+            <li><span class="pain__bullet-icon">&darr;</span> <strong>ROAS f&auml;llt</strong> &mdash; der Algorithmus optimiert auf verzerrte Signale</li>
+            <li><span class="pain__bullet-icon">&uarr;</span> <strong>CPA steigt</strong> &mdash; weil profitable Zielgruppen &uuml;bersehen werden</li>
+            <li><span class="pain__bullet-icon">&darr;</span> <strong>Budget-Effizienz sinkt</strong> &mdash; und du skalierst die falschen Kampagnen</li>
+          </ul>
+          <div class="pain__stat">
+            <span class="pain__stat-number">43%</span>
+            <span class="pain__stat-label">niedrigere Klickkosten bei einer Quality Score Verbesserung von 5 auf 8 &mdash; laut Google-Performance-Daten. <span class="pain__stat-source">(Quantumrun, 2024)</span></span>
+          </div>
+        </div>
+
+        <!-- Panel 3: Setup Drift -->
+        <div class="pain__panel" data-panel="3">
+          <h3 class="pain__panel-title">Einmal eingerichtet hei&szlig;t nicht: f&uuml;r immer korrekt.</h3>
+          <p class="pain__panel-text">In den meisten Ad-Accounts wird das Tracking einmalig eingerichtet und danach nicht mehr systematisch gepr&uuml;ft. Algorithmus-Updates, Pixel-Migrationen und Consent-Mode-&Auml;nderungen erzeugen stille Datenl&uuml;cken. Die Kampagnen laufen weiter &mdash; auf falscher Grundlage.</p>
+          <p class="pain__panel-text">Das Ergebnis: Du skalierst Kampagnen, die in Wahrheit nicht profitabel sind &mdash; und stoppst die, die es w&auml;ren.</p>
+          <div class="pain__callout pain__callout--pink">
+            <span class="pain__callout-label">Was das kostet:</span> Ein Google-Ads-Konto ohne saubere Attribution skaliert nie profitabel. Eine Website ohne Conversion-Optimierung verliert 60&ndash;80&nbsp;% ihrer Besucher still. Beides betrifft die meisten DACH-KMU gleichzeitig.
+          </div>
+          <div class="pain__stat">
+            <span class="pain__stat-number">&euro;26.8 Mrd.</span>
+            <span class="pain__stat-label">weltweit verschwendetes Werbebudget 2025 durch ineffiziente Daten-Infrastruktur. <span class="pain__stat-source">(ANA/WFA, 2025)</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transition: Die Lösung (003 style) -->
+    <div class="pain__solution reveal" id="tracking-first">
+      <div class="pain__solution-line" aria-hidden="true"></div>
+      <h2 class="pain__solution-heading">Die L&ouml;sung: <span class="text-cyan">Tracking-First.</span></h2>
+      <p class="pain__solution-text">Bevor wir einen Euro in Ads investieren, schlie&szlig;en wir das Datenleck. <strong class="text-cyan">Server-Side Tracking</strong> gibt deinen Algorithmen die echten Signale zur&uuml;ck. Dann &ndash; und erst dann &ndash; skalieren wir.</p>
+      <a href="#kontakt" class="pain__solution-cta" data-magnetic>Kostenloses Tracking-Audit anfragen &rarr;</a>
+      <div class="pain__solution-deco" aria-hidden="true">
+        <span class="hex hex--1"></span>
+        <span class="hex hex--2"></span>
+        <span class="hex hex--3"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const headings = document.querySelectorAll('.pain__heading');
+  const panels = document.querySelectorAll('.pain__panel');
+  const content = document.querySelector('.pain__content');
+  if (!headings.length || !content) return;
+
+  function setHeight() {
+    let max = 0;
+    panels.forEach(p => {
+      p.style.position = 'relative';
+      p.style.opacity = '0';
+      p.style.pointerEvents = 'none';
+      max = Math.max(max, p.offsetHeight);
+      p.style.position = '';
+      p.style.opacity = '';
+      p.style.pointerEvents = '';
+    });
+    content.style.minHeight = max + 'px';
+  }
+
+  setHeight();
+  window.addEventListener('resize', setHeight);
+
+  function activate(index) {
+    headings.forEach(h => h.classList.remove('pain__heading--active'));
+    panels.forEach(p => p.classList.remove('pain__panel--active'));
+    headings[index]?.classList.add('pain__heading--active');
+    panels[index]?.classList.add('pain__panel--active');
+  }
+
+  headings.forEach((heading, i) => {
+    heading.addEventListener('mouseenter', () => activate(i));
+    heading.addEventListener('click', () => activate(i));
+    heading.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        activate(i);
+      }
+    });
+  });
+})();
+</script>
+
+<style>
+  .pain-points { position: relative; overflow: hidden; }
+
+  .pain__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    margin-top: 2rem;
+  }
+  @media (min-width: 1024px) {
+    .pain__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+
+  /* ===== Left: Headings ===== */
+  .pain__headings {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pain__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    transition: all 0.3s ease;
+    color: inherit;
+    font: inherit;
+  }
+  .pain__heading:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .pain__heading-text {
+    font: 700 clamp(1.125rem, 2vw, 1.5rem)/1.25 var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+  }
+  .pain__heading--active .pain__heading-text {
+    color: var(--text-primary);
+  }
+  .pain__heading:hover .pain__heading-text {
+    color: var(--text-primary);
+  }
+
+  .pain__arrow {
+    font-size: 1.25rem;
+    color: transparent;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+  .pain__heading--active .pain__arrow {
+    color: var(--accent-cyan);
+    transform: translateX(4px);
+  }
+  .pain__heading:hover .pain__arrow {
+    color: var(--accent-cyan);
+    transform: translateX(4px);
+  }
+
+  /* ===== Right: Content Panels ===== */
+  .pain__content {
+    position: relative;
+    min-height: 480px;
+  }
+
+  .pain__panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .pain__panel--active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .pain__panel-title {
+    font: 700 1.25rem/1.3 var(--font-body);
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+  }
+
+  .pain__panel-text {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ===== Callout Boxes ===== */
+  .pain__callout {
+    margin-top: 1rem;
+    padding: 0.875rem 1.125rem;
+    border-left: 3px solid var(--accent-cyan);
+    background: rgba(0, 212, 255, 0.04);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .pain__callout--pink {
+    border-left-color: var(--accent-pink);
+    background: rgba(255, 45, 120, 0.04);
+  }
+  .pain__callout-label {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-right: 0.2rem;
+  }
+
+  /* ===== Bullet list (Panel 2) ===== */
+  .pain__bullets {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .pain__bullets li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .pain__bullet-icon {
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    color: var(--accent-pink);
+    font-weight: 700;
+    width: 1rem;
+    text-align: center;
+  }
+  .pain__bullets li strong {
+    color: var(--text-primary);
+  }
+
+  /* ===== Stat bar ===== */
+  .pain__stat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .pain__stat-number {
+    font: 800 clamp(1.5rem, 2.5vw, 2rem)/1 var(--font-heading);
+    color: var(--accent-cyan);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .pain__stat-label {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .pain__stat-source {
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    opacity: 1;
+  }
+
+  /* ===== Transition: Die Lösung ===== */
+  .pain__solution {
+    position: relative;
+    text-align: center;
+    margin-top: clamp(4rem, 8vw, 6rem);
+    padding: clamp(3rem, 6vw, 5rem) 2rem;
+    max-width: 680px;
+    margin-inline: auto;
+    overflow: visible;
+  }
+
+  .pain__solution-line {
+    width: 2px;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, var(--accent-cyan));
+    margin: 0 auto 2rem;
+  }
+
+  .pain__solution-heading {
+    font: 800 clamp(1.5rem, 3.5vw, 2.25rem)/1.15 var(--font-heading);
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .pain__solution-text {
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+
+  .pain__solution-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem 1.75rem;
+    background: transparent;
+    color: var(--accent-cyan);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 999px;
+    border: 1.5px solid rgba(0, 212, 255, 0.35);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .pain__solution-cta:hover {
+    background: rgba(0, 212, 255, 0.06);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+    transform: translateY(-1px);
+  }
+
+  /* Decorative hexagons */
+  .pain__solution-deco {
+    position: absolute;
+    right: -80px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .hex {
+    display: block;
+    width: 60px;
+    height: 60px;
+    border: 1.5px solid rgba(0, 212, 255, 0.1);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    position: absolute;
+  }
+  .hex--1 { top: -50px; right: 0; opacity: 0.6; }
+  .hex--2 { top: 0; right: 40px; width: 80px; height: 80px; opacity: 0.3; }
+  .hex--3 { top: 40px; right: -20px; width: 50px; height: 50px; opacity: 0.15; }
+
+  @media (max-width: 1023px) {
+    .pain__content { min-height: auto; }
+    .pain__solution-deco { display: none; }
+  }
+
+  /* ===== Ambient Glows ===== */
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(100px);
+    animation: glowDrift 30s ease-in-out infinite alternate;
+  }
+  .glow--cyan {
+    width: 500px;
+    height: 500px;
+    top: -10%;
+    right: -5%;
+    background: rgba(0, 212, 255, 0.05);
+  }
+  .glow--pink {
+    width: 400px;
+    height: 400px;
+    bottom: -15%;
+    left: -8%;
+    background: rgba(255, 45, 120, 0.04);
+    animation-delay: -15s;
+    animation-duration: 35s;
+  }
+  @keyframes glowDrift {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -20px) scale(1.1); }
+    100% { transform: translate(-20px, 15px) scale(0.95); }
+  }
+  @media (max-width: 767px) {
+    .glow { width: 300px; height: 300px; filter: blur(80px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .glow { animation: none; }
+  }
+</style>

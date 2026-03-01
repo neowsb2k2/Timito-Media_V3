@@ -1,0 +1,250 @@
+---
+/**
+ * TrackingThread.astro
+ * Fixed vertical scroll progress line on the left side.
+ * Glowing stops at each section heading — lights up as you scroll past.
+ */
+---
+
+<div class="thread" id="trackingThread" aria-hidden="true">
+  <div class="thread__bg"></div>
+  <div class="thread__fill" id="threadFill"></div>
+  <!-- Nodes are created dynamically by JS at actual section positions -->
+</div>
+
+<script>
+(function () {
+  const thread = document.getElementById('trackingThread');
+  const fill = document.getElementById('threadFill');
+  if (!thread || !fill) return;
+
+  // Sections to track — selector + label
+  const sectionDefs = [
+    { sel: '#hero', label: 'Hero' },
+    { sel: '#probleme', label: 'Pain Points' },
+    { sel: '#about', label: 'About' },
+    { sel: '#leistungen', label: 'Services' },
+    { sel: '#ablauf', label: 'Process' },
+    { sel: '.reviews', label: 'Reviews' },
+    { sel: '#cases', label: 'Cases' },
+    { sel: '#faq', label: 'FAQ' },
+    { sel: '#kontakt', label: 'Contact' },
+    { sel: '.blog-preview', label: 'Blog' },
+  ];
+
+  // Track padding (matches CSS top/bottom)
+  const PAD_TOP = 10; // vh
+  const PAD_BOT = 10; // vh
+  const trackFraction = (100 - PAD_TOP - PAD_BOT) / 100; // usable fraction
+
+  // Gradient color stops: green → yellow → orange → pink → purple → cyan
+  const gradientColors = [
+    { at: 0.0, color: '#3fb950' },  // green
+    { at: 0.2, color: '#ffd600' },  // yellow
+    { at: 0.4, color: '#ff8c42' },  // orange
+    { at: 0.6, color: '#ff2d78' },  // pink
+    { at: 0.8, color: '#a855f7' },  // purple
+    { at: 1.0, color: '#00d4ff' },  // cyan
+  ];
+
+  function lerpColor(a: string, b: string, t: number): string {
+    const ah = parseInt(a.slice(1), 16);
+    const bh = parseInt(b.slice(1), 16);
+    const ar = (ah >> 16) & 0xff, ag = (ah >> 8) & 0xff, ab = ah & 0xff;
+    const br = (bh >> 16) & 0xff, bg = (bh >> 8) & 0xff, bb = bh & 0xff;
+    const rr = Math.round(ar + (br - ar) * t);
+    const rg = Math.round(ag + (bg - ag) * t);
+    const rb = Math.round(ab + (bb - ab) * t);
+    return `rgb(${rr}, ${rg}, ${rb})`;
+  }
+
+  function getGradientColor(progress: number): string {
+    for (let i = 0; i < gradientColors.length - 1; i++) {
+      if (progress <= gradientColors[i + 1].at) {
+        const t = (progress - gradientColors[i].at) / (gradientColors[i + 1].at - gradientColors[i].at);
+        return lerpColor(gradientColors[i].color, gradientColors[i + 1].color, t);
+      }
+    }
+    return gradientColors[gradientColors.length - 1].color;
+  }
+
+  interface NodeInfo {
+    el: HTMLElement;
+    progress: number; // 0-1 scroll progress when section top hits viewport
+  }
+
+  let nodes: NodeInfo[] = [];
+
+  function createNodes() {
+    // Remove old nodes
+    thread.querySelectorAll('.thread__node').forEach(n => n.remove());
+    nodes = [];
+
+    const docHeight = document.documentElement.scrollHeight;
+    const maxScroll = docHeight - window.innerHeight;
+    if (maxScroll <= 0) return;
+
+    sectionDefs.forEach(def => {
+      const section = document.querySelector(def.sel);
+      if (!section) return;
+
+      const sectionTop = (section as HTMLElement).offsetTop;
+      const progress = Math.min(sectionTop / maxScroll, 1);
+
+      // Map progress (0-1) to track position (PAD_TOP% to (100-PAD_BOT)%)
+      const topPercent = PAD_TOP + progress * trackFraction * 100;
+
+      const node = document.createElement('div');
+      node.className = 'thread__node';
+      node.style.top = topPercent + '%';
+      thread.appendChild(node);
+      nodes.push({ el: node, progress });
+    });
+  }
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reducedMotion) {
+    fill.style.height = (trackFraction * 100) + '%';
+    createNodes();
+    nodes.forEach(n => n.el.classList.add('is-reached'));
+    return;
+  }
+
+  let ticking = false;
+
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(tick);
+    }
+  }
+
+  function tick() {
+    ticking = false;
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = maxScroll > 0 ? Math.min(scrollY / maxScroll, 1) : 0;
+
+    // Fill height = progress mapped to the track's usable area
+    const fillHeight = progress * trackFraction * 100;
+    fill.style.height = fillHeight + '%';
+
+    // Update entire bar color based on scroll progress
+    const currentColor = getGradientColor(progress);
+    fill.style.background = currentColor;
+    fill.style.boxShadow = `0 0 8px ${currentColor}, 0 0 2px ${currentColor}`;
+
+    // Light up nodes the fill has passed — all reached nodes match current color
+    nodes.forEach(n => {
+      if (progress >= n.progress - 0.01) {
+        n.el.classList.add('is-reached');
+        n.el.style.setProperty('--node-color', currentColor);
+      } else {
+        n.el.classList.remove('is-reached');
+      }
+    });
+  }
+
+  // Init
+  function init() {
+    createNodes();
+    tick();
+  }
+
+  // Wait for layout to settle
+  if (document.readyState === 'complete') {
+    init();
+  } else {
+    window.addEventListener('load', init);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => {
+    createNodes();
+    tick();
+  });
+
+  document.addEventListener('astro:page-load', init);
+})();
+</script>
+
+<style>
+  .thread {
+    position: fixed;
+    left: 8%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  /* Background track line */
+  .thread__bg {
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    left: 0;
+    width: 100%;
+    background: var(--border);
+    border-radius: 1px;
+  }
+
+  /* Filled progress line — gradient through all accent colors */
+  .thread__fill {
+    position: absolute;
+    top: 10%;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--accent-green);
+    border-radius: 1px;
+    box-shadow: 0 0 8px rgba(63, 185, 80, 0.4), 0 0 2px rgba(63, 185, 80, 0.6);
+    z-index: 1;
+    will-change: height;
+  }
+
+  /* Glowing stop nodes */
+  .thread__node {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border);
+    z-index: 2;
+    transition:
+      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+      border-color 0.3s ease,
+      background 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .thread__node.is-reached {
+    transform: translateX(-50%) scale(1);
+    background: var(--node-color, var(--accent-green));
+    border-color: var(--node-color, var(--accent-green));
+    box-shadow:
+      0 0 8px color-mix(in srgb, var(--node-color, var(--accent-green)) 60%, transparent),
+      0 0 20px color-mix(in srgb, var(--node-color, var(--accent-green)) 25%, transparent);
+  }
+
+
+  @media (max-width: 767px) {
+    .thread { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .thread__fill {
+      height: 80% !important;
+      box-shadow: none;
+    }
+    .thread__node {
+      transform: translateX(-50%) scale(1) !important;
+      box-shadow: none;
+    }
+  }
+</style>

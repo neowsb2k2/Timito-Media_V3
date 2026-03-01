@@ -1,0 +1,292 @@
+---
+/**
+ * StickyCTA.astro
+ * Full-width fixed bottom bar with section indicator, tel button,
+ * scroll-to-top, and CTA. Glass-morphism matching navbar.
+ */
+interface Props {
+  colorRGB?: string;
+}
+const { colorRGB } = Astro.props;
+---
+
+<div class="bottom-bar" id="bottom-bar" style={colorRGB ? `--bar-c: ${colorRGB}` : undefined}>
+  <div class="bottom-bar__inner">
+    <!-- Section indicator -->
+    <div class="bottom-bar__section" id="bottom-bar-section">
+      <span class="bottom-bar__dot"></span>
+      <span class="bottom-bar__label" id="bottom-bar-label">Start</span>
+    </div>
+
+    <div class="bottom-bar__spacer"></div>
+
+    <!-- Tel button -->
+    <a href="tel:+436642364117" class="bottom-bar__btn" aria-label="Anrufen">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      <span class="bottom-bar__btn-text">Anrufen</span>
+    </a>
+
+    <!-- Scroll to top -->
+    <button class="bottom-bar__btn" id="bottom-bar-top" type="button" aria-label="Nach oben scrollen">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 15l-6-6-6 6"/>
+      </svg>
+    </button>
+
+    <!-- CTA -->
+    <a href="#kontakt" class="bottom-bar__cta">
+      Audit anfragen <span aria-hidden="true">&rarr;</span>
+    </a>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const bar = document.getElementById('bottom-bar');
+    const label = document.getElementById('bottom-bar-label');
+    const topBtn = document.getElementById('bottom-bar-top');
+    if (!bar || !label || !topBtn) return;
+
+    /* ── Section tracking ── */
+    const sectionMap: [string, string][] = [
+      ['hero', 'Start'],
+      ['probleme', 'Probleme'],
+      ['about', 'Agency'],
+      ['leistungen', 'Leistungen'],
+      ['ablauf', 'Ablauf'],
+      ['cases', 'Cases'],
+      ['faq', 'FAQ'],
+      ['kontakt', 'Kontakt'],
+    ];
+
+    const sectionEls = sectionMap
+      .map(([id, name]) => {
+        const el = document.getElementById(id);
+        return el ? { el, name } : null;
+      })
+      .filter(Boolean) as { el: HTMLElement; name: string }[];
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const match = sectionEls.find((s) => s.el === entry.target);
+            if (match) label.textContent = match.name;
+          }
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    sectionEls.forEach((s) => sectionObserver.observe(s.el));
+
+    /* ── Visibility: hide on hero / kontakt ── */
+    const hero = document.getElementById('hero');
+    const kontakt = document.getElementById('kontakt');
+    let heroVisible = true;
+    let kontaktVisible = false;
+
+    function updateVisibility() {
+      if (!heroVisible && !kontaktVisible) {
+        bar.classList.add('is-visible');
+      } else {
+        bar.classList.remove('is-visible');
+      }
+    }
+
+    if (hero) {
+      new IntersectionObserver(
+        ([e]) => { heroVisible = e.isIntersecting; updateVisibility(); },
+        { threshold: 0 }
+      ).observe(hero);
+    }
+
+    if (kontakt) {
+      new IntersectionObserver(
+        ([e]) => { kontaktVisible = e.isIntersecting; updateVisibility(); },
+        { threshold: 0 }
+      ).observe(kontakt);
+    }
+
+    /* ── Scroll to top ── */
+    topBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+</script>
+
+<style>
+  /* ===== BOTTOM BAR SHELL ===== */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0.75rem;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding-inline: 1rem;
+    pointer-events: none;
+
+    /* hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(1rem);
+    transition:
+      opacity var(--duration) var(--ease),
+      transform var(--duration) var(--ease),
+      visibility var(--duration);
+  }
+
+  .bottom-bar.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* ===== INNER — glass pill ===== */
+  .bottom-bar__inner {
+    width: 100%;
+    max-width: var(--container);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 48px;
+    padding: 0 0.5rem 0 1.25rem;
+    border-radius: 999px;
+    overflow: hidden;
+
+    /* glass morphism — matches navbar scrolled state */
+    background: rgba(10, 10, 18, 0.8);
+    backdrop-filter: blur(24px) saturate(1.3);
+    -webkit-backdrop-filter: blur(24px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  }
+
+  /* ===== SECTION INDICATOR ===== */
+  .bottom-bar__section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .bottom-bar__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgb(var(--bar-c, 0, 212, 255));
+    flex-shrink: 0;
+  }
+
+  .bottom-bar__label {
+    font: 500 0.7rem/1 var(--font-mono);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  /* ===== SPACER ===== */
+  .bottom-bar__spacer {
+    flex: 1 1 auto;
+  }
+
+  /* ===== SHARED BUTTON STYLE ===== */
+  .bottom-bar__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    font: 500 0.8rem/1 var(--font-body);
+    color: var(--text-secondary);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+      color var(--duration) var(--ease),
+      background var(--duration) var(--ease);
+  }
+
+  .bottom-bar__btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .bottom-bar__btn-text {
+    /* hidden on mobile */
+  }
+
+  /* ===== CTA BUTTON ===== */
+  .bottom-bar__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: 0.25rem;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    background: rgb(var(--bar-c, 0, 212, 255));
+    color: var(--bg-primary);
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 0 15px rgba(var(--bar-c, 0, 212, 255), 0.15);
+    transition:
+      filter var(--duration) var(--ease),
+      box-shadow var(--duration) var(--ease);
+  }
+
+  .bottom-bar__cta:hover {
+    filter: brightness(1.15);
+    box-shadow: 0 0 25px rgba(var(--bar-c, 0, 212, 255), 0.3);
+  }
+
+  /* ===== REDUCED MOTION ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .bottom-bar {
+      transform: none;
+      transition:
+        opacity var(--duration) var(--ease),
+        visibility var(--duration);
+    }
+
+    .bottom-bar.is-visible {
+      transform: none;
+    }
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 767px) {
+    .bottom-bar__inner {
+      padding: 0 0.4rem 0 0.75rem;
+      gap: 0.25rem;
+    }
+
+    .bottom-bar__label {
+      display: none;
+    }
+
+    .bottom-bar__btn-text {
+      display: none;
+    }
+
+    .bottom-bar__btn {
+      padding: 0.4rem 0.5rem;
+    }
+
+    .bottom-bar__cta {
+      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+    }
+  }
+</style>

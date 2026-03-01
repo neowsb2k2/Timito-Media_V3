@@ -1,0 +1,317 @@
+---
+/**
+ * Footer.astro
+ * Clean cyberpunk footer with brand identity, 4-column grid,
+ * system status, social links, and legal bottom bar.
+ */
+
+const serviceLinks = [
+  { label: 'Server-Side Tracking', href: '#leistungen' },
+  { label: 'Google Ads', href: '#leistungen' },
+  { label: 'Social Ads', href: '#leistungen' },
+  { label: 'Webdesign', href: '#leistungen' },
+  { label: 'Analytics & Dashboards', href: '#leistungen' },
+  { label: 'Strategie & Beratung', href: '#leistungen' },
+];
+
+const agencyLinks = [
+  { label: 'Agency', href: '#about' },
+  { label: 'Ablauf', href: '#ablauf' },
+  { label: 'FAQ', href: '#faq' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Kontakt', href: '#kontakt' },
+];
+
+const legalLinks = [
+  { label: 'Impressum', href: '#' },
+  { label: 'Datenschutz', href: '#' },
+  { label: 'AGB', href: '#' },
+];
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <!-- Column 1: Brand -->
+      <div class="footer__brand">
+        <a href="/" class="footer__logo" aria-label="Timito Media – Startseite">
+          <img src="/assets/images/logo.webp" alt="Timito Media" width="140" height="32" class="footer__logo-img" />
+        </a>
+        <p class="footer__desc">
+          Performance Marketing Agentur aus Österreich. Google&nbsp;Ads, Server-Side Tracking und Webdesign — mit Senior-Verantwortung auf jedem Account.
+        </p>
+        <div class="footer__status">
+          <span class="footer__status-dot" aria-hidden="true"></span>
+          <span>System Status: Online</span>
+        </div>
+        <div class="footer__social">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 2: Leistungen -->
+      <nav class="footer__nav" aria-label="Leistungen">
+        <h4 class="footer__heading">// Leistungen</h4>
+        <ul class="footer__link-list">
+          {serviceLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- Column 3: Agentur -->
+      <nav class="footer__nav" aria-label="Agentur">
+        <h4 class="footer__heading">// Agentur</h4>
+        <ul class="footer__link-list">
+          {agencyLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- Column 4: Kontakt -->
+      <div class="footer__contact">
+        <h4 class="footer__heading">// Kontakt</h4>
+        <address class="footer__address">
+          <p>Würflach, Niederösterreich</p>
+          <p><a href="mailto:office@timito-media.at">office@timito-media.at</a></p>
+          <p><a href="tel:+436642364117">+43 664 236 4117</a></p>
+        </address>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer__bottom">
+      <p class="footer__copy">&copy; 2025 Timito Media. Alle Rechte vorbehalten.</p>
+      <nav class="footer__legal" aria-label="Rechtliches">
+        {legalLinks.map((link, i) => (
+          <>
+            <a href={link.href}>{link.label}</a>
+            {i < legalLinks.length - 1 && <span class="footer__legal-sep" aria-hidden="true">&middot;</span>}
+          </>
+        ))}
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: transparent;
+    padding: 2rem 1.5rem 2rem;
+  }
+
+  .footer :global(.container) {
+    background: rgba(10, 10, 18, 0.45);
+    backdrop-filter: blur(24px) saturate(1.3);
+    -webkit-backdrop-filter: blur(24px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 32px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    padding: 3rem 3.5rem 2rem;
+    max-width: 1400px;
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  /* Logo */
+  .footer__logo {
+    display: inline-block;
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+
+  .footer__logo-img {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
+
+  /* Brand */
+  .footer__desc {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    max-width: 30ch;
+  }
+
+  /* System Status */
+  .footer__status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font: 400 0.75rem/1 var(--font-mono);
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .footer__status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+    animation: statusPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Social Icons */
+  .footer__social {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .footer__social a {
+    color: var(--text-muted);
+    padding: 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--duration) var(--ease);
+  }
+
+  .footer__social a:hover {
+    color: var(--accent-cyan);
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+  }
+
+  .footer__social svg {
+    display: block;
+  }
+
+  /* Column Headings */
+  .footer__heading {
+    font: 600 0.75rem/1 var(--font-mono);
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Link Lists */
+  .footer__link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer__link-list a,
+  .footer__address a {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: color var(--duration) var(--ease);
+  }
+
+  .footer__link-list a:hover,
+  .footer__address a:hover {
+    color: var(--text-primary);
+  }
+
+  /* Contact */
+  .footer__address {
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer__address p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  /* Bottom Bar */
+  .footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer__copy {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1;
+  }
+
+  .footer__legal {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .footer__legal a {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--duration) var(--ease);
+  }
+
+  .footer__legal a:hover {
+    color: var(--text-primary);
+  }
+
+  .footer__legal-sep {
+    color: var(--border);
+    font-size: 0.8rem;
+    user-select: none;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1023px) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .footer :global(.container) {
+      padding: 2rem 1.25rem 1.5rem;
+      border-radius: 16px;
+    }
+
+    .footer__grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .footer__bottom {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .footer__legal {
+      justify-content: center;
+    }
+  }
+</style>

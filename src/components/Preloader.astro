@@ -1,0 +1,242 @@
+---
+/**
+ * Preloader.astro
+ * Full-screen CRT boot animation — vertical progress line on the left
+ * with glowing stops at each section, counter centered, scanlines overlay.
+ */
+---
+
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader__scanlines"></div>
+
+  <!-- Vertical progress track on the left -->
+  <div class="preloader__track">
+    <div class="preloader__track-bg"></div>
+    <div class="preloader__track-fill" id="preloaderBar"></div>
+    <div class="preloader__stop" data-at="0.00"><span>Hero</span></div>
+    <div class="preloader__stop" data-at="0.10"><span>Pain Points</span></div>
+    <div class="preloader__stop" data-at="0.22"><span>About</span></div>
+    <div class="preloader__stop" data-at="0.33"><span>Services</span></div>
+    <div class="preloader__stop" data-at="0.44"><span>Process</span></div>
+    <div class="preloader__stop" data-at="0.53"><span>Reviews</span></div>
+    <div class="preloader__stop" data-at="0.62"><span>Cases</span></div>
+    <div class="preloader__stop" data-at="0.73"><span>FAQ</span></div>
+    <div class="preloader__stop" data-at="0.84"><span>Contact</span></div>
+    <div class="preloader__stop" data-at="0.95"><span>Blog</span></div>
+  </div>
+
+  <!-- Counter centered -->
+  <div class="preloader__content">
+    <div class="preloader__counter" id="preloaderCounter">000</div>
+    <div class="preloader__label">TIMITO.SYS LOADING</div>
+  </div>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .preloader__scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.08) 2px,
+      rgba(0, 0, 0, 0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ===== Vertical progress track ===== */
+  .preloader__track {
+    position: absolute;
+    left: 8%;
+    top: 8%;
+    bottom: 8%;
+    width: 2px;
+    z-index: 3;
+  }
+
+  .preloader__track-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--border);
+    border-radius: 1px;
+  }
+
+  .preloader__track-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 12px var(--accent-cyan), 0 0 4px var(--accent-cyan);
+    border-radius: 1px;
+    z-index: 1;
+  }
+
+  /* ===== Glowing stops ===== */
+  .preloader__stop {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border);
+    z-index: 2;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.3s ease,
+                background 0.3s ease,
+                box-shadow 0.3s ease;
+  }
+
+  .preloader__stop.is-reached {
+    transform: translateX(-50%) scale(1);
+    background: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+    box-shadow:
+      0 0 8px rgba(0, 212, 255, 0.6),
+      0 0 20px rgba(0, 212, 255, 0.25);
+  }
+
+  /* Section label next to each stop */
+  .preloader__stop span {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.35s ease, color 0.3s ease;
+  }
+
+  .preloader__stop.is-reached span {
+    opacity: 1;
+    color: var(--accent-cyan);
+  }
+
+  /* ===== Counter (centered) ===== */
+  .preloader__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .preloader__counter {
+    font-family: var(--font-mono);
+    font-size: clamp(60px, 12vw, 120px);
+    font-weight: 700;
+    color: var(--accent-cyan);
+    text-shadow:
+      0 0 40px rgba(0, 212, 255, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.15);
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+
+  .preloader__label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .preloader--exit {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  /* ===== Mobile: hide track labels, shrink track ===== */
+  @media (max-width: 767px) {
+    .preloader__track {
+      left: 5%;
+    }
+    .preloader__stop span {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const preloader = document.getElementById('preloader');
+    if (!preloader) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      preloader.remove();
+      document.documentElement.style.overflow = '';
+      window.dispatchEvent(new Event('preloader-done'));
+      return;
+    }
+
+    document.documentElement.style.overflow = 'hidden';
+
+    const counter = document.getElementById('preloaderCounter');
+    const bar = document.getElementById('preloaderBar');
+    const stops = preloader.querySelectorAll('.preloader__stop');
+
+    // Position stops along the track based on data-at
+    stops.forEach((stop) => {
+      const at = parseFloat((stop as HTMLElement).dataset.at || '0');
+      (stop as HTMLElement).style.top = (at * 100) + '%';
+    });
+
+    const duration = 800;
+    let start = 0;
+
+    function animate(timestamp: number) {
+      if (!start) start = timestamp;
+      const elapsed = timestamp - start;
+      const raw = Math.min(elapsed / duration, 1);
+      const progress = 1 - Math.pow(1 - raw, 4);
+
+      const value = Math.round(progress * 100);
+      if (counter) counter.textContent = String(value).padStart(3, '0');
+      if (bar) (bar as HTMLElement).style.height = (progress * 100) + '%';
+
+      // Light up stops as the bar reaches them
+      stops.forEach((stop) => {
+        const at = parseFloat((stop as HTMLElement).dataset.at || '0');
+        if (progress >= at) {
+          stop.classList.add('is-reached');
+        }
+      });
+
+      if (raw < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        preloader.classList.add('preloader--exit');
+        setTimeout(() => {
+          preloader.style.display = 'none';
+          document.documentElement.style.overflow = '';
+          window.dispatchEvent(new Event('preloader-done'));
+        }, 250);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  })();
+</script>

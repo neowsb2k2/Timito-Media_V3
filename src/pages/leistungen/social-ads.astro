@@ -1,0 +1,51 @@
+---
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import ServiceHero from '../../components/ServiceHero.astro';
+import ProblemCards from '../../components/ProblemCards.astro';
+import StrategistProfile from '../../components/StrategistProfile.astro';
+import ProcessTimeline from '../../components/ProcessTimeline.astro';
+import PricingCards from '../../components/PricingCards.astro';
+import ServiceFAQ from '../../components/ServiceFAQ.astro';
+import ServiceCTA from '../../components/ServiceCTA.astro';
+import { socialAdsPage as data } from '../../data/service-pages';
+---
+
+<ServiceLayout
+  title={data.title}
+  description={data.description}
+  faqs={data.faqs}
+  slug={data.slug}
+  serviceName="Social Ads"
+  colorRGB={data.colorRGB}
+>
+  <ServiceHero
+    sectionLabel={data.sectionLabel}
+    headline={data.hero.headline}
+    subline={data.hero.subline}
+    ctaPrimary={data.hero.ctaPrimary}
+    ctaSecondary={data.hero.ctaSecondary}
+    stats={data.hero.stats}
+    color={data.color}
+    colorRGB={data.colorRGB}
+  />
+  <ProblemCards
+    sectionTitle={data.problems.sectionTitle}
+    cards={data.problems.cards}
+    resolution={data.problems.resolution}
+    colorRGB={data.colorRGB}
+  />
+  <StrategistProfile {...data.strategist} colorRGB={data.colorRGB} />
+  <ProcessTimeline
+    sectionTitle={data.process.sectionTitle}
+    steps={data.process.steps}
+    colorRGB={data.colorRGB}
+  />
+  <PricingCards
+    sectionTitle={data.pricing.sectionTitle}
+    note={data.pricing.note}
+    cards={data.pricing.cards}
+    colorRGB={data.colorRGB}
+  />
+  <ServiceFAQ faqs={data.faqs} colorRGB={data.colorRGB} />
+  <ServiceCTA colorRGB={data.colorRGB} relatedServices={data.relatedServices} />
+</ServiceLayout>

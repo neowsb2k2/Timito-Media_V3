@@ -1,0 +1,615 @@
+---
+/**
+ * About.astro
+ * Mission section with giant typography, Timito mascot center,
+ * corner brackets, grid overlay, scroll-triggered animations.
+ */
+import TimitoMascot from './TimitoMascot.astro';
+import FounderCards from './FounderCards.astro';
+---
+
+<section class="about" id="about">
+  <div class="corner corner--tl"></div>
+  <div class="corner corner--tr"></div>
+  <div class="corner corner--bl"></div>
+  <div class="corner corner--br"></div>
+
+  <div class="timito-visual">
+    <TimitoMascot pose="crossed" />
+  </div>
+
+  <div class="container">
+    <div class="about__grid">
+      <div class="about__typo">
+        <h2 class="about__giant">
+          <span class="line-muted">Wer</span>
+          <span>hinter</span>
+          <span class="line-accent">Timito</span>
+          <span>steckt.</span>
+        </h2>
+        <p class="about__intro">
+          <strong>Timito Media</strong> ist eine Performance Marketing Agentur aus &Ouml;sterreich. Wir glauben an einen einfachen Grundsatz: <strong>Ohne saubere Daten kann keine Kampagne performen.</strong> Deshalb reparieren wir zuerst dein Tracking &mdash; dann skalieren wir.
+        </p>
+      </div>
+
+      <div class="about__right">
+        <div class="about__right-label">
+          <span class="outline-text">Tracking</span>
+          <span>First.</span>
+        </div>
+        <div class="about__mission">
+          <div class="about__mission-label">Unsere Mission</div>
+          <p class="about__mission-text">
+            Wir machen Performance Marketing ehrlich. Keine Luftschl&ouml;sser, keine aufgeblasenen Reports. Nur saubere Daten, klare Strategien und messbare Ergebnisse. F&uuml;r Unternehmen die wachsen wollen &mdash; nicht raten.
+          </p>
+        </div>
+        <div class="about__values">
+          <div class="about__value">
+            <div class="about__value-name">Transparenz</div>
+            <div class="about__value-desc">Du siehst was wir sehen. Echtzeit-Dashboards, klare Reports, keine versteckten Metriken.</div>
+          </div>
+          <div class="about__value">
+            <div class="about__value-name">Datenqualit&auml;t</div>
+            <div class="about__value-desc">Erst Tracking fixen, dann optimieren. Wir bauen auf einem Fundament das stimmt.</div>
+          </div>
+          <div class="about__value">
+            <div class="about__value-name">Partnerschaft</div>
+            <div class="about__value-desc">Keine Agentur-Distanz. Wir denken wie dein internes Team &mdash; langfristig, proaktiv, direkt.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Founder Cards -->
+    <FounderCards />
+
+    <!-- USP Trust Cards -->
+    <div class="about__usps reveal-stagger">
+      <div class="about__usp reveal">
+        <span class="about__usp-label">// Seniorit&auml;t</span>
+        <h4 class="about__usp-title">Wer pitcht, liefert auch.</h4>
+        <p class="about__usp-text">Gro&szlig;e Agenturen pr&auml;sentieren mit Senioren und liefern mit Junioren &mdash; das ist kein Geheimnis, sondern Gesch&auml;ftsmodell. Bei Timito &uuml;bernehmen Christina und Mike pers&ouml;nlich die strategische und operative Verantwortung. F&uuml;r jeden Account. Von Tag 1 bis zur Skalierung.</p>
+        <span class="about__usp-tag">Direkte Verantwortung &middot; Kein Account Management &middot; Kein Handover</span>
+      </div>
+      <div class="about__usp reveal">
+        <span class="about__usp-label">// Transparenz</span>
+        <h4 class="about__usp-title">Reporting das Entscheidungen erm&ouml;glicht.</h4>
+        <p class="about__usp-text">Standard-Reporting in Agenturen ist auf Pr&auml;sentation optimiert &mdash; nicht auf Entscheidungsgrundlage. Du erh&auml;ltst ein Live-Dashboard mit vollst&auml;ndiger Transparenz &uuml;ber Spend, Performance und Ma&szlig;nahmen in Echtzeit. Keine &Uuml;berraschungen. Keine interpretierten Hochglanz-PDFs.</p>
+      </div>
+      <div class="about__usp reveal">
+        <span class="about__usp-label">// Interessenalignment</span>
+        <h4 class="about__usp-title">Wir verdienen an deiner Performance &mdash; nicht an deinem Budget.</h4>
+        <p class="about__usp-text">Agenturen mit prozentualer Adspend-Verg&uuml;tung haben einen strukturellen Interessenkonflikt. Wir haben dieses Modell abgelehnt. Unsere Verg&uuml;tung ist an Performance und Effizienz gebunden &mdash; nicht an Budgeth&ouml;he. Das schafft die Grundlage f&uuml;r eine langfristige, vertrauensbasierte Zusammenarbeit.</p>
+      </div>
+    </div>
+
+    <!-- Founder Quote -->
+    <blockquote class="about__quote">
+      <p>&bdquo;15 Jahre in einer der gr&ouml;&szlig;ten Digitalagenturen &Ouml;sterreichs. Sechsstellige Monatsbudgets. Vier M&auml;rkte. Was dabei klar wurde: die Gr&ouml;&szlig;e einer Agentur garantiert weder Qualit&auml;t noch direkte Verantwortung. Timito wurde gegr&uuml;ndet, um beides zu liefern.&ldquo;</p>
+      <cite>&mdash; Christina &amp; Mike, Gr&uuml;nder</cite>
+    </blockquote>
+
+    <div class="about__cta">
+      <a href="#kontakt" class="btn-outline" data-magnetic>Jetzt kennenlernen &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const section = document.querySelector('.about');
+    if (!section) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          section.classList.add('is-visible');
+          observer.unobserve(section);
+        }
+      });
+    }, { threshold: 0.15 });
+    observer.observe(section);
+  })();
+</script>
+
+<style>
+  /* ===== SECTION ===== */
+  .about {
+    position: relative;
+    min-height: 110vh;
+    padding: clamp(8rem, 14vh, 16rem) 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Grid overlay */
+  .about::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .about::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 2.5rem;
+    right: 2.5rem;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ===== CORNER BRACKETS ===== */
+  .corner {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .corner--tl { top: 2rem; left: 2.5rem; border-top: 2px solid var(--text-muted); border-left: 2px solid var(--text-muted); }
+  .corner--tr { top: 2rem; right: 2.5rem; border-top: 2px solid var(--text-muted); border-right: 2px solid var(--text-muted); }
+  .corner--bl { bottom: 2rem; left: 2.5rem; border-bottom: 2px solid var(--text-muted); border-left: 2px solid var(--text-muted); }
+  .corner--br { bottom: 2rem; right: 2.5rem; border-bottom: 2px solid var(--text-muted); border-right: 2px solid var(--text-muted); }
+
+  /* ===== LAYOUT ===== */
+  .about :global(.container) {
+    position: relative;
+    z-index: 2;
+  }
+
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 0;
+  }
+
+  /* ===== LEFT — Giant Typography ===== */
+  .about__typo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 2rem;
+  }
+
+  .about__giant {
+    font: 900 clamp(3rem, 8vw, 7rem)/0.9 'Unbounded', system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+  }
+
+  .about__giant span {
+    display: block;
+  }
+
+  .about__giant .line-accent {
+    color: var(--accent-cyan);
+    text-shadow: 0 0 40px rgba(0,212,255,0.2);
+  }
+
+  .about__giant .line-muted {
+    -webkit-text-stroke: 1.5px var(--text-muted);
+    -webkit-text-fill-color: transparent;
+  }
+
+  .about__intro {
+    margin-top: clamp(1rem, 2vh, 2.5rem);
+    max-width: 380px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .about__intro strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* ===== RIGHT — Mission & Values ===== */
+  .about__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 3rem;
+  }
+
+  .about__right-label {
+    text-align: right;
+    font: 900 clamp(2rem, 5vw, 4.5rem)/0.95 'Unbounded', system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+  }
+
+  .about__right-label span {
+    display: block;
+  }
+
+  .about__right-label .outline-text {
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.3);
+    -webkit-text-fill-color: transparent;
+  }
+
+  .about__mission {
+    margin-top: clamp(1.5rem, 3vh, 3rem);
+  }
+
+  .about__mission-label {
+    font: 800 0.75rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .about__mission-label::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--accent-cyan);
+  }
+
+  .about__mission-text {
+    font: 400 0.9rem/1.7 var(--font-body);
+    color: var(--text-secondary);
+    max-width: 340px;
+  }
+
+  .about__values {
+    margin-top: auto;
+    padding-top: clamp(1.5rem, 3vh, 3rem);
+  }
+
+  .about__value {
+    padding: clamp(0.75rem, 1.5vh, 1.25rem) 0;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .about__value:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about__value-name {
+    font: 600 0.8rem/1.2 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-cyan);
+  }
+
+  .about__value-desc {
+    font: 400 0.85rem/1.5 var(--font-body);
+    color: var(--text-muted);
+  }
+
+  /* ===== TIMITO MASCOT — Center ===== */
+  .timito-visual {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(140px, 18vw, 240px);
+    height: clamp(200px, 30vh, 340px);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.35;
+  }
+
+  .timito-visual::before {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 50%;
+    background: radial-gradient(ellipse, rgba(0,212,255,0.06) 0%, rgba(0,212,255,0.02) 40%, transparent 70%);
+    filter: blur(30px);
+  }
+
+  /* ===== FOUNDERS (FounderCards component) ===== */
+  :global(.founders) { opacity: 0; }
+
+  /* ===== CTA ===== */
+  .about__cta {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    margin-top: clamp(2.5rem, 5vh, 4rem);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.25rem 3.5rem;
+    font: 700 1.1rem/1 var(--font-body);
+    border-radius: 100px;
+    text-decoration: none;
+    background: transparent;
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0,212,255,0.3);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .btn-outline:hover {
+    background: rgba(0,212,255,0.08);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 25px rgba(0,212,255,0.2);
+  }
+
+  /* ===== USP GLASS CARDS ===== */
+  .about__usps {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: clamp(3rem, 5vh, 5rem);
+  }
+  @media (min-width: 768px) {
+    .about__usps {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .about__usp {
+    position: relative;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+    background: rgba(17, 17, 24, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .about__usp:hover {
+    border-color: rgba(0, 212, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 212, 255, 0.04);
+    transform: translateY(-3px);
+  }
+
+  .about__usp-label {
+    display: block;
+    font: 600 0.65rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+  }
+
+  .about__usp-title {
+    font: 800 clamp(1.1rem, 1.8vw, 1.35rem)/1.2 var(--font-heading);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+
+  .about__usp-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .about__usp-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.4rem 0.75rem;
+    font: 600 0.65rem/1.3 var(--font-mono);
+    color: var(--accent-cyan);
+    background: rgba(0, 212, 255, 0.06);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    border-radius: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about__usp { transition: none; }
+  }
+
+  /* ===== FOUNDER QUOTE ===== */
+  .about__quote {
+    position: relative;
+    z-index: 3;
+    margin: clamp(2.5rem, 4vh, 4rem) 0 0;
+    padding: 1.5rem 0 1.5rem 1.5rem;
+    border-left: 2px solid var(--accent-cyan);
+    max-width: 700px;
+  }
+
+  .about__quote p {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 0.75rem;
+  }
+
+  .about__quote cite {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    font-style: normal;
+  }
+
+  /* ===== SCROLL ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideRight {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideLeft {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes scaleInFaded {
+    from { opacity: 0; transform: translate(-50%,-50%) scale(0.9); }
+    to { opacity: 0.35; transform: translate(-50%,-50%) scale(1); }
+  }
+
+  /* All animated elements start hidden */
+  .about__giant span,
+  .about__intro,
+  .about__right-label span,
+  .about__mission-label,
+  .about__mission-text,
+  .about__value,
+  .about__usp,
+  .about__cta,
+  .timito-visual,
+  .corner {
+    opacity: 0;
+  }
+
+  /* Giant text — staggered slide in */
+  .about.is-visible .about__giant span { animation: slideRight 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
+  .about.is-visible .about__giant span:nth-child(1) { animation-delay: 0.1s; }
+  .about.is-visible .about__giant span:nth-child(2) { animation-delay: 0.2s; }
+  .about.is-visible .about__giant span:nth-child(3) { animation-delay: 0.35s; }
+  .about.is-visible .about__giant span:nth-child(4) { animation-delay: 0.5s; }
+
+  /* Intro text */
+  .about.is-visible .about__intro { animation: fadeUp 0.7s cubic-bezier(0.25,1,0.5,1) 0.65s forwards; }
+
+  /* Mascot */
+  .about.is-visible .timito-visual { animation: scaleInFaded 1.2s cubic-bezier(0.16,1,0.3,1) 0.3s forwards; }
+
+  /* Right label */
+  .about.is-visible .about__right-label span { animation: slideLeft 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
+  .about.is-visible .about__right-label span:nth-child(1) { animation-delay: 0.4s; }
+  .about.is-visible .about__right-label span:nth-child(2) { animation-delay: 0.55s; }
+
+  /* Mission */
+  .about.is-visible .about__mission-label { animation: fadeUp 0.6s cubic-bezier(0.25,1,0.5,1) 0.7s forwards; }
+  .about.is-visible .about__mission-text { animation: fadeUp 0.6s cubic-bezier(0.25,1,0.5,1) 0.85s forwards; }
+
+  /* Values */
+  .about.is-visible .about__value { animation: fadeUp 0.6s cubic-bezier(0.25,1,0.5,1) forwards; }
+  .about.is-visible .about__value:nth-child(1) { animation-delay: 1.0s; }
+  .about.is-visible .about__value:nth-child(2) { animation-delay: 1.15s; }
+  .about.is-visible .about__value:nth-child(3) { animation-delay: 1.3s; }
+
+  /* Founders */
+  .about.is-visible :global(.founders) { animation: fadeUp 0.7s cubic-bezier(0.25,1,0.5,1) 1.4s forwards; }
+
+  /* USP Cards — staggered */
+  .about.is-visible .about__usp { animation: fadeUp 0.6s cubic-bezier(0.25,1,0.5,1) forwards; }
+  .about.is-visible .about__usp:nth-child(1) { animation-delay: 1.4s; }
+  .about.is-visible .about__usp:nth-child(2) { animation-delay: 1.55s; }
+  .about.is-visible .about__usp:nth-child(3) { animation-delay: 1.7s; }
+
+  /* CTA */
+  .about.is-visible .about__cta { animation: fadeUp 0.6s cubic-bezier(0.25,1,0.5,1) 1.85s forwards; }
+
+  /* Corners */
+  .about.is-visible .corner { animation: fadeIn 0.5s cubic-bezier(0.25,1,0.5,1) forwards; }
+  .about.is-visible .corner--tl { animation-delay: 0.05s; }
+  .about.is-visible .corner--tr { animation-delay: 0.15s; }
+  .about.is-visible .corner--bl { animation-delay: 1.4s; }
+  .about.is-visible .corner--br { animation-delay: 1.5s; }
+
+  /* ===== RESPONSIVE: 1100px ===== */
+  @media (max-width: 1100px) {
+    @keyframes scaleInTablet {
+      from { opacity: 0; transform: translate(-50%,-50%) scale(0.9); }
+      to { opacity: 0.12; transform: translate(-50%,-50%) scale(1); }
+    }
+    .about.is-visible .timito-visual { animation-name: scaleInTablet; }
+    .about__right { padding-left: 1.5rem; }
+  }
+
+  /* ===== RESPONSIVE: 768px ===== */
+  @media (max-width: 768px) {
+    .about {
+      padding: 5rem 0;
+      height: auto;
+    }
+
+    .about::after { left: 1.25rem; right: 1.25rem; }
+
+    .about__grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .about__typo { padding-right: 0; }
+
+    .about__giant {
+      font-size: clamp(2.2rem, 12vw, 3.5rem);
+      line-height: 0.95;
+    }
+
+    .about__giant .line-muted { -webkit-text-stroke-width: 1px; }
+
+    .about__intro {
+      margin-top: 1.5rem;
+      max-width: 100%;
+      font-size: 0.9rem;
+    }
+
+    .about__right {
+      padding-left: 0;
+      gap: 2rem;
+    }
+
+    .about__right-label {
+      text-align: left;
+      font-size: clamp(1.6rem, 9vw, 2.5rem);
+    }
+
+    .about__mission { margin-top: 0; }
+    .about__mission-text { max-width: 100%; }
+
+    .about__values { margin-top: 0; padding-top: 0; }
+    .about__value { grid-template-columns: 1fr; gap: 0.3rem; padding: 1rem 0; }
+
+    /* Mascot — faded background on mobile */
+    .timito-visual { width: 80vw; height: 60vh; top: 30%; }
+
+    @keyframes scaleInMobile {
+      from { opacity: 0; transform: translate(-50%,-50%) scale(0.85); }
+      to { opacity: 0.06; transform: translate(-50%,-50%) scale(1); }
+    }
+    .about.is-visible .timito-visual { animation: scaleInMobile 1.5s cubic-bezier(0.16,1,0.3,1) 0.3s forwards; }
+
+    /* Switch to fadeUp on mobile */
+    .about.is-visible .about__giant span { animation-name: fadeUp; }
+    .about.is-visible .about__right-label span { animation-name: fadeUp; animation-delay: 0.4s; }
+    .about.is-visible .about__right-label span:nth-child(2) { animation-delay: 0.5s; }
+
+    .about__cta { margin-top: 2rem; }
+    .btn-outline { width: 100%; justify-content: center; padding: 1rem 2rem; }
+
+    .corner { width: 20px; height: 20px; }
+    .corner--tl { top: 1rem; left: 1.25rem; }
+    .corner--tr { top: 1rem; right: 1.25rem; }
+    .corner--bl { bottom: 1rem; left: 1.25rem; }
+    .corner--br { bottom: 1rem; right: 1.25rem; }
+  }
+
+  /* ===== RESPONSIVE: 400px ===== */
+  @media (max-width: 400px) {
+    .about__giant { font-size: clamp(1.8rem, 13vw, 2.5rem); }
+    .about__right-label { font-size: clamp(1.4rem, 10vw, 2rem); }
+  }
+</style>

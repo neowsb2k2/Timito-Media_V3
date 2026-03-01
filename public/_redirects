@@ -1,0 +1,14 @@
+# Alte Webflow URLs → neue Anchors
+/kontakt          /#kontakt          302
+/team             /#team             302
+/leistungen       /#leistungen       302
+/faq              /#faq              302
+
+# Service page redirects (Webflow → Astro)
+/google-ads             /leistungen/google-ads          301
+/social-ads             /leistungen/social-ads           301
+/server-side-tracking   /leistungen/server-side-tracking 301
+/webdesign              /leistungen/webdesign            301
+/ui-ux-design           /leistungen/ui-ux-design         301
+/strategie-beratung     /leistungen/strategie-beratung   301
+/strategy               /leistungen/strategie-beratung   301

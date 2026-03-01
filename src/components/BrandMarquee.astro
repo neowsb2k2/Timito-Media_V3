@@ -1,0 +1,85 @@
+---
+/**
+ * BrandMarquee.astro
+ * CSS-only infinite scrolling logo marquee with real client logos.
+ */
+
+const logos = [
+  { src: '/assets/images/logos/esmee.webp', alt: 'Esmée' },
+  { src: '/assets/images/logos/iamcreative.png', alt: 'I AM CREATIVE' },
+  { src: '/assets/images/logos/safehometec.png', alt: 'SafeHomeTec' },
+];
+---
+
+<div class="marquee" aria-label="Unsere Kunden">
+  <div class="marquee__track">
+    <div class="marquee__items">
+      {/* Double the logos for seamless loop */}
+      {[...logos, ...logos, ...logos, ...logos].map((logo) => (
+        <div class="marquee__item">
+          <img src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-surface);
+  }
+
+  .marquee__track {
+    overflow: hidden;
+  }
+
+  .marquee__items {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    animation: scroll 25s linear infinite;
+    width: max-content;
+  }
+
+  .marquee__item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    overflow: hidden;
+  }
+
+  .marquee__item img {
+    height: 28px;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+    opacity: 0.45;
+    filter: grayscale(1) brightness(0) invert(1);
+    transition: opacity var(--duration) var(--ease);
+  }
+
+  .marquee__item:hover img {
+    opacity: 0.9;
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__items {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,109 @@
+---
+/**
+ * Terminal.astro
+ * macOS-style terminal contact info box — brand element.
+ * Displays key contact details in a cyberpunk code-terminal aesthetic.
+ */
+---
+
+<aside class="terminal" aria-label="Kontaktinformationen">
+  <div class="terminal__header">
+    <span class="terminal__dot terminal__dot--red"></span>
+    <span class="terminal__dot terminal__dot--yellow"></span>
+    <span class="terminal__dot terminal__dot--green"></span>
+    <code>secure_contact.sh</code>
+  </div>
+  <div class="terminal__body">
+    <dl class="terminal__list">
+      <dt>EMAIL</dt><dd><a href="mailto:office@timito-media.at">office@timito-media.at</a></dd>
+      <dt>PHONE</dt><dd><a href="tel:+436642364117">+43 664 236 4117</a></dd>
+      <dt>LOCATION</dt><dd>Würflach, Niederösterreich · AT</dd>
+      <dt>RESPONSE</dt><dd>Innerhalb von 24h (Werktage)</dd>
+    </dl>
+  </div>
+</aside>
+
+<style>
+  /* ------------------------------------------------------------------
+     Terminal shell
+     ------------------------------------------------------------------ */
+  .terminal {
+    background: #0b1412;
+    border: 1px solid rgba(63, 185, 80, 0.15);
+    border-radius: var(--radius);
+    overflow: hidden;
+    font-family: var(--font-mono);
+  }
+
+  /* ------------------------------------------------------------------
+     Header — traffic-light dots + filename
+     ------------------------------------------------------------------ */
+  .terminal__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: #0e1916;
+    border-bottom: 1px solid rgba(63, 185, 80, 0.12);
+  }
+
+  .terminal__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .terminal__dot--red    { background: #ff5f57; }
+  .terminal__dot--yellow { background: #ffbd2e; }
+  .terminal__dot--green  { background: #28c840; }
+
+  .terminal__header code {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: auto;
+  }
+
+  /* ------------------------------------------------------------------
+     Body — definition list
+     ------------------------------------------------------------------ */
+  .terminal__body {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  .terminal__list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem 1.25rem;
+    align-items: baseline;
+    margin: 0;
+  }
+
+  .terminal__list dt {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-cyan);
+    white-space: nowrap;
+  }
+
+  .terminal__list dd {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .terminal__list dd a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color var(--duration) var(--ease);
+  }
+
+  .terminal__list dd a:hover {
+    color: var(--accent-cyan);
+  }
+</style>

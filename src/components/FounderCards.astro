@@ -1,0 +1,542 @@
+---
+/**
+ * FounderCards.astro
+ * Replaces the small circle-to-popup founder section in About.astro.
+ * Two large cards side by side — each expands on hover to reveal
+ * bullet-point facts and stats. Cyberpunk-styled with accent colors.
+ */
+---
+
+<!-- Founder Cards -->
+<div class="founders" id="foundersGrid">
+
+  <!-- Christina -->
+  <div class="fcard" data-founder="christina">
+    <div class="fcard__inner">
+      <!-- Image area -->
+      <div class="fcard__img-wrap">
+        <img
+          src="/assets/team/christina.webp"
+          alt="Christina Bauer, Co-Founderin & Head of Performance Marketing"
+          width="400"
+          height="400"
+          class="fcard__img"
+          loading="lazy"
+        />
+        <div class="fcard__img-overlay"></div>
+        <span class="fcard__tag">Performance</span>
+      </div>
+
+      <!-- Always-visible info -->
+      <div class="fcard__body">
+        <span class="fcard__role">Co-Founderin</span>
+        <h3 class="fcard__name">Christina Bauer</h3>
+        <p class="fcard__title">Head of Ads &amp; Strategie</p>
+
+        <!-- Stats row -->
+        <div class="fcard__stats">
+          <div class="fcard__stat">
+            <span class="fcard__stat-val">15+</span>
+            <span class="fcard__stat-lbl">Jahre Erfahrung</span>
+          </div>
+          <div class="fcard__stat">
+            <span class="fcard__stat-val">&euro;8M+</span>
+            <span class="fcard__stat-lbl">verwaltetes Budget</span>
+          </div>
+          <div class="fcard__stat">
+            <span class="fcard__stat-val">4</span>
+            <span class="fcard__stat-lbl">EU-M&auml;rkte</span>
+          </div>
+        </div>
+
+        <!-- Expandable detail area -->
+        <div class="fcard__details">
+          <div class="fcard__details-inner">
+            <ul class="fcard__facts">
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                Google Ads, Shopping &amp; Performance Max
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                Social Ads (Meta, TikTok, LinkedIn, Pinterest)
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                Full-Funnel Strategie &amp; Budget-Allokation
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                DACH &amp; internationale Premium-Marken
+              </li>
+            </ul>
+            <p class="fcard__bio">
+              Kommt aus einer der gr&ouml;&szlig;ten Digitalagenturen &Ouml;sterreichs. Hat sechsstellige Monatsbudgets in vier M&auml;rkten gleichzeitig gesteuert. Bei Timito betreut sie dein Konto <strong>pers&ouml;nlich</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glow accent -->
+      <div class="fcard__glow" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Mike -->
+  <div class="fcard fcard--alt" data-founder="mike">
+    <div class="fcard__inner">
+      <!-- Image area -->
+      <div class="fcard__img-wrap">
+        <img
+          src="/assets/team/mike.webp"
+          alt="Mike Wendl, Co-Founder & Tracking-Architekt"
+          width="400"
+          height="400"
+          class="fcard__img"
+          loading="lazy"
+        />
+        <div class="fcard__img-overlay"></div>
+        <span class="fcard__tag">Tech &amp; Tracking</span>
+      </div>
+
+      <!-- Always-visible info -->
+      <div class="fcard__body">
+        <span class="fcard__role">Co-Founder</span>
+        <h3 class="fcard__name">Mike Wendl</h3>
+        <p class="fcard__title">Tracking-Architekt &amp; Webdesign</p>
+
+        <!-- Stats row -->
+        <div class="fcard__stats">
+          <div class="fcard__stat">
+            <span class="fcard__stat-val">50+</span>
+            <span class="fcard__stat-lbl">Tracking-Setups</span>
+          </div>
+          <div class="fcard__stat">
+            <span class="fcard__stat-val">35%</span>
+            <span class="fcard__stat-lbl">mehr Conversions</span>
+          </div>
+          <div class="fcard__stat">
+            <span class="fcard__stat-val">&lt;2s</span>
+            <span class="fcard__stat-lbl">Ladezeiten</span>
+          </div>
+        </div>
+
+        <!-- Expandable detail area -->
+        <div class="fcard__details">
+          <div class="fcard__details-inner">
+            <ul class="fcard__facts">
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                GTM Server-Side, Meta CAPI, Enhanced Conversions
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                GA4, Consent Mode v2, Stape.io &amp; Google Cloud
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                Conversion-optimiertes Webdesign (Astro, Webflow)
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                DSGVO-konforme Daten-Infrastruktur
+              </li>
+            </ul>
+            <p class="fcard__bio">
+              Baut die technische Infrastruktur hinter jeder Kampagne. Von Server-Side Tracking bis zur Landing Page &mdash; alles aus einer Hand. <strong>Daten-Architekt, kein Pixelschubser.</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glow accent -->
+      <div class="fcard__glow" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Senior-Expertise Statement -->
+  <div class="founders__statement reveal">
+    <span class="founders__statement-label">// 15 Jahre &middot; 4 M&auml;rkte &middot; Premium-Brands</span>
+    <h2 class="founders__statement-heading">Senior-Expertise. <span class="text-cyan">Direkte Verantwortung.</span></h2>
+    <p class="founders__statement-text">Christina hat bei einer der gr&ouml;&szlig;ten Digitalagenturen &Ouml;sterreichs Performance-Budgets im sechsstelligen Monatsbereich f&uuml;r Premium-Marken in vier europ&auml;ischen M&auml;rkten verantwortet. Mike entwickelt technische Marketing-Infrastruktur auf Enterprise-Niveau. Du arbeitest direkt mit beiden &mdash; kein Account Manager, kein Handover, keine Delegation.</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* Accessibility: toggle expanded state for keyboard/screen readers */
+  const cards = document.querySelectorAll('.fcard');
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => card.classList.add('is-expanded'));
+    card.addEventListener('mouseleave', () => card.classList.remove('is-expanded'));
+    /* Allow focus-within for keyboard users */
+    card.addEventListener('focusin', () => card.classList.add('is-expanded'));
+    card.addEventListener('focusout', (e) => {
+      if (!card.contains(e.relatedTarget)) card.classList.remove('is-expanded');
+    });
+  });
+})();
+</script>
+
+<style>
+  /* ===== GRID ===== */
+  .founders {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: clamp(3rem, 5vh, 4.5rem);
+  }
+
+  /* ===== CARD ===== */
+  .fcard {
+    --fc: 0, 212, 255;   /* Christina: cyan */
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .fcard--alt {
+    --fc: 63, 185, 80;    /* Mike: green */
+  }
+
+  .fcard__inner {
+    position: relative;
+    background: rgba(17, 17, 24, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(var(--fc), 0.12);
+    border-radius: 16px;
+    overflow: hidden;
+    transition:
+      border-color 0.45s ease,
+      box-shadow 0.45s ease,
+      transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fcard.is-expanded .fcard__inner,
+  .fcard:hover .fcard__inner {
+    border-color: rgba(var(--fc), 0.35);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.35),
+      0 0 30px rgba(var(--fc), 0.08),
+      inset 0 0 60px rgba(var(--fc), 0.02);
+  }
+
+  /* ===== IMAGE ===== */
+  .fcard__img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .fcard__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(80%) brightness(0.85);
+    transition: filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fcard.is-expanded .fcard__img,
+  .fcard:hover .fcard__img {
+    filter: grayscale(0%) brightness(1);
+    transform: scale(1.04);
+  }
+
+  .fcard__img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 40%,
+      rgba(10, 10, 15, 0.6) 70%,
+      rgba(10, 10, 15, 0.95) 100%
+    );
+    pointer-events: none;
+  }
+
+  .fcard__tag {
+    position: absolute;
+    top: 0.875rem;
+    left: 0.875rem;
+    padding: 0.3rem 0.65rem;
+    font: 600 0.6rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgb(var(--fc));
+    background: rgba(10, 10, 15, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--fc), 0.2);
+    border-radius: 6px;
+    z-index: 2;
+  }
+
+  /* ===== BODY ===== */
+  .fcard__body {
+    padding: 1.5rem 1.5rem 1.75rem;
+  }
+
+  .fcard__role {
+    display: block;
+    font: 600 0.65rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgb(var(--fc));
+    margin-bottom: 0.4rem;
+  }
+
+  .fcard__name {
+    font: 800 clamp(1.25rem, 2vw, 1.5rem)/1.15 var(--font-heading);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .fcard__title {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+    line-height: 1.4;
+  }
+
+  /* ===== STATS ROW ===== */
+  .fcard__stats {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(var(--fc), 0.1);
+  }
+
+  .fcard__stat {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .fcard__stat-val {
+    display: block;
+    font: 800 clamp(1rem, 1.5vw, 1.25rem)/1 var(--font-heading);
+    color: rgb(var(--fc));
+    white-space: nowrap;
+  }
+
+  .fcard__stat-lbl {
+    display: block;
+    font: 500 0.65rem/1.3 var(--font-mono);
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+    letter-spacing: 0.02em;
+  }
+
+  /* ===== DETAILS — absolute overlay pill ===== */
+  .fcard__details {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 5;
+    border-radius: 16px;
+    background: rgba(12, 12, 20, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(var(--fc), 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+    pointer-events: none;
+    transition:
+      opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+      transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .fcard.is-expanded .fcard__details,
+  .fcard:hover .fcard__details {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .fcard__details-inner {
+    padding: 1.25rem;
+  }
+
+  .fcard__facts {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .fcard__facts li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .fcard__facts li svg {
+    color: rgb(var(--fc));
+    flex-shrink: 0;
+  }
+
+  /* Staggered reveal on expand */
+  .fcard.is-expanded .fcard__facts li,
+  .fcard:hover .fcard__facts li {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .fcard.is-expanded .fcard__facts li:nth-child(1),
+  .fcard:hover .fcard__facts li:nth-child(1) { transition-delay: 0.08s; }
+  .fcard.is-expanded .fcard__facts li:nth-child(2),
+  .fcard:hover .fcard__facts li:nth-child(2) { transition-delay: 0.14s; }
+  .fcard.is-expanded .fcard__facts li:nth-child(3),
+  .fcard:hover .fcard__facts li:nth-child(3) { transition-delay: 0.2s; }
+  .fcard.is-expanded .fcard__facts li:nth-child(4),
+  .fcard:hover .fcard__facts li:nth-child(4) { transition-delay: 0.26s; }
+
+  .fcard__bio {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    opacity: 0;
+    transition: opacity 0.4s ease 0.25s;
+  }
+
+  .fcard.is-expanded .fcard__bio,
+  .fcard:hover .fcard__bio {
+    opacity: 1;
+  }
+
+  .fcard__bio strong {
+    color: var(--text-primary);
+  }
+
+  /* ===== SENIOR-EXPERTISE STATEMENT ===== */
+  .founders__statement {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-top: clamp(3rem, 6vw, 5rem);
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  .founders__statement-label {
+    display: inline-block;
+    font: 600 0.7rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-cyan);
+    margin-bottom: 1.25rem;
+  }
+
+  .founders__statement-heading {
+    font: 900 clamp(1.75rem, 4.5vw, 3rem)/1.05 var(--font-heading);
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+  }
+
+  .founders__statement-text {
+    font-size: clamp(0.875rem, 1.1vw, 1rem);
+    color: var(--text-secondary);
+    line-height: 1.75;
+    max-width: 640px;
+    margin-inline: auto;
+  }
+
+  /* ===== GLOW ===== */
+  .fcard__glow {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(var(--fc), 0.08), transparent 70%);
+    filter: blur(30px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+  }
+
+  .fcard.is-expanded .fcard__glow,
+  .fcard:hover .fcard__glow {
+    opacity: 1;
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 768px) {
+    .founders {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .fcard__img-wrap {
+      aspect-ratio: 16 / 8;
+    }
+
+    .fcard__stats {
+      gap: 0.75rem;
+    }
+
+    .fcard__body {
+      padding: 1.25rem;
+    }
+
+    /* On mobile, show details inline instead of overlay */
+    .fcard .fcard__details {
+      position: static;
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      background: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .fcard .fcard__details-inner {
+      padding: 0;
+    }
+    .fcard .fcard__facts li {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .fcard .fcard__bio {
+      opacity: 1;
+    }
+    .fcard .fcard__img {
+      filter: grayscale(0%) brightness(1);
+    }
+    .fcard .fcard__inner {
+      border-color: rgba(var(--fc), 0.2);
+    }
+  }
+
+  /* ===== REDUCED MOTION ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .fcard__inner { transition: none; }
+    .fcard__img { transition: none; }
+    .fcard__details { transition: none; transform: none; }
+    .fcard__facts li { transition: none; opacity: 1; transform: none; }
+    .fcard__bio { transition: none; opacity: 1; }
+    .fcard__glow { transition: none; }
+  }
+</style>

@@ -1,0 +1,77 @@
+---
+/**
+ * blog/index.astro
+ * Blog overview page — lists all published blog posts.
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import SectionLabel from '../../components/SectionLabel.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+---
+
+<BaseLayout
+  title="Blog — Timito Media"
+  description="Praxisnahe Guides zu Google Ads, Server-Side Tracking und Performance Marketing. Wissen aus 15 Jahren Erfahrung."
+  canonical="https://timito-media.at/blog"
+>
+  <Header />
+  <main class="blog-page">
+    <section class="section">
+      <div class="container">
+        <SectionLabel text="Blog" />
+        <h1>Tracking-Wissen das konvertiert.</h1>
+        <p class="blog-page__sub">Praxisnahe Guides aus 15 Jahren Performance Marketing.</p>
+        <div class="blog-page__grid">
+          {posts.map((post) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              slug={post.slug}
+              category={post.data.category}
+              readTime={post.data.readTime}
+              publishDate={post.data.publishDate}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .blog-page h1 {
+    margin-bottom: 0.75rem;
+  }
+
+  .blog-page__sub {
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    max-width: 500px;
+  }
+
+  .blog-page__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .blog-page__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .blog-page__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

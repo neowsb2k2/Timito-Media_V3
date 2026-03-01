@@ -1,0 +1,70 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import SplitWords from './SplitWords.astro';
+
+interface Props {
+  faqs: Array<{ question: string; answer: string }>;
+  colorRGB: string;
+}
+
+const { faqs, colorRGB } = Astro.props;
+const accordionId = `svc-faq-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<section class="svc-faq section" style={`--svc-c: ${colorRGB}`}>
+  <div class="container">
+    <SectionLabel text="// FAQ" />
+    <h2 class="svc-faq__title" data-split-reveal style="overflow:hidden"><SplitWords text="Häufig gestellte Fragen" gap="0.28em" /></h2>
+    <div class="svc-faq__list" id={accordionId}>
+      {faqs.map((faq, i) => (
+        <div class="svc-faq__item reveal">
+          <button
+            class="svc-faq__trigger"
+            type="button"
+            aria-expanded="false"
+            aria-controls={`${accordionId}-panel-${i}`}
+          >
+            <span class="svc-faq__num">/{String(i + 1).padStart(2, '0')}</span>
+            <span class="svc-faq__question">{faq.question}</span>
+            <span class="svc-faq__toggle" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </span>
+          </button>
+          <div class="svc-faq__panel" id={`${accordionId}-panel-${i}`}>
+            <div>
+              <div class="svc-faq__answer">
+                <p>{faq.answer}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.svc-faq__list').forEach(accordion => {
+    const items = accordion.querySelectorAll('.svc-faq__item');
+
+    function toggle(item: Element) {
+      const isOpen = item.classList.contains('is-open');
+      items.forEach(i => {
+        i.classList.remove('is-open');
+        i.querySelector('.svc-faq__trigger')?.setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('is-open');
+        item.querySelector('.svc-faq__trigger')?.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    items.forEach(item => {
+      const trigger = item.querySelector('.svc-faq__trigger');
+      if (!trigger) return;
+      trigger.addEventListener('click', () => toggle(item));
+    });
+  });
+</script>

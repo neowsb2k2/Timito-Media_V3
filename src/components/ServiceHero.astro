@@ -1,0 +1,44 @@
+---
+import SectionLabel from './SectionLabel.astro';
+
+interface Props {
+  sectionLabel: string;
+  headline: string;
+  subline: string;
+  ctaPrimary: string;
+  ctaSecondary: string;
+  stats: Array<{ value: string; label: string; prefix?: string; suffix?: string }>;
+  color: string;
+  colorRGB: string;
+}
+
+const { sectionLabel, headline, subline, ctaPrimary, ctaSecondary, stats, colorRGB } = Astro.props;
+
+// Split headline on em-dash to color the first part in service accent
+const dashIndex = headline.indexOf('—');
+const headlineAccent = dashIndex > 0 ? headline.slice(0, dashIndex).trim().replace(/\u00a0$/, '') : '';
+const headlineRest = dashIndex > 0 ? '— ' + headline.slice(dashIndex + 1).trim() : headline;
+const headlineHtml = headlineAccent
+  ? `<span class="svc-hero__h1-accent">${headlineAccent}</span> ${headlineRest}`
+  : headline;
+---
+
+<section id="hero" class="svc-hero section" style={`--svc-c: ${colorRGB}`}>
+  <div class="container">
+    <SectionLabel text={sectionLabel} />
+    <h1 class="svc-hero__h1 reveal" set:html={headlineHtml} />
+    <p class="svc-hero__sub reveal">{subline}</p>
+    <div class="svc-hero__cta reveal">
+      <a href="#kontakt" class="btn-primary btn--lg" data-magnetic>{ctaPrimary} ↗</a>
+      <a href="#problem" class="btn-ghost btn--lg" data-magnetic>{ctaSecondary}</a>
+    </div>
+    <div class="svc-hero__stats reveal-stagger">
+      {stats.map(s => (
+        <div class="svc-hero__stat">
+          <span class="svc-hero__stat-value">{s.prefix}{s.value}{s.suffix}</span>
+          <span class="svc-hero__stat-label">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

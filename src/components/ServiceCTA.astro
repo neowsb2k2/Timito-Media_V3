@@ -1,0 +1,31 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import SplitWords from './SplitWords.astro';
+
+interface Props {
+  colorRGB: string;
+  relatedServices?: Array<{ slug: string; name: string }>;
+}
+
+const { colorRGB, relatedServices = [] } = Astro.props;
+---
+
+<section id="kontakt" class="svc-cta section" style={`--svc-c: ${colorRGB}`}>
+  <div class="container">
+    <SectionLabel text="// Nächster Schritt" />
+    <h2 class="svc-cta__title" data-split-reveal style="overflow:hidden"><SplitWords text="Bereit für messbare Ergebnisse?" gap="0.28em" /></h2>
+    <p class="svc-cta__sub reveal">30 Minuten. Ehrliche Analyse. Konkrete Empfehlungen — auch wenn wir nicht zusammenarbeiten. Kein Pitch, kein Druck.</p>
+    <div class="reveal">
+      <a href="/#kontakt" class="btn-primary btn--lg" data-magnetic>Kostenloses Erstgespräch ↗</a>
+    </div>
+
+    {relatedServices.length > 0 && (
+      <div class="svc-related reveal">
+        <span style="font: 500 0.7rem/1 var(--font-mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-right: 0.5rem;">Weitere Leistungen:</span>
+        {relatedServices.map(s => (
+          <a href={`/leistungen/${s.slug}`} class="svc-related__link">{s.name} →</a>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
