@@ -9,10 +9,20 @@ interface Props {
 }
 
 const { title, description, slug, category, readTime, publishDate } = Astro.props;
+
+const categoryColorMap: Record<string, string> = {
+  Tracking: '5, 223, 114',
+  'Google Ads': '0, 212, 255',
+  'Social Ads': '255, 45, 120',
+  Webdesign: '255, 214, 0',
+  Strategie: '168, 85, 247',
+};
+
+const rgb = categoryColorMap[category] || '0, 212, 255';
 ---
 
-<a href={`/blog/${slug}`} class="blog-card reveal">
-  <!-- Image placeholder -->
+<a href={`/blog/${slug}`} class="blog-card reveal" style={`--cat: ${rgb};`}>
+  <!-- Image placeholder with category gradient -->
   <div class="blog-card__image" aria-label={`Cover für: ${title}`}>
     <span class="blog-card__category">{category}</span>
   </div>
@@ -34,24 +44,31 @@ const { title, description, slug, category, readTime, publishDate } = Astro.prop
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border);
+    border-top: 2px solid rgba(var(--cat), 0.5);
     border-radius: var(--radius);
     overflow: hidden;
     text-decoration: none;
     color: inherit;
     transition:
       transform var(--duration) var(--ease),
-      border-color var(--duration) var(--ease);
+      border-color var(--duration) var(--ease),
+      box-shadow 0.4s ease;
   }
 
   .blog-card:hover {
     transform: translateY(-2px);
-    border-color: var(--border-hover);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1), 0 0 50px rgba(0, 212, 255, 0.04);
+    border-color: rgba(var(--cat), 0.35);
+    border-top-color: rgb(var(--cat));
+    box-shadow:
+      0 0 20px rgba(var(--cat), 0.1),
+      0 0 50px rgba(var(--cat), 0.04);
   }
 
   .blog-card__image {
     height: 180px;
-    background: linear-gradient(135deg, var(--bg-surface), var(--bg-card-hover));
+    background:
+      linear-gradient(135deg, rgba(var(--cat), 0.08), transparent 60%),
+      linear-gradient(135deg, var(--bg-surface), var(--bg-card-hover));
     position: relative;
     display: flex;
     align-items: flex-end;
@@ -64,11 +81,11 @@ const { title, description, slug, category, readTime, publishDate } = Astro.prop
     text-transform: uppercase;
     letter-spacing: 0.1em;
     padding: 0.25rem 0.75rem;
-    background: rgba(0, 212, 255, 0.1);
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    background: rgba(var(--cat), 0.1);
+    border: 1px solid rgba(var(--cat), 0.25);
     border-radius: 999px;
-    color: var(--accent-cyan);
-    box-shadow: 0 0 8px rgba(0, 212, 255, 0.1);
+    color: rgb(var(--cat));
+    box-shadow: 0 0 8px rgba(var(--cat), 0.1);
   }
 
   .blog-card__body {

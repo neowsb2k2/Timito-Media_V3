@@ -1,0 +1,286 @@
+---
+/**
+ * leistungen/index.astro
+ * Services overview page — links to all 7 service detail pages.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SectionLabel from '../../components/SectionLabel.astro';
+import { services } from '../../data/services';
+
+const siteUrl = 'https://timito-media.at';
+
+const slugMap: Record<string, string> = {
+  'webdesign-entwicklung': 'webdesign',
+};
+
+const colorMap: Record<string, string> = {
+  green: '5, 223, 114',
+  cyan: '0, 212, 255',
+  pink: '255, 45, 120',
+  yellow: '255, 214, 0',
+  orange: '255, 140, 66',
+  purple: '168, 85, 247',
+  red: '220, 50, 50',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteUrl,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Leistungen',
+      item: `${siteUrl}/leistungen`,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Leistungen — Google Ads, Tracking, Webdesign & mehr | Timito Media"
+  description="Alle Leistungen auf einen Blick: Server-Side Tracking, Google Ads, Social Ads, Webdesign, UI/UX, Shop Design und Strategieberatung."
+  canonical={`${siteUrl}/leistungen`}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <Header />
+
+  <main class="leistungen-page">
+    <!-- Hero -->
+    <section class="section leistungen-page__hero">
+      <div class="container">
+        <SectionLabel text="// Leistungen" />
+        <h1 class="reveal">Alles aus einer Hand — von Tracking bis Skalierung.</h1>
+        <p class="leistungen-page__sub reveal">
+          Full-Service Performance Marketing: Wir verbinden datengetriebenes Tracking mit kreativer Umsetzung — für messbares Wachstum.
+        </p>
+      </div>
+    </section>
+
+    <!-- Service Cards Grid -->
+    <section class="section leistungen-page__grid-section">
+      <div class="container">
+        <div class="leistungen-page__grid">
+          {services.map((service) => {
+            const rgb = colorMap[service.color] || '0, 212, 255';
+            const href = `/leistungen/${slugMap[service.slug] || service.slug}`;
+            return (
+              <a
+                href={href}
+                class="service-card reveal"
+                style={`--sc: ${rgb};`}
+              >
+                <div class="service-card__icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={`rgb(${rgb})`} stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d={service.iconPath} />
+                  </svg>
+                </div>
+                <h3 class="service-card__name">{service.name}</h3>
+                <p class="service-card__tagline">{service.tagline}</p>
+                <div class="service-card__proof">
+                  <span class="service-card__proof-num">{service.proofNum}</span>
+                  <span class="service-card__proof-label">{service.proofLabel}</span>
+                </div>
+                <span class="service-card__cta">
+                  Details
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="section leistungen-page__cta">
+      <div class="container">
+        <div class="leistungen-page__cta-card reveal">
+          <h2>Nicht sicher welche Leistung?</h2>
+          <p>Im kostenlosen Erstgespräch analysieren wir dein Setup und empfehlen den richtigen Startpunkt.</p>
+          <a href="/kontakt" class="btn-primary">Gespräch vereinbaren</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ===== HERO ===== */
+  .leistungen-page__hero {
+    padding-top: clamp(8rem, 16vw, 12rem);
+    padding-bottom: 0;
+  }
+
+  .leistungen-page__hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 1rem;
+    max-width: 800px;
+  }
+
+  .leistungen-page__sub {
+    color: var(--text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  /* ===== GRID ===== */
+  .leistungen-page__grid-section {
+    padding-top: 2rem;
+  }
+
+  .leistungen-page__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .leistungen-page__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .leistungen-page__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ===== SERVICE CARD ===== */
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      transform var(--duration) var(--ease),
+      border-color var(--duration) var(--ease),
+      box-shadow 0.4s ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(var(--sc), 0.4);
+    box-shadow:
+      0 0 25px rgba(var(--sc), 0.12),
+      0 0 60px rgba(var(--sc), 0.04);
+  }
+
+  .service-card__icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(var(--sc), 0.2);
+    border-radius: 12px;
+    background: rgba(var(--sc), 0.06);
+    margin-bottom: 1.25rem;
+  }
+
+  .service-card__name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .service-card__tagline {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .service-card__proof {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.6rem 0.85rem;
+    background: rgba(var(--sc), 0.06);
+    border: 1px solid rgba(var(--sc), 0.12);
+    border-radius: 8px;
+    margin-bottom: 1.25rem;
+  }
+
+  .service-card__proof-num {
+    font: 800 1.125rem/1 var(--font-heading);
+    color: rgb(var(--sc));
+    white-space: nowrap;
+  }
+
+  .service-card__proof-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.3;
+  }
+
+  .service-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font: 600 0.85rem/1 var(--font-body);
+    color: rgb(var(--sc));
+    transition: gap var(--duration) var(--ease);
+  }
+
+  .service-card:hover .service-card__cta {
+    gap: 0.65rem;
+  }
+
+  .service-card__cta svg {
+    transition: transform var(--duration) var(--ease);
+  }
+
+  .service-card:hover .service-card__cta svg {
+    transform: translateX(2px);
+  }
+
+  /* ===== BOTTOM CTA ===== */
+  .leistungen-page__cta-card {
+    text-align: center;
+    padding: 3.5rem 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    max-width: 640px;
+    margin-inline: auto;
+  }
+
+  .leistungen-page__cta-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .leistungen-page__cta-card p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+</style>

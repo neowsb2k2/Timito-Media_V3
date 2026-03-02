@@ -31,7 +31,7 @@ const ctaMap: Record<string, string> = {
   <div class="services__watermark" aria-hidden="true">LEISTUNGEN</div>
   <div class="container">
     <SectionLabel text="Unsere Leistungen" />
-    <h2 class="services__title" data-split-reveal style="overflow:hidden"><SplitWords text="Alles was du brauchst. Nichts was du nicht brauchst." gap="0.28em" /></h2>
+    <h2 class="services__title" data-split-reveal style="overflow:hidden"><SplitWords text="Unsere Leistungen — " gap="0.28em" /><span class="text-cyan"><SplitWords text="das Komplettpaket für Wachstum." gap="0.28em"/></span></h2>
 
     <div class="acc" id="servicesAccordion">
       {services.map((service, i) => (
@@ -173,6 +173,7 @@ const ctaMap: Record<string, string> = {
   .acc-item[data-color="yellow"] { --c: 255, 214, 0;    --c-text: #000; }
   .acc-item[data-color="orange"] { --c: 255, 140, 66;  --c-text: #000; }
   .acc-item[data-color="purple"] { --c: 168, 85, 247;  --c-text: #fff; }
+  .acc-item[data-color="red"]    { --c: 220, 50, 50;   --c-text: #fff; }
 
   /* ===== ACCORDION ITEM ===== */
   .acc-item {
@@ -565,5 +566,7 @@ const ctaMap: Record<string, string> = {
     .acc-num {
       font-size: 0.9rem;
     }
+    .text-cyan {
+      color: var(--accent-cyan);
   }
 </style>

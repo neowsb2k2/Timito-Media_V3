@@ -1,0 +1,159 @@
+---
+/**
+ * kontakt.astro
+ * Dedicated contact page with trust intro section and reused Contact funnel component.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import Contact from '../components/Contact.astro';
+
+const siteUrl = 'https://timito-media.at';
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Kontakt — Timito Media',
+  url: `${siteUrl}/kontakt`,
+  mainEntity: {
+    '@type': 'Organization',
+    name: 'Timito Media',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+43 664 236 4117',
+      email: 'office@timito-media.at',
+      contactType: 'customer service',
+      availableLanguage: ['German', 'English'],
+      areaServed: ['AT', 'DE', 'CH'],
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Kontakt — Gespräch vereinbaren | Timito Media"
+  description="Lass uns über dein Projekt sprechen. Kostenloses Erstgespräch mit Christina oder Mike — direkt, unverbindlich und transparent."
+  canonical={`${siteUrl}/kontakt`}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(contactSchema)} />
+  </Fragment>
+
+  <Header />
+
+  <main class="kontakt-page">
+    <!-- Trust Intro -->
+    <section class="section kontakt-page__hero">
+      <div class="container">
+        <SectionLabel text="// Kontakt" />
+        <h1 class="reveal">Lass uns über dein Projekt sprechen.</h1>
+        <div class="kontakt-page__trust-grid">
+          <div class="trust-card reveal">
+            <div class="trust-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h3>Antwort in 24h</h3>
+            <p>Kein Sales-Team, direkt Christina oder Mike.</p>
+          </div>
+          <div class="trust-card reveal">
+            <div class="trust-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h3>Keine Verpflichtung</h3>
+            <p>Erstgespräch ist immer kostenlos.</p>
+          </div>
+          <div class="trust-card reveal">
+            <div class="trust-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </div>
+            <h3>Volle Transparenz</h3>
+            <p>Du siehst was wir tun, jederzeit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reuse Contact funnel component -->
+    <Contact />
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ===== HERO ===== */
+  .kontakt-page__hero {
+    padding-top: clamp(8rem, 16vw, 12rem);
+    padding-bottom: 2rem;
+  }
+
+  .kontakt-page__hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+  }
+
+  /* ===== TRUST GRID ===== */
+  .kontakt-page__trust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .trust-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .trust-card:hover {
+    border-color: var(--border-hover);
+  }
+
+  .trust-card__icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(0, 212, 255, 0.06);
+    color: var(--accent-cyan);
+    margin-bottom: 1.25rem;
+  }
+
+  .trust-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .trust-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .kontakt-page__trust-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>

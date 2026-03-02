@@ -1,7 +1,8 @@
 ---
 /**
  * blog/index.astro
- * Blog overview page — lists all published blog posts.
+ * Redesigned blog overview — featured hero post + remaining posts grid,
+ * category color accents, bottom CTA.
  */
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -14,6 +15,19 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+const featuredPost = posts[0];
+const remainingPosts = posts.slice(1);
+
+const categoryColorMap: Record<string, string> = {
+  Tracking: '5, 223, 114',
+  'Google Ads': '0, 212, 255',
+  'Social Ads': '255, 45, 120',
+  Webdesign: '255, 214, 0',
+  Strategie: '168, 85, 247',
+};
+
+const featuredRgb = categoryColorMap[featuredPost.data.category] || '0, 212, 255';
 ---
 
 <BaseLayout
@@ -23,22 +37,73 @@ const posts = (await getCollection('blog'))
 >
   <Header />
   <main class="blog-page">
-    <section class="section">
+    <section class="section blog-page__hero-section">
       <div class="container">
-        <SectionLabel text="Blog" />
-        <h1>Tracking-Wissen das konvertiert.</h1>
-        <p class="blog-page__sub">Praxisnahe Guides aus 15 Jahren Performance Marketing.</p>
-        <div class="blog-page__grid">
-          {posts.map((post) => (
-            <BlogCard
-              title={post.data.title}
-              description={post.data.description}
-              slug={post.slug}
-              category={post.data.category}
-              readTime={post.data.readTime}
-              publishDate={post.data.publishDate}
-            />
-          ))}
+        <SectionLabel text="// Blog" />
+        <h1 class="reveal">Tracking-Wissen das konvertiert.</h1>
+        <p class="blog-page__sub reveal">Praxisnahe Guides aus 15 Jahren Performance Marketing.</p>
+      </div>
+    </section>
+
+    <!-- Featured Post -->
+    {featuredPost && (
+      <section class="section blog-page__featured-section">
+        <div class="container">
+          <a href={`/blog/${featuredPost.slug}`} class="featured-post reveal" style={`--fp: ${featuredRgb};`}>
+            <div class="featured-post__visual">
+              <span class="featured-post__badge">Neuester Beitrag</span>
+              <span class="featured-post__category">{featuredPost.data.category}</span>
+            </div>
+            <div class="featured-post__content">
+              <h2 class="featured-post__title">{featuredPost.data.title}</h2>
+              <p class="featured-post__excerpt">{featuredPost.data.description}</p>
+              <div class="featured-post__meta">
+                <span>{featuredPost.data.author}</span>
+                <span class="featured-post__meta-sep">&middot;</span>
+                <span>{featuredPost.data.readTime} Lesezeit</span>
+                <span class="featured-post__meta-sep">&middot;</span>
+                <span>{new Date(featuredPost.data.publishDate).toLocaleDateString('de-AT', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+              </div>
+              <span class="featured-post__cta">
+                Artikel lesen
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </div>
+          </a>
+        </div>
+      </section>
+    )}
+
+    <!-- Remaining Posts Grid -->
+    {remainingPosts.length > 0 && (
+      <section class="section blog-page__grid-section">
+        <div class="container">
+          <h2 class="blog-page__grid-heading reveal">Weitere Beiträge</h2>
+          <div class="blog-page__grid">
+            {remainingPosts.map((post) => (
+              <BlogCard
+                title={post.data.title}
+                description={post.data.description}
+                slug={post.slug}
+                category={post.data.category}
+                readTime={post.data.readTime}
+                publishDate={post.data.publishDate}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Bottom CTA -->
+    <section class="section blog-page__cta">
+      <div class="container">
+        <div class="blog-page__cta-card reveal">
+          <h2>Bleib am Laufenden</h2>
+          <p>Wir teilen regelmäßig Insights aus Performance Marketing, Tracking und Webdesign. Fragen? Schreib uns direkt.</p>
+          <a href="/kontakt" class="btn-primary">Kontakt aufnehmen</a>
         </div>
       </div>
     </section>
@@ -47,14 +112,153 @@ const posts = (await getCollection('blog'))
 </BaseLayout>
 
 <style>
+  /* ===== HERO ===== */
+  .blog-page__hero-section {
+    padding-top: clamp(8rem, 16vw, 12rem);
+    padding-bottom: 0;
+  }
+
   .blog-page h1 {
     margin-bottom: 0.75rem;
   }
 
   .blog-page__sub {
     color: var(--text-secondary);
-    margin-bottom: 3rem;
     max-width: 500px;
+  }
+
+  /* ===== FEATURED POST ===== */
+  .blog-page__featured-section {
+    padding-top: 2rem;
+  }
+
+  .featured-post {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-top: 2px solid rgba(var(--fp), 0.5);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition:
+      border-color var(--duration) var(--ease),
+      box-shadow 0.4s ease;
+  }
+
+  .featured-post:hover {
+    border-color: rgba(var(--fp), 0.35);
+    border-top-color: rgb(var(--fp));
+    box-shadow:
+      0 0 25px rgba(var(--fp), 0.1),
+      0 0 60px rgba(var(--fp), 0.04);
+  }
+
+  .featured-post__visual {
+    min-height: 280px;
+    background:
+      linear-gradient(135deg, rgba(var(--fp), 0.12), transparent 60%),
+      linear-gradient(135deg, var(--bg-surface), var(--bg-card-hover));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem;
+  }
+
+  .featured-post__badge {
+    font: 600 0.65rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 0.85rem;
+    background: rgba(var(--fp), 0.12);
+    border: 1px solid rgba(var(--fp), 0.25);
+    border-radius: 999px;
+    color: rgb(var(--fp));
+    width: fit-content;
+  }
+
+  .featured-post__category {
+    font: 500 0.625rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.25rem 0.75rem;
+    background: rgba(var(--fp), 0.1);
+    border: 1px solid rgba(var(--fp), 0.2);
+    border-radius: 999px;
+    color: rgb(var(--fp));
+    width: fit-content;
+    box-shadow: 0 0 8px rgba(var(--fp), 0.1);
+  }
+
+  .featured-post__content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .featured-post__title {
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  .featured-post__excerpt {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .featured-post__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-bottom: 1.5rem;
+  }
+
+  .featured-post__meta-sep {
+    color: var(--border);
+  }
+
+  .featured-post__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font: 600 0.875rem/1 var(--font-body);
+    color: rgb(var(--fp));
+    transition: gap var(--duration) var(--ease);
+  }
+
+  .featured-post:hover .featured-post__cta {
+    gap: 0.65rem;
+  }
+
+  .featured-post__cta svg {
+    transition: transform var(--duration) var(--ease);
+  }
+
+  .featured-post:hover .featured-post__cta svg {
+    transform: translateX(2px);
+  }
+
+  /* ===== REMAINING GRID ===== */
+  .blog-page__grid-section {
+    padding-top: 2rem;
+  }
+
+  .blog-page__grid-heading {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
   }
 
   .blog-page__grid {
@@ -72,6 +276,52 @@ const posts = (await getCollection('blog'))
   @media (min-width: 1024px) {
     .blog-page__grid {
       grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ===== BOTTOM CTA ===== */
+  .blog-page__cta-card {
+    text-align: center;
+    padding: 3.5rem 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    max-width: 640px;
+    margin-inline: auto;
+  }
+
+  .blog-page__cta-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .blog-page__cta-card p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .featured-post {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-post__visual {
+      min-height: 160px;
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 0.75rem;
+    }
+
+    .featured-post__content {
+      padding: 1.5rem;
+    }
+
+    .blog-page__cta-card {
+      padding: 2.5rem 1.25rem;
     }
   }
 </style>
