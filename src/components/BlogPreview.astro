@@ -17,18 +17,23 @@ const posts = (await getCollection('blog'))
       <span class="h-line line-accent" style="overflow:hidden"><SplitWords text="Praxis." /></span>
     </h2>
     <p class="blog-preview__sub">Praxisnahe Guides aus 15 Jahren Performance Marketing.</p>
-    <div class="blog-preview__grid reveal-stagger">
-      {posts.map((post) => (
-        <BlogCard
-          title={post.data.title}
-          description={post.data.description}
-          slug={post.slug}
-          category={post.data.category}
-          readTime={post.data.readTime}
-          publishDate={post.data.publishDate}
-        />
-      ))}
-    </div>
+    {posts.length > 0 ? (
+      <div class="blog-preview__grid reveal-stagger">
+        {posts.map((post) => (
+          <BlogCard
+            title={post.data.title}
+            description={post.data.description}
+            slug={post.slug}
+            category={post.data.category}
+            readTime={post.data.readTime}
+            publishDate={post.data.publishDate}
+            cover={post.data.cover}
+          />
+        ))}
+      </div>
+    ) : (
+      <p class="blog-preview__empty">Bald erscheinen hier neue Beiträge.</p>
+    )}
     <div class="blog-preview__link reveal">
       <a href="/blog">Alle Artikel lesen &rarr;</a>
     </div>
@@ -64,6 +69,12 @@ const posts = (await getCollection('blog'))
     .blog-preview__grid {
       grid-template-columns: repeat(2, 1fr);
     }
+  }
+
+  .blog-preview__empty {
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 2rem;
   }
 
   .blog-preview__link {

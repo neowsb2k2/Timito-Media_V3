@@ -1,0 +1,229 @@
+---
+/**
+ * HexGrid.astro
+ * Global background layer: floating hexagon canvas + cursor glow + SVG corner decorations.
+ * Matches timito-media.at production background.
+ * Canvas 2D (no WebGL) — 18 hexagons floating upward with mouse parallax.
+ * All CSS lives in global.css; this component only outputs HTML + the script.
+ */
+---
+
+<!-- Floating hexagon canvas -->
+<canvas id="hexCanvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.35;"></canvas>
+
+<!-- Cursor glow that follows mouse -->
+<div id="cursorGlow" aria-hidden="true"></div>
+
+<!-- Decorative corner hexagons -->
+<div class="hex-corner hex-corner--tl" aria-hidden="true">
+  <svg viewBox="0 0 80 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M40 2L78 23V69L40 90L2 69V23L40 2Z" stroke="rgba(0,212,255,0.3)" stroke-width="1.5"/>
+    <path d="M40 18L62 30V54L40 66L18 54V30L40 18Z" fill="rgba(0,212,255,0.06)" stroke="rgba(0,212,255,0.2)" stroke-width="1"/>
+    <circle cx="40" cy="46" r="4" fill="rgba(0,212,255,0.4)"/>
+  </svg>
+</div>
+<div class="hex-corner hex-corner--br" aria-hidden="true">
+  <svg viewBox="0 0 120 138" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M60 3L117 34.5V97.5L60 129L3 97.5V34.5L60 3Z" stroke="rgba(255,45,120,0.2)" stroke-width="1.5"/>
+    <path d="M60 28L88 44.5V77.5L60 94L32 77.5V44.5L60 28Z" fill="rgba(255,45,120,0.04)" stroke="rgba(255,45,120,0.15)" stroke-width="1"/>
+  </svg>
+</div>
+
+<script>
+  /* ============================================
+     HEXAGON CANVAS — Floating Background
+     ============================================ */
+  (function initHexagonCanvas() {
+    const canvas = document.getElementById('hexCanvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      canvas.style.display = 'none';
+      return;
+    }
+
+    const CONFIG = {
+      count: 18,
+      minSize: 18,
+      maxSize: 72,
+      colors: [
+        'rgba(0, 212, 255, HEX_ALPHA)',
+        'rgba(255, 45, 120, HEX_ALPHA)',
+        'rgba(0, 255, 136, HEX_ALPHA)',
+        'rgba(0, 212, 255, HEX_ALPHA)',
+      ],
+      minSpeed: 0.12,
+      maxSpeed: 0.45,
+      minRotSpeed: 0.002,
+      maxRotSpeed: 0.008,
+      minOpacity: 0.08,
+      maxOpacity: 0.28,
+    };
+
+    interface Hex {
+      x: number;
+      y: number;
+      size: number;
+      color: string;
+      opacity: number;
+      vx: number;
+      vy: number;
+      rotation: number;
+      rotSpeed: number;
+      pulsePhase: number;
+      pulseSpeed: number;
+      filled: boolean;
+      lineWidth: number;
+    }
+
+    let hexagons: Hex[] = [];
+
+    function resize() {
+      canvas!.width = window.innerWidth;
+      canvas!.height = window.innerHeight;
+    }
+
+    function rand(min: number, max: number) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createHex(initialSpawn: boolean): Hex {
+      const size = rand(CONFIG.minSize, CONFIG.maxSize);
+      const opacity = rand(CONFIG.minOpacity, CONFIG.maxOpacity);
+      const colorTemplate = CONFIG.colors[Math.floor(Math.random() * CONFIG.colors.length)];
+      const color = colorTemplate.replace('HEX_ALPHA', opacity.toFixed(2));
+
+      return {
+        x: initialSpawn ? rand(0, canvas!.width) : rand(-size * 2, canvas!.width + size * 2),
+        y: initialSpawn ? rand(0, canvas!.height) : canvas!.height + size * 2,
+        size, color, opacity,
+        vx: rand(-CONFIG.maxSpeed, CONFIG.maxSpeed) * 0.5,
+        vy: -rand(CONFIG.minSpeed, CONFIG.maxSpeed),
+        rotation: rand(0, Math.PI * 2),
+        rotSpeed: rand(CONFIG.minRotSpeed, CONFIG.maxRotSpeed) * (Math.random() > 0.5 ? 1 : -1),
+        pulsePhase: rand(0, Math.PI * 2),
+        pulseSpeed: rand(0.008, 0.02),
+        filled: Math.random() > 0.65,
+        lineWidth: rand(1, 2.5),
+      };
+    }
+
+    function drawHexagon(
+      c: CanvasRenderingContext2D,
+      x: number, y: number, size: number, rotation: number,
+      filled: boolean, color: string, lineWidth: number
+    ) {
+      c.save();
+      c.translate(x, y);
+      c.rotate(rotation);
+      c.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i;
+        const px = size * Math.cos(angle);
+        const py = size * Math.sin(angle);
+        i === 0 ? c.moveTo(px, py) : c.lineTo(px, py);
+      }
+      c.closePath();
+      if (filled) {
+        c.fillStyle = color;
+        c.fill();
+      } else {
+        c.strokeStyle = color;
+        c.lineWidth = lineWidth;
+        c.stroke();
+      }
+      c.restore();
+    }
+
+    function init() {
+      resize();
+      hexagons = Array.from({ length: CONFIG.count }, () => createHex(true));
+    }
+
+    function tick() {
+      ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
+
+      hexagons.forEach((h, i) => {
+        h.x += h.vx;
+        h.y += h.vy;
+        h.rotation += h.rotSpeed;
+        h.pulsePhase += h.pulseSpeed;
+
+        const pulsedSize = h.size + Math.sin(h.pulsePhase) * (h.size * 0.08);
+
+        // Respawn when off-screen
+        if (h.y < -h.size * 3 || h.x < -h.size * 3 || h.x > canvas!.width + h.size * 3) {
+          hexagons[i] = createHex(false);
+          return;
+        }
+
+        drawHexagon(ctx!, h.x, h.y, pulsedSize, h.rotation, h.filled, h.color, h.lineWidth);
+      });
+
+      requestAnimationFrame(tick);
+    }
+
+    // Mouse parallax on hexagons
+    document.addEventListener('mousemove', (e: MouseEvent) => {
+      const mx = (e.clientX / window.innerWidth - 0.5) * 2;
+      const my = (e.clientY / window.innerHeight - 0.5) * 2;
+      hexagons.forEach(h => {
+        const depth = h.size / CONFIG.maxSize;
+        h.x += mx * depth * 0.4;
+        h.y += my * depth * 0.4;
+      });
+    }, { passive: true });
+
+    window.addEventListener('resize', resize, { passive: true });
+    init();
+    tick();
+  })();
+
+  /* ===========================
+     CURSOR GLOW
+     =========================== */
+  (function initCursorGlow() {
+    const glow = document.getElementById('cursorGlow');
+    if (!glow) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      glow.style.display = 'none';
+      return;
+    }
+
+    let glowX = 0, glowY = 0, targetX = 0, targetY = 0;
+
+    document.addEventListener('mousemove', (e: MouseEvent) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    }, { passive: true });
+
+    // Color shift on hover over accent elements
+    document.querySelectorAll('.btn--hot, .entry-card--design').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        glow.style.background = 'radial-gradient(circle, rgba(255,45,120,0.1) 0%, transparent 70%)';
+      });
+      el.addEventListener('mouseleave', () => {
+        glow.style.background = 'radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%)';
+      });
+    });
+    document.querySelectorAll('.entry-card--tracking').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        glow.style.background = 'radial-gradient(circle, rgba(0,255,136,0.09) 0%, transparent 70%)';
+      });
+      el.addEventListener('mouseleave', () => {
+        glow.style.background = 'radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%)';
+      });
+    });
+
+    function animateGlow() {
+      glowX += (targetX - glowX) * 0.08;
+      glowY += (targetY - glowY) * 0.08;
+      glow!.style.transform = `translate(${glowX - 250}px, ${glowY - 250}px)`;
+      requestAnimationFrame(animateGlow);
+    }
+    animateGlow();
+  })();
+</script>

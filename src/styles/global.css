@@ -259,6 +259,9 @@ table {
 
   /* --- Shadows / Glows --- */
   --glow-cyan: 0 0 20px rgba(0, 212, 255, 0.35);
+  --glow-violet: 0 0 20px rgba(124, 58, 237, 0.35);
+  --glow-hot: 0 0 20px rgba(255, 45, 120, 0.35);
+  --glow-green: 0 0 20px rgba(4, 223, 114, 0.35);
   /* --- Focus --- */
   --focus-ring: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent-cyan);
 
@@ -962,16 +965,6 @@ hr,
 }
 
 
-/* ==========================================================================
-   21. CUSTOM CURSOR (hides default cursor on desktop)
-   ========================================================================== */
-
-@media (pointer: fine) {
-  *, *::before, *::after {
-    cursor: none !important;
-  }
-}
-
 
 /* ==========================================================================
    22. CRT NOISE / FILM GRAIN
@@ -992,7 +985,76 @@ main::after {
 
 
 /* ==========================================================================
-   23. REDUCED MOTION — comprehensive
+   23. GLOBAL BACKGROUND — Cursor Glow + Hex Corners + Hero BG
+   ========================================================================== */
+
+/* Cursor Glow — soft radial gradient following mouse */
+#cursorGlow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  transition: background 0.4s ease;
+  will-change: transform;
+}
+@media (hover: none) {
+  #cursorGlow { display: none; }
+}
+
+/* Hex Corner Decorations — fixed floating SVGs */
+.hex-corner {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
+}
+.hex-corner--tl {
+  top: 80px;
+  left: 24px;
+  width: 80px;
+  animation: hexFloat 6s ease-in-out infinite;
+}
+.hex-corner--br {
+  bottom: 40px;
+  right: 24px;
+  width: 120px;
+  animation: hexFloat 8s ease-in-out infinite reverse;
+}
+@keyframes hexFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33%      { transform: translateY(-12px) rotate(3deg); }
+  66%      { transform: translateY(6px) rotate(-2deg); }
+}
+@media (max-width: 768px) {
+  .hex-corner { display: none; }
+}
+
+/* Hero Background Layers — radial gradients for hero sections */
+.hero-bg-1 {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(4, 223, 114, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+    var(--bg-primary);
+}
+.hero-bg-2 {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 15, 0.3) 50%, var(--bg-primary) 100%);
+}
+
+
+/* ==========================================================================
+   24. REDUCED MOTION — comprehensive
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {

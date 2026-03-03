@@ -5,6 +5,7 @@
  * category color accents, bottom CTA.
  */
 
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
@@ -17,7 +18,7 @@ const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
-const featuredPost = posts[0];
+const featuredPost = posts[0] ?? null;
 const remainingPosts = posts.slice(1);
 
 const categoryColorMap: Record<string, string> = {
@@ -28,7 +29,7 @@ const categoryColorMap: Record<string, string> = {
   Strategie: '168, 85, 247',
 };
 
-const featuredRgb = categoryColorMap[featuredPost.data.category] || '0, 212, 255';
+const featuredRgb = featuredPost ? (categoryColorMap[featuredPost.data.category] || '0, 212, 255') : '0, 212, 255';
 ---
 
 <BaseLayout
@@ -52,10 +53,13 @@ const featuredRgb = categoryColorMap[featuredPost.data.category] || '0, 212, 255
         <div class="container">
           <a href={`/blog/${featuredPost.slug}`} class="featured-post reveal" style={`--fp: ${featuredRgb};`}>
             <div class="featured-post__visual">
-              <span class="featured-post__badge">Neuester Beitrag</span>
+              {featuredPost.data.cover && (
+                <Image src={featuredPost.data.cover} alt={featuredPost.data.title} width={600} class="featured-post__cover-img" />
+              )}
               <span class="featured-post__category">{featuredPost.data.category}</span>
             </div>
             <div class="featured-post__content">
+              <span class="featured-post__badge">Neuester Beitrag</span>
               <h2 class="featured-post__title">{featuredPost.data.title}</h2>
               <p class="featured-post__excerpt">{featuredPost.data.description}</p>
               <div class="featured-post__meta">
@@ -91,6 +95,7 @@ const featuredRgb = categoryColorMap[featuredPost.data.category] || '0, 212, 255
                 category={post.data.category}
                 readTime={post.data.readTime}
                 publishDate={post.data.publishDate}
+                cover={post.data.cover}
               />
             ))}
           </div>
@@ -153,6 +158,7 @@ const featuredRgb = categoryColorMap[featuredPost.data.category] || '0, 212, 255
   }
 
   .featured-post__visual {
+    position: relative;
     min-height: 280px;
     background:
       linear-gradient(135deg, rgba(var(--fp), 0.12), transparent 60%),
@@ -161,21 +167,33 @@ const featuredRgb = categoryColorMap[featuredPost.data.category] || '0, 212, 255
     flex-direction: column;
     justify-content: space-between;
     padding: 1.5rem;
+    overflow: hidden;
+  }
+
+  .featured-post__cover-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .featured-post__badge {
-    font: 600 0.65rem/1 var(--font-mono);
+    font: 600 0.75rem/1 var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    padding: 0.35rem 0.85rem;
+    padding: 0.4rem 1rem;
     background: rgba(var(--fp), 0.12);
     border: 1px solid rgba(var(--fp), 0.25);
     border-radius: 999px;
     color: rgb(var(--fp));
     width: fit-content;
+    margin-bottom: 1rem;
   }
 
   .featured-post__category {
+    position: relative;
+    z-index: 1;
     font: 500 0.625rem/1 var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -215,7 +233,7 @@ const featuredRgb = categoryColorMap[featuredPost.data.category] || '0, 212, 255
     align-items: center;
     gap: 0.5rem;
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: var(--text-primary);
     font-family: var(--font-mono);
     margin-bottom: 1.5rem;
   }

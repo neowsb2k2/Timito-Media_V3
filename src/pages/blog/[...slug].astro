@@ -1,15 +1,6 @@
 ---
-/**
- * [...slug].astro
- * Dynamic blog post page — renders individual blog posts from content collection.
- */
-
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import Contact from '../../components/Contact.astro';
-import SectionLabel from '../../components/SectionLabel.astro';
 import { getCollection } from 'astro:content';
+import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -20,174 +11,19 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
-
-const formattedDate = post.data.publishDate.toLocaleDateString('de-AT', {
-  day: '2-digit',
-  month: 'long',
-  year: 'numeric',
-});
+const { Content, headings } = await post.render();
 ---
 
-<BaseLayout
-  title={`${post.data.title} — Timito Media`}
+<BlogPostLayout
+  title={post.data.title}
   description={post.data.description}
-  canonical={`https://timito-media.at/blog/${post.slug}`}
+  slug={post.slug}
+  category={post.data.category}
+  author={post.data.author}
+  publishDate={post.data.publishDate}
+  readTime={post.data.readTime}
+  cover={post.data.cover}
+  headings={headings}
 >
-  <Header />
-  <main class="blog-post">
-    <article class="section">
-      <div class="container container--narrow">
-        <SectionLabel text={post.data.category} />
-
-        <h1>{post.data.title}</h1>
-
-        <div class="blog-post__meta">
-          <span class="blog-post__author">{post.data.author}</span>
-          <span class="blog-post__divider">·</span>
-          <time datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
-          <span class="blog-post__divider">·</span>
-          <span>{post.data.readTime} Lesezeit</span>
-        </div>
-
-        <div class="blog-post__content">
-          <Content />
-        </div>
-
-        <div class="blog-post__footer">
-          <a href="/blog" class="blog-post__back">← Alle Artikel</a>
-          <a href="#kontakt" class="blog-post__cta">Kostenloses Audit anfragen →</a>
-        </div>
-      </div>
-    </article>
-    <Contact />
-  </main>
-  <Footer />
-</BaseLayout>
-
-<style>
-  .container--narrow {
-    max-width: 740px;
-  }
-
-  .blog-post h1 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-  }
-
-  .blog-post__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .blog-post__author {
-    color: var(--accent-cyan);
-  }
-
-  .blog-post__divider {
-    color: var(--text-muted);
-  }
-
-  .blog-post__content {
-    line-height: 1.8;
-    color: var(--text-secondary);
-  }
-
-  .blog-post__content :global(h2) {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .blog-post__content :global(h3) {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .blog-post__content :global(p) {
-    margin-bottom: 1.5rem;
-  }
-
-  .blog-post__content :global(strong) {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
-
-  .blog-post__content :global(a) {
-    color: var(--accent-cyan);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .blog-post__content :global(ul),
-  .blog-post__content :global(ol) {
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
-  }
-
-  .blog-post__content :global(li) {
-    margin-bottom: 0.5rem;
-  }
-
-  .blog-post__content :global(blockquote) {
-    border-left: 3px solid var(--accent-cyan);
-    padding-left: 1.5rem;
-    margin: 2rem 0;
-    font-style: italic;
-    color: var(--text-primary);
-  }
-
-  .blog-post__content :global(code) {
-    font-family: var(--font-mono);
-    font-size: 0.875em;
-    background: var(--bg-card);
-    padding: 0.15rem 0.4rem;
-    border-radius: 4px;
-    color: var(--accent-cyan);
-  }
-
-  .blog-post__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .blog-post__back {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.875rem;
-  }
-
-  .blog-post__back:hover {
-    color: var(--text-secondary);
-  }
-
-  .blog-post__cta {
-    color: var(--accent-cyan);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.875rem;
-  }
-
-  .blog-post__cta:hover {
-    text-decoration: underline;
-  }
-</style>
+  <Content />
+</BlogPostLayout>

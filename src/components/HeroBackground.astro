@@ -1,0 +1,23 @@
+---
+/**
+ * HeroBackground.astro
+ * Pure CSS radial gradient background layers matching timito-media.at.
+ * No JavaScript, no animations — just subtle colored gradients with a vertical fade.
+ * Place inside any section with position: relative.
+ * Styles defined in global.css (.hero-bg-1, .hero-bg-2).
+ */
+---
+
+<div class="hero-bg-wrapper" aria-hidden="true">
+  <div class="hero-bg-1"></div>
+  <div class="hero-bg-2"></div>
+</div>
+
+<style>
+  .hero-bg-wrapper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+</style>

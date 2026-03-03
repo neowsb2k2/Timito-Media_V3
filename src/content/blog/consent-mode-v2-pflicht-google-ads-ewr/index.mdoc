@@ -1,0 +1,165 @@
+---
+title: >-
+  Google Consent Mode v2: Was es ist, warum es Pflicht ist — und was passiert,
+  wenn du es ignorierst
+description: >-
+  Consent Mode v2 ist Pflicht für Google Ads im EWR. Was es technisch bedeutet,
+  welche Daten du ohne es verlierst und wie die Umsetzung funktioniert.
+publishDate: 2026-02-25
+author: Mike
+category: Tracking
+readTime: 9 min
+cover: /src/content/blog/consent-mode-v2-pflicht-google-ads-ewr/cover.jpg
+draft: false
+---
+# Google Consent Mode v2: Was es ist, warum es seit März 2024 Pflicht ist — und was passiert, wenn du es ignorierst
+
+Disclaimer vorweg: Dieser Artikel ist kein Rechtsrat. Für verbindliche rechtliche Einschätzungen zur DSGVO-Compliance wende dich an einen Datenschutzjuristen. Was hier beschrieben wird, ist die technische und strategische Dimension von Consent Mode v2 — und warum es für Google Ads Kampagnen direkte Konsequenzen hat.
+
+---
+
+## Was ist der Google Consent Mode?
+
+Der Google Consent Mode ist eine API, über die dein Cookie-Banner mit den Google-Tags auf deiner Website kommuniziert. Vereinfacht: Wenn ein Besucher Tracking ablehnt, erfährt Google über den Consent Mode, welche Daten er nicht erheben darf — und passt das Verhalten seiner Tags entsprechend an.
+
+Das klingt zunächst nach einer rein technischen Kleinigkeit. Ist es aber nicht.
+
+Ohne Consent Mode arbeiten deine Google-Tags nach einem alten Schema: Sie feuern entweder vollständig (bei Zustimmung) oder gar nicht (bei Ablehnung). Das bedeutet: Jeder Nutzer, der Cookies ablehnt — und das ist in Europa je nach Branche und Zielgruppe ein erheblicher Anteil — hinterlässt in deinen Auswertungen schlicht kein Signal. Keine Conversion, kein Klick, keine Information. Als hätte er nie existiert.
+
+Consent Mode v2 verändert das Grundprinzip. Statt vollständiger Blockung sendet der sogenannte Advanced Mode auch bei Ablehnung anonymisierte, cookielose Pings an Google. Keine personenbezogenen Daten, keine Identifizierung — aber ausreichend Signal, damit Googles Machine Learning die fehlenden Conversions modellieren kann.
+
+---
+
+## Warum gibt es Consent Mode v2 — und was hat der DMA damit zu tun?
+
+Der Consent Mode in seiner ersten Version existiert seit 2020. Die neue Version ist eine direkte Reaktion auf den Digital Markets Act (DMA) der Europäischen Union, der seit Mai 2024 in Kraft ist.
+
+Der DMA verpflichtet sogenannte Gatekeeper-Plattformen — darunter Google — dazu, sicherzustellen, dass Nutzerdaten nur dann für personalisierte Werbung verwendet werden, wenn eine ausdrückliche Einwilligung vorliegt. Google hat darauf reagiert, indem es den Consent Mode v2 mit zwei neuen Parametern erweitert hat:
+
+**`ad_user_data`** — Regelt, ob personenbezogene Nutzerdaten für Werbezwecke an Google übermittelt werden dürfen.
+
+**`ad_personalization`** — Regelt, ob diese Daten für Remarketing und personalisierte Anzeigen verwendet werden dürfen.
+
+Ohne diese beiden Parameter signalisiert deine Website Google, dass keine Einwilligung vorliegt — und Google deaktiviert entsprechende Funktionen automatisch.¹
+
+---
+
+## Was passiert konkret, wenn du Consent Mode v2 nicht implementierst?
+
+Das ist der Punkt, an dem viele Werbetreibende unterschätzen, was auf dem Spiel steht. Hier sind die belegten Konsequenzen:
+
+### Remarketing funktioniert nicht mehr
+
+Ohne gültige `ad_user_data`- und `ad_personalization`-Signale nimmt Google keine neuen Nutzer mehr in Remarketing-Listen auf.² Wer also Besucher retargeten will, die seine Website bereits kennen, hat für EWR-Nutzer faktisch kein Werkzeug mehr.
+
+### Conversion Tracking wird eingeschränkt oder abgestellt
+
+Ohne Consent Mode v2 deaktiviert Google das Conversion Tracking für EWR-Nutzer.³ Das bedeutet: Du schaltest Anzeigen, bezahlst pro Klick — siehst aber nicht mehr, welche Kampagne zu welchem Ergebnis geführt hat.
+
+### Smart Bidding verliert seine Datengrundlage
+
+Google Ads optimiert auf Basis von Conversion-Signalen. Smart Bidding, Performance Max, Target CPA — all das setzt voraus, dass der Algorithmus versteht, welche Klicks zu Ergebnissen führen. Ohne vollständige Conversion-Daten arbeitet das System auf lückenhafter Grundlage, was sich direkt in höheren CPAs und niedrigerem ROAS niederschlägt.
+
+Googles eigene Daten zeigen: Nutzer, die Cookies akzeptieren, konvertieren typischerweise 2–5x häufiger als Nutzer ohne Consent.⁴ Der Algorithmus weiß das und kompensiert es mit Conversion Modeling — aber nur, wenn der Consent Mode korrekt implementiert ist.
+
+### Zielgruppen aus GA4 werden blockiert
+
+Ohne Consent Mode können in Google Analytics 4 keine Zielgruppen mehr erstellt werden, die anschließend in Google Ads genutzt werden — weder für Remarketing noch für ähnliche Zielgruppen.⁵
+
+### DMA-Compliance-Risiko
+
+Wer als Werbetreibender im EWR Google-Dienste nutzt, ohne Consent Mode v2 zu implementieren, riskiert den Verlust von Werbefunktionen sowie potenzielle rechtliche Konsequenzen durch Verstoß gegen den Digital Markets Act.⁶
+
+---
+
+## Basic Mode vs. Advanced Mode — der Unterschied, der entscheidet
+
+Es gibt zwei Implementierungsvarianten. Die Wahl zwischen beiden hat erhebliche Auswirkungen auf die Datenqualität.
+
+### Basic Consent Mode
+
+Tags werden vollständig blockiert, bis eine Zustimmung vorliegt. Wird die Einwilligung verweigert, werden keinerlei Daten und auch keine Pings an Google gesendet. Das ist die datenschutzkonservativste Variante.
+
+Der Nachteil laut Googles eigener Dokumentation: Im Basic Mode verwendet Google ein allgemeines Modell für die Conversion-Modellierung — ohne advertiser-spezifische Grundlage, mit entsprechend höherer Ungenauigkeit.⁷
+
+### Advanced Consent Mode
+
+Tags feuern auch ohne Consent — aber in einem eingeschränkten Modus. Statt vollständiger Datenerhebung werden ausschließlich anonymisierte, cookielose Pings gesendet. Keine persönlichen Identifier, keine Cross-Site-Identifikation. Google nutzt diese Signale, um das Verhalten nicht-konsentierter Nutzer auf Basis der konsentierten Nutzer zu modellieren.
+
+Laut Google kann Conversion Modeling durch Consent Mode im Schnitt mehr als 70 % der Conversion-Pfade wiederherstellen, die durch Cookie-Ablehnung verloren gehen.⁸ Ein belegter Praxisfall: TUI implementierte Consent Mode auf seiner neu gestalteten Website und verzeichnete danach einen Anstieg der Conversions aus Google Ads Kampagnen um 7 %.⁹
+
+**Wichtiger Hinweis zur DSGVO-Konformität des Advanced Mode:** Das Senden von anonymen Pings ohne Cookies entspricht Googles Argumentation zur Datenschutzkonformität — die konkrete Implementierung sollte jedoch mit dem eigenen Datenschutzbeauftragten abgeklärt werden, da nationale Datenschutzbehörden in einzelnen Punkten abweichende Positionen einnehmen können.¹⁰
+
+---
+
+## Voraussetzungen für Conversion Modeling: Schwellenwerte beachten
+
+Conversion Modeling aktiviert sich nicht automatisch. Google setzt laut offizieller Dokumentation konkrete Mindestvolumina voraus:
+
+Für Google Ads braucht es mindestens **700 Anzeigenklicks pro Tag** über einen Zeitraum von 7 Tagen, pro Land und Domain.¹¹ Für kleinere Websites und Accounts mit niedrigem Volumen aktiviert sich das Modellierungsfeature unter Umständen gar nicht — was Basic Mode in diesen Fällen ebenfalls zu einer validen Option macht.
+
+---
+
+## Consent Mode v2 und Server-Side Tracking
+
+Ein häufiges Missverständnis: Server-Side Tracking hebt die Notwendigkeit von Consent Mode v2 nicht auf. Auch auf Server-Ebene muss der Einwilligungsstatus korrekt abgebildet und an die nachgelagerten Tags weitergeleitet werden. Wer serverseitiges Tracking ohne korrekte Consent-Signalgebung betreibt, ist weder rechtlich noch technisch auf der sicheren Seite.
+
+Die korrekte Implementierungsreihenfolge ist:
+
+1. CMP korrekt einrichten (Consent einholen)
+1. Consent Mode v2 konfigurieren (Signale an Google senden)
+1. Server-Side Tracking optimiert die Datenqualität **innerhalb** dieser Consent-Struktur
+
+---
+
+## Technische Implementierung: Was du brauchst
+
+Eine vollständige Implementierung erfordert zwei Komponenten:
+
+**1. Eine Google-zertifizierte Consent Management Platform (CMP)**
+Tools wie Cookiebot, Usercentrics, consentmanager oder OneTrust bringen native Integrationen mit und übergeben den Consent-Status automatisch an die Google Tags. Die vollständige Liste Google-zertifizierter CMPs ist über das [Google CMP Partner Program](https://cmppartnerprogram.withgoogle.com/) abrufbar.
+
+**2. Korrekte Tag-Konfiguration im Google Tag Manager**
+Der Consent Mode muss initialisiert sein, bevor ein Tag versucht, Daten zu senden. Die Reihenfolge der Skripte im GTM-Container ist dabei entscheidend.¹² Eine korrekte Implementierung lässt sich im GTM Preview Mode oder direkt im Google Ads Conversion-Dashboard verifizieren: Zeigt sich dort kein Hinweis auf den aktiven Einwilligungsmodus, ist das Setup fehlerhaft.¹³
+
+---
+
+## Fazit
+
+Consent Mode v2 ist kein optionales Feature. Es ist seit März 2024 die Grundvoraussetzung dafür, dass Google Ads und Google Analytics im EWR überhaupt funktionsfähig bleiben. Wer es nicht implementiert, schaltet Werbung ohne auswertbares Conversion Tracking, verliert Remarketing-Zielgruppen und gibt seinem Algorithmus keine Chance, effizient zu optimieren.
+
+Die Implementierung selbst ist — mit der richtigen CMP und einer sauberen GTM-Konfiguration — in überschaubarer Zeit umsetzbar. Was sie kostet: einmal Aufmerksamkeit und technische Sorgfalt. Was sie erspart: blind geschaltetes Werbebudget.
+
+---
+
+*Du bist dir nicht sicher ob dein Tracking-Setup Consent Mode v2 korrekt implementiert hat? Wir analysieren es — konkret und ohne Umwege. [Tracking-Audit anfragen.](/kontakt)*
+
+---
+
+## Quellen
+
+¹ Google, *EU User Consent Policy* — [policies.google.com/technologies/partner-sites](https://policies.google.com/technologies/partner-sites)
+
+² termly.io, *What Is Google Consent Mode v2?*, Dezember 2025 — [termly.io/resources/articles/what-is-google-consent-mode-v2](https://termly.io/resources/articles/what-is-google-consent-mode-v2/)
+
+³ Google Tag Manager Help, *Updates to consent mode for traffic in the EEA* — [support.google.com/tagmanager/answer/13695607](https://support.google.com/tagmanager/answer/13695607)
+
+⁴ Google Ads Help, *About consent mode modeling*: „Consented users are typically 2–5x more likely to convert than unconsented users." — [support.google.com/google-ads/answer/10548233](https://support.google.com/google-ads/answer/10548233)
+
+⁵ Usercentrics, *Google Consent Mode GCM Checklist*, Juli 2025 — [usercentrics.com/resources/google-consent-mode-gcm-checklist](https://usercentrics.com/resources/google-consent-mode-gcm-checklist/)
+
+⁶ kontra.agency, *V2 Google Consent Mode For Companies*, November 2025 — [kontra.agency](https://kontra.agency/v2-google-consent-mode-for-companies-all-you-need-to-know/)
+
+⁷ Google Ads Help, *About consent mode*: „Consent mode's conversion modeling in Ads is then based on a general model." — [support.google.com/google-ads/answer/10000067](https://support.google.com/google-ads/answer/10000067)
+
+⁸ Google Blog, *Conversion modeling through Consent Mode in Google Ads*, August 2023: „On average, conversion modeling through Consent Mode recovers more than 70% of ad-click-to-conversion journeys lost due to user cookie consent choices." — [blog.google](https://blog.google/products/marketingplatform/360/conversion-modeling-through-consent-mode-google-ads/)
+
+⁹ Google Ads Privacy Hub, *Consent Mode Solution — TUI Case Study* — [ads.google.com/home/privacy/solutions/consent-mode](https://ads.google.com/home/privacy/solutions/consent-mode/)
+
+¹⁰ glowmetrics.com, *Complete Guide to Google Consent Mode v2*, Dezember 2025 — [glowmetrics.com/blog/complete-guide-to-google-consent-mode-v2](https://glowmetrics.com/blog/complete-guide-to-google-consent-mode-v2/)
+
+¹¹ Google Ads Help, *About consent mode modeling* (s.o.): „You have a daily ad click threshold of 700 ad clicks over a 7 day period."
+
+¹² Google Tag Manager Help, *About consent mode* (s.o.)
+
+¹³ Google Ads Help, *About consent mode impact results* — [support.google.com/google-ads/answer/11954524](https://support.google.com/google-ads/answer/11954524)

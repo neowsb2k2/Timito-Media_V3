@@ -1,0 +1,174 @@
+---
+interface Props {
+  headings: Array<{ depth: number; slug: string; text: string }>;
+  readTime?: string;
+}
+
+const { headings, readTime } = Astro.props;
+
+// Filter to h2 and h3 only
+const tocItems = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{tocItems.length > 0 && (
+  <nav class="toc" aria-label="Inhaltsverzeichnis">
+    {readTime && (
+      <span class="toc__read-time">{readTime} Lesezeit</span>
+    )}
+    <span class="toc__label">// Inhalt</span>
+    <ol class="toc__list">
+      {tocItems.map((item) => (
+        <li class:list={['toc__item', { 'toc__item--h3': item.depth === 3 }]}>
+          <a href={`#${item.slug}`} class="toc__link" data-toc-link>
+            {item.text}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<script>
+  (function () {
+    const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+    if (links.length === 0) return;
+
+    // Smooth scroll via Lenis or fallback
+    links.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = link.getAttribute('href')?.slice(1);
+        if (!id) return;
+        const target = document.getElementById(id);
+        if (!target) return;
+
+        const lenis = (window as any).__lenis;
+        if (lenis?.scrollTo) {
+          lenis.scrollTo(target, { offset: -80 });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        history.pushState(null, '', `#${id}`);
+      });
+    });
+
+    // Active section tracking (scroll-spy)
+    const OFFSET = 100;
+    let activeLink: HTMLAnchorElement | null = null;
+
+    function updateActive() {
+      let current: HTMLAnchorElement | null = null;
+
+      for (const link of links) {
+        const id = link.getAttribute('href')?.slice(1);
+        if (!id) continue;
+        const heading = document.getElementById(id);
+        if (!heading) continue;
+        if (heading.getBoundingClientRect().top <= OFFSET) {
+          current = link;
+        } else {
+          break;
+        }
+      }
+
+      if (current !== activeLink) {
+        activeLink?.classList.remove('is-active');
+        current?.classList.add('is-active');
+        activeLink = current;
+
+        if (current) {
+          current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      }
+    }
+
+    let ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateActive();
+          ticking = false;
+        });
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateActive();
+  })();
+</script>
+
+<style>
+  .toc {
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+  }
+
+  .toc::-webkit-scrollbar { width: 3px; }
+  .toc::-webkit-scrollbar-track { background: transparent; }
+  .toc::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+  }
+
+  .toc__read-time {
+    display: block;
+    font: 500 0.8rem/1 var(--font-mono);
+    color: var(--text-secondary);
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .toc__label {
+    display: block;
+    font: 700 0.7rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+  }
+
+  .toc__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .toc__item--h3 {
+    padding-left: 0.75rem;
+  }
+
+  .toc__link {
+    display: block;
+    padding: 0.4rem 0.5rem 0.4rem 0.75rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition:
+      color var(--duration) var(--ease),
+      border-color var(--duration) var(--ease);
+  }
+
+  .toc__link:hover {
+    color: var(--text-secondary);
+  }
+
+  .toc__link:global(.is-active) {
+    color: var(--accent-cyan);
+    border-left-color: var(--accent-cyan);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toc__link {
+      transition: none;
+    }
+  }
+</style>
