@@ -38,9 +38,24 @@ const { name, role, description, skills, image } = Astro.props;
     align-items: start;
   }
 
-  @media (max-width: 639px) {
+  @media (max-width: 768px) {
     .team-member {
-      grid-template-columns: 1fr;
+      grid-template-columns: 60px 1fr;
+      gap: 1rem;
+      padding: 1.25rem;
+    }
+
+    .team-member__photo {
+      width: 60px;
+      height: 60px;
+    }
+
+    .team-member__desc {
+      display: none;
+    }
+
+    .team-member__skill {
+      font-size: 12px;
     }
   }
 

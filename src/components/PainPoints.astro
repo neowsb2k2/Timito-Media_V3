@@ -9,33 +9,72 @@ import SectionLabel from './SectionLabel.astro';
     <SectionLabel text="Kommt dir bekannt vor?" />
 
     <div class="pain__grid">
-      <!-- Left: Accordion Headlines -->
+      <!-- Left: Accordion Headlines (+ mobile accordion bodies) -->
       <div class="pain__headings">
-        <button class="pain__heading pain__heading--active" data-pain="1">
+        <button class="pain__heading pain__heading--active" data-pain="1" aria-expanded="true" aria-controls="pain-accordion-1">
           <span class="pain__num">01</span>
           <span class="pain__heading-text">Budget flie&szlig;t &mdash; Ergebnisse nicht.</span>
           <span class="pain__arrow">&rarr;</span>
         </button>
-        <button class="pain__heading" data-pain="2">
+        <div class="pain__accordion-body" data-pain-body="1" id="pain-accordion-1">
+          <p class="pain__accordion-text">Zu wenig Anfragen trotz laufender Kampagnen? Das Problem ist selten das Budget &mdash; sondern fehlende Attribution.</p>
+          <div class="pain__stat">
+            <span class="pain__stat-number">72%</span>
+            <span class="pain__stat-label">der KMU k&ouml;nnen den ROI nicht messen</span>
+          </div>
+        </div>
+
+        <button class="pain__heading" data-pain="2" aria-expanded="false" aria-controls="pain-accordion-2">
           <span class="pain__num">02</span>
           <span class="pain__heading-text">Viele Kan&auml;le, keine Strategie.</span>
           <span class="pain__arrow">&rarr;</span>
         </button>
-        <button class="pain__heading" data-pain="3">
+        <div class="pain__accordion-body" data-pain-body="2" id="pain-accordion-2">
+          <p class="pain__accordion-text">5 Kan&auml;le parallel, alle halbherzig. Kein Funnel, kein Fokus, kein roter Faden.</p>
+          <div class="pain__stat">
+            <span class="pain__stat-number">5&times;</span>
+            <span class="pain__stat-label">h&ouml;herer ROI bei fokussierten 2&ndash;3 Kan&auml;len</span>
+          </div>
+        </div>
+
+        <button class="pain__heading" data-pain="3" aria-expanded="false" aria-controls="pain-accordion-3">
           <span class="pain__num">03</span>
           <span class="pain__heading-text">Besucher kommen &mdash; aber niemand konvertiert.</span>
           <span class="pain__arrow">&rarr;</span>
         </button>
-        <button class="pain__heading" data-pain="4">
+        <div class="pain__accordion-body" data-pain-body="3" id="pain-accordion-3">
+          <p class="pain__accordion-text">Traffic ist da &mdash; aber keine Anfragen. Langsame Seiten, unklare CTAs und Landingpages die nicht konvertieren.</p>
+          <div class="pain__stat">
+            <span class="pain__stat-number">3&times;</span>
+            <span class="pain__stat-label">mehr Leads durch CRO als durch Budget-Verdreifachung</span>
+          </div>
+        </div>
+
+        <button class="pain__heading" data-pain="4" aria-expanded="false" aria-controls="pain-accordion-4">
           <span class="pain__num">04</span>
           <span class="pain__heading-text">Dein Dashboard zeigt dir ein falsches Bild.</span>
           <span class="pain__arrow">&rarr;</span>
         </button>
-        <button class="pain__heading" data-pain="5">
+        <div class="pain__accordion-body" data-pain-body="4" id="pain-accordion-4">
+          <p class="pain__accordion-text">ROAS sieht gut aus, Marge nicht. AdBlocker und iOS-Updates schlucken bis zu 40% deiner Daten.</p>
+          <div class="pain__stat">
+            <span class="pain__stat-number">20&ndash;40%</span>
+            <span class="pain__stat-label">der Conversions gehen durch Browser-Restriktionen verloren</span>
+          </div>
+        </div>
+
+        <button class="pain__heading" data-pain="5" aria-expanded="false" aria-controls="pain-accordion-5">
           <span class="pain__num">05</span>
           <span class="pain__heading-text">Kein Team, keine Zeit, kein Plan.</span>
           <span class="pain__arrow">&rarr;</span>
         </button>
+        <div class="pain__accordion-body" data-pain-body="5" id="pain-accordion-5">
+          <p class="pain__accordion-text">Marketing passiert &bdquo;nebenbei&ldquo; &mdash; und bringt nebenbei-Ergebnisse. Eine Agentur gibt dir ein ganzes Team.</p>
+          <div class="pain__stat">
+            <span class="pain__stat-number">3&times;</span>
+            <span class="pain__stat-label">schnelleres Wachstum bei strategischem Outsourcing</span>
+          </div>
+        </div>
       </div>
 
       <!-- Right: Expandable Content Panels -->
@@ -141,6 +180,8 @@ import SectionLabel from './SectionLabel.astro';
   const panels = document.querySelectorAll('.pain__panel');
   if (!headings.length) return;
 
+  const isMobile = window.matchMedia('(max-width: 768px)');
+
   function activate(index) {
     headings.forEach(h => h.classList.remove('pain__heading--active'));
     panels.forEach(p => p.classList.remove('pain__panel--active'));
@@ -148,15 +189,52 @@ import SectionLabel from './SectionLabel.astro';
     panels[index]?.classList.add('pain__panel--active');
   }
 
+  function toggleMobileAccordion(index) {
+    const heading = headings[index];
+    const isActive = heading.classList.contains('pain__heading--active');
+    // Close all
+    headings.forEach(h => {
+      h.classList.remove('pain__heading--active');
+      h.setAttribute('aria-expanded', 'false');
+    });
+    // Toggle clicked
+    if (!isActive) {
+      heading.classList.add('pain__heading--active');
+      heading.setAttribute('aria-expanded', 'true');
+    }
+  }
+
   headings.forEach((heading, i) => {
-    heading.addEventListener('mouseenter', () => activate(i));
-    heading.addEventListener('click', () => activate(i));
-    heading.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
+    heading.addEventListener('click', () => {
+      if (isMobile.matches) {
+        toggleMobileAccordion(i);
+      } else {
         activate(i);
       }
     });
+    heading.addEventListener('mouseenter', () => {
+      if (!isMobile.matches) activate(i);
+    });
+    heading.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (isMobile.matches) {
+          toggleMobileAccordion(i);
+        } else {
+          activate(i);
+        }
+      }
+    });
+  });
+
+  // Re-sync desktop panels when viewport crosses mobile breakpoint
+  isMobile.addEventListener('change', (e) => {
+    if (!e.matches) {
+      const activeIndex = [...headings].findIndex(h =>
+        h.classList.contains('pain__heading--active')
+      );
+      activate(activeIndex >= 0 ? activeIndex : 0);
+    }
   });
 })();
 </script>
@@ -452,6 +530,24 @@ import SectionLabel from './SectionLabel.astro';
   .hex--1 { top: -50px; right: 0; opacity: 0.6; }
   .hex--2 { top: 0; right: 40px; width: 80px; height: 80px; opacity: 0.3; }
   .hex--3 { top: 40px; right: -20px; width: 50px; height: 50px; opacity: 0.15; }
+
+  /* Accordion bodies: hidden on desktop, shown on mobile via mobile.css */
+  .pain__accordion-body {
+    display: none;
+  }
+
+  .pain__accordion-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: 0.75rem 0 0 2.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .pain__accordion-body {
+      display: block;
+    }
+  }
 
   @media (max-width: 1023px) {
     .pain__content { height: auto; }
