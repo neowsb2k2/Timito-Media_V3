@@ -6,32 +6,95 @@ import SectionLabel from './SectionLabel.astro';
   <div class="glow glow--cyan" aria-hidden="true"></div>
   <div class="glow glow--pink" aria-hidden="true"></div>
   <div class="container">
-    <SectionLabel text="Das Problem" />
+    <SectionLabel text="Kommt dir bekannt vor?" />
 
     <div class="pain__grid">
       <!-- Left: Accordion Headlines -->
       <div class="pain__headings">
         <button class="pain__heading pain__heading--active" data-pain="1">
-          <span class="pain__heading-text">Bis zu 40% deiner Conversion-Daten fehlen.</span>
+          <span class="pain__num">01</span>
+          <span class="pain__heading-text">Budget flie&szlig;t &mdash; Ergebnisse nicht.</span>
           <span class="pain__arrow">&rarr;</span>
         </button>
         <button class="pain__heading" data-pain="2">
-          <span class="pain__heading-text">Der Algorithmus optimiert &mdash; auf die falschen Signale.</span>
+          <span class="pain__num">02</span>
+          <span class="pain__heading-text">Viele Kan&auml;le, keine Strategie.</span>
           <span class="pain__arrow">&rarr;</span>
         </button>
         <button class="pain__heading" data-pain="3">
-          <span class="pain__heading-text">Dein Setup driftet &mdash; und niemand pr&uuml;ft es.</span>
+          <span class="pain__num">03</span>
+          <span class="pain__heading-text">Besucher kommen &mdash; aber niemand konvertiert.</span>
+          <span class="pain__arrow">&rarr;</span>
+        </button>
+        <button class="pain__heading" data-pain="4">
+          <span class="pain__num">04</span>
+          <span class="pain__heading-text">Dein Dashboard zeigt dir ein falsches Bild.</span>
+          <span class="pain__arrow">&rarr;</span>
+        </button>
+        <button class="pain__heading" data-pain="5">
+          <span class="pain__num">05</span>
+          <span class="pain__heading-text">Kein Team, keine Zeit, kein Plan.</span>
           <span class="pain__arrow">&rarr;</span>
         </button>
       </div>
 
       <!-- Right: Expandable Content Panels -->
       <div class="pain__content">
-        <!-- Panel 1: Data Loss -->
+
+        <!-- Panel 1: Budget ohne Ergebnis -->
         <div class="pain__panel pain__panel--active" data-panel="1">
-          <h3 class="pain__panel-title">Dein Dashboard zeigt dir ein falsches Bild.</h3>
-          <p class="pain__panel-text">AdBlocker, iOS-Updates und Cookie-Consent-Ablehnung reduzieren deine messbaren Conversions um bis zu 40&nbsp;%. Algorithmen, die auf unvollst&auml;ndigen Daten trainieren, optimieren systematisch in die falsche Richtung &mdash; und das Budget l&auml;uft trotzdem.</p>
-          <p class="pain__panel-text">Dein Dashboard zeigt dir einen ROAS von 4x &mdash; aber deine Marge sagt etwas anderes. Wenn dein Tracking Conversions doppelt z&auml;hlt oder Events nicht richtig feuern, triffst du Entscheidungen auf Basis von Daten, die nicht stimmen.</p>
+          <h3 class="pain__panel-title">Du investierst &mdash; aber dein Umsatz bewegt sich nicht.</h3>
+          <p class="pain__panel-text">Google Ads l&auml;uft, Social Media wird bespielt, vielleicht sogar eine SEO-Agentur beauftragt. Trotzdem kommen zu wenig Anfragen rein. Das Problem ist selten das Budget &mdash; sondern dass niemand misst, welcher Euro wirklich Umsatz bringt und welcher verbrennt.</p>
+          <p class="pain__panel-text">Ohne klare Attribution gibst du mehr aus, um den gleichen Effekt zu erzielen. Die Kampagnen sehen im Dashboard gut aus, aber am Kontostand merkst du nichts davon.</p>
+          <div class="pain__callout">
+            <span class="pain__callout-label">Typisches Muster:</span> 3.000&ndash;10.000&nbsp;&euro;/Monat Adspend, steigende Klickkosten, sinkende Conversion-Rate &mdash; und keiner kann erkl&auml;ren, warum.
+          </div>
+          <div class="pain__stat">
+            <span class="pain__stat-number">72%</span>
+            <span class="pain__stat-label">der KMU sagen, sie k&ouml;nnen den ROI ihrer Marketing-Ma&szlig;nahmen nicht zuverl&auml;ssig messen. <span class="pain__stat-source">(HubSpot State of Marketing, 2024)</span></span>
+          </div>
+        </div>
+
+        <!-- Panel 2: Kein Fokus -->
+        <div class="pain__panel" data-panel="2">
+          <h3 class="pain__panel-title">Alles ein bisschen &mdash; aber nichts richtig.</h3>
+          <p class="pain__panel-text">Instagram-Post am Montag, Google-Ad am Dienstag, Newsletter am Freitag. Klingt nach Marketing &mdash; ist aber blo&szlig; Aktivit&auml;t ohne Strategie. Ohne klaren Fokus entsteht ein &bdquo;Marketing-Wildwuchs&ldquo;: viel Aufwand, wenig Wirkung.</p>
+          <p class="pain__panel-text">Die Folge: Jeder Kanal performt mittelmäßig, keiner richtig. Du kannst nie sagen, was funktioniert und was weg kann. Also machst du weiter alles &mdash; und verschwendest Ressourcen, die an einer Stelle dreimal mehr Wirkung h&auml;tten.</p>
+          <ul class="pain__bullets">
+            <li><span class="pain__bullet-icon">&times;</span> <strong>Kein Funnel</strong> &mdash; Besucher kommen, aber es gibt keinen klaren Weg zur Conversion</li>
+            <li><span class="pain__bullet-icon">&times;</span> <strong>Kein Fokus</strong> &mdash; 5 Kan&auml;le parallel, alle halbherzig gepflegt</li>
+            <li><span class="pain__bullet-icon">&times;</span> <strong>Kein System</strong> &mdash; jede Woche neue Ideen, aber kein roter Faden</li>
+          </ul>
+          <div class="pain__stat">
+            <span class="pain__stat-number">5&times;</span>
+            <span class="pain__stat-label">h&ouml;herer ROI bei Unternehmen, die fokussiert 2&ndash;3 Kan&auml;le bespielen statt 6+ halbherzig. <span class="pain__stat-source">(McKinsey, 2024)</span></span>
+          </div>
+        </div>
+
+        <!-- Panel 3: UX / Keine Conversions -->
+        <div class="pain__panel" data-panel="3">
+          <h3 class="pain__panel-title">Deine Website hat Traffic &mdash; aber keinen Umsatz.</h3>
+          <p class="pain__panel-text">Die Anzeigen liefern Klicks, SEO bringt Besucher, Social Media generiert Reichweite. Aber am Ende des Monats stehen kaum Anfragen, Buchungen oder K&auml;ufe in der Pipeline. Das Problem sitzt nicht im Marketing &mdash; sondern auf deiner Website.</p>
+          <p class="pain__panel-text">Langsame Ladezeiten, unklare Call-to-Actions, Formulare die keiner ausf&uuml;llt, und Landingpages die f&uuml;r alle sprechen und deshalb f&uuml;r niemanden. 60&ndash;80&nbsp;% deiner Besucher sind nach 10 Sekunden wieder weg &mdash; still und ohne Spur.</p>
+          <ul class="pain__bullets">
+            <li><span class="pain__bullet-icon">&darr;</span> <strong>Conversion-Rate unter 2%</strong> &mdash; 98 von 100 Besuchern gehen ohne Aktion</li>
+            <li><span class="pain__bullet-icon">&darr;</span> <strong>Bounce-Rate &uuml;ber 60%</strong> &mdash; die Landingpage h&auml;lt nicht, was die Anzeige verspricht</li>
+            <li><span class="pain__bullet-icon">&darr;</span> <strong>Keine Micro-Conversions</strong> &mdash; kein Lead-Magnet, kein Chat, kein Zwischenschritt</li>
+          </ul>
+          <div class="pain__callout">
+            <span class="pain__callout-label">Die Rechnung:</span> 1.000 Besucher/Monat &times; 1&nbsp;% Conversion = 10 Leads. Allein durch CRO-Optimierung auf 3&nbsp;% werden daraus 30 &mdash; ohne einen Euro mehr Adspend.
+          </div>
+          <div class="pain__stat">
+            <span class="pain__stat-number">3&times;</span>
+            <span class="pain__stat-label">mehr Leads durch Conversion-Optimierung als durch Verdreifachung des Werbebudgets. <span class="pain__stat-source">(Unbounce Conversion Benchmark Report, 2024)</span></span>
+          </div>
+        </div>
+
+        <!-- Panel 4: Falsches Dashboard -->
+        <div class="pain__panel" data-panel="4">
+          <h3 class="pain__panel-title">Deine Zahlen sehen gut aus &mdash; dein Konto nicht.</h3>
+          <p class="pain__panel-text">Dein Dashboard zeigt ROAS von 4x, aber deine Marge sagt etwas anderes. AdBlocker, iOS-Updates und Cookie-Consent-Ablehnung reduzieren deine messbaren Conversions um bis zu 40&nbsp;%. Algorithmen, die auf unvollst&auml;ndigen Daten trainieren, optimieren systematisch in die falsche Richtung.</p>
+          <p class="pain__panel-text">Das Tracking einmal eingerichtet hei&szlig;t nicht: f&uuml;r immer korrekt. Pixel-Migrationen, Consent-Mode-&Auml;nderungen und Plattform-Updates erzeugen stille Datenl&uuml;cken. Die Kampagnen laufen weiter &mdash; auf falscher Grundlage.</p>
           <div class="pain__callout">
             <span class="pain__callout-label">Beispiel:</span> Bei 5.000&nbsp;&euro;/Monat Adspend und 35&nbsp;% fehlendem Signal verbrennst du ~1.750&nbsp;&euro; monatlich. Nicht durch schlechte Kampagnen &mdash; durch fehlende Daten.
           </div>
@@ -41,44 +104,28 @@ import SectionLabel from './SectionLabel.astro';
           </div>
         </div>
 
-        <!-- Panel 2: Algorithm Misfiring -->
-        <div class="pain__panel" data-panel="2">
-          <h3 class="pain__panel-title">Googles KI ist nur so gut wie deine Datenbasis.</h3>
-          <p class="pain__panel-text">Wenn Meta und Google nur 60&nbsp;% der tats&auml;chlichen Conversions erhalten, entwickeln ihre Modelle systematisch eine Pr&auml;ferenz f&uuml;r Nutzer, die konvertieren &mdash; aber eben die falschen. CPAs steigen, ROAS sinkt, Budget nimmt zu. Ein klassischer negativer Kreislauf.</p>
-          <p class="pain__panel-text">Smart Bidding, Performance Max, Broad Match &mdash; alle Strategien basieren auf Conversion-Daten. Je mehr Budget du in automatisierte Kampagnen steckst, desto teurer wird dieser blinde Fleck.</p>
-          <ul class="pain__bullets">
-            <li><span class="pain__bullet-icon">&darr;</span> <strong>ROAS f&auml;llt</strong> &mdash; der Algorithmus optimiert auf verzerrte Signale</li>
-            <li><span class="pain__bullet-icon">&uarr;</span> <strong>CPA steigt</strong> &mdash; weil profitable Zielgruppen &uuml;bersehen werden</li>
-            <li><span class="pain__bullet-icon">&darr;</span> <strong>Budget-Effizienz sinkt</strong> &mdash; und du skalierst die falschen Kampagnen</li>
-          </ul>
-          <div class="pain__stat">
-            <span class="pain__stat-number">43%</span>
-            <span class="pain__stat-label">niedrigere Klickkosten bei einer Quality Score Verbesserung von 5 auf 8 &mdash; laut Google-Performance-Daten. <span class="pain__stat-source">(Quantumrun, 2024)</span></span>
-          </div>
-        </div>
-
-        <!-- Panel 3: Setup Drift -->
-        <div class="pain__panel" data-panel="3">
-          <h3 class="pain__panel-title">Einmal eingerichtet hei&szlig;t nicht: f&uuml;r immer korrekt.</h3>
-          <p class="pain__panel-text">In den meisten Ad-Accounts wird das Tracking einmalig eingerichtet und danach nicht mehr systematisch gepr&uuml;ft. Algorithmus-Updates, Pixel-Migrationen und Consent-Mode-&Auml;nderungen erzeugen stille Datenl&uuml;cken. Die Kampagnen laufen weiter &mdash; auf falscher Grundlage.</p>
-          <p class="pain__panel-text">Das Ergebnis: Du skalierst Kampagnen, die in Wahrheit nicht profitabel sind &mdash; und stoppst die, die es w&auml;ren.</p>
+        <!-- Panel 5: Kein Team -->
+        <div class="pain__panel" data-panel="5">
+          <h3 class="pain__panel-title">Marketing passiert &bdquo;nebenbei&ldquo; &mdash; und bringt nebenbei-Ergebnisse.</h3>
+          <p class="pain__panel-text">In den meisten KMU macht der Gesch&auml;ftsf&uuml;hrer, die Office-Managerin oder ein Werkstudent &bdquo;auch Marketing&ldquo;. Die Konsequenz: Kampagnen starten, wenn Umsatz sinkt. Content entsteht, wenn Zeit bleibt. Optimierung passiert nie.</p>
+          <p class="pain__panel-text">Einen In-house-Marketer einstellen? Kostet 45.000&ndash;65.000&nbsp;&euro;/Jahr &mdash; und deckt trotzdem nur einen Bruchteil der Skills ab, die du brauchst: Ads, SEO, Analytics, Design, CRO, Strategie. Eine Agentur gibt dir ein ganzes Team zum Preis eines halben Mitarbeiters.</p>
           <div class="pain__callout pain__callout--pink">
-            <span class="pain__callout-label">Was das kostet:</span> Ein Google-Ads-Konto ohne saubere Attribution skaliert nie profitabel. Eine Website ohne Conversion-Optimierung verliert 60&ndash;80&nbsp;% ihrer Besucher still. Beides betrifft die meisten DACH-KMU gleichzeitig.
+            <span class="pain__callout-label">Realit&auml;t im DACH-Raum:</span> 68&nbsp;% der KMU haben keine eigene Marketing-Abteilung. Marketing wird neben dem Tagesgesch&auml;ft erledigt &mdash; oder gar nicht.
           </div>
           <div class="pain__stat">
-            <span class="pain__stat-number">&euro;26.8 Mrd.</span>
-            <span class="pain__stat-label">weltweit verschwendetes Werbebudget 2025 durch ineffiziente Daten-Infrastruktur. <span class="pain__stat-source">(ANA/WFA, 2025)</span></span>
+            <span class="pain__stat-number">3&times;</span>
+            <span class="pain__stat-label">schnelleres Wachstum bei KMU, die Marketing strategisch auslagern statt intern &bdquo;mitzumachen&ldquo;. <span class="pain__stat-source">(Deloitte, 2024)</span></span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Transition: Die Lösung (003 style) -->
+    <!-- Transition: Die Lösung -->
     <div class="pain__solution reveal" id="tracking-first">
       <div class="pain__solution-line" aria-hidden="true"></div>
-      <h2 class="pain__solution-heading">Die L&ouml;sung: <span class="text-cyan">Tracking-First.</span></h2>
-      <p class="pain__solution-text">Bevor wir einen Euro in Ads investieren, schlie&szlig;en wir das Datenleck. <strong class="text-cyan">Server-Side Tracking</strong> gibt deinen Algorithmen die echten Signale zur&uuml;ck. Dann &ndash; und erst dann &ndash; skalieren wir.</p>
-      <a href="#kontakt" class="pain__solution-cta" data-magnetic>Kostenloses Tracking-Audit anfragen &rarr;</a>
+      <h2 class="pain__solution-heading">Die L&ouml;sung: <span class="text-cyan">Klarheit vor Budget.</span></h2>
+      <p class="pain__solution-text">Bevor wir einen Euro in Ads investieren, analysieren wir, was wirklich funktioniert. Sauberes Tracking, klare Strategie, ein Team das liefert &mdash; und erst dann skalieren.</p>
+      <a href="#kontakt" class="pain__solution-cta" data-magnetic>Kostenloses Audit anfragen &rarr;</a>
       <div class="pain__solution-deco" aria-hidden="true">
         <span class="hex hex--1"></span>
         <span class="hex hex--2"></span>
@@ -92,25 +139,7 @@ import SectionLabel from './SectionLabel.astro';
 (function () {
   const headings = document.querySelectorAll('.pain__heading');
   const panels = document.querySelectorAll('.pain__panel');
-  const content = document.querySelector('.pain__content');
-  if (!headings.length || !content) return;
-
-  function setHeight() {
-    let max = 0;
-    panels.forEach(p => {
-      p.style.position = 'relative';
-      p.style.opacity = '0';
-      p.style.pointerEvents = 'none';
-      max = Math.max(max, p.offsetHeight);
-      p.style.position = '';
-      p.style.opacity = '';
-      p.style.pointerEvents = '';
-    });
-    content.style.minHeight = max + 'px';
-  }
-
-  setHeight();
-  window.addEventListener('resize', setHeight);
+  if (!headings.length) return;
 
   function activate(index) {
     headings.forEach(h => h.classList.remove('pain__heading--active'));
@@ -159,9 +188,8 @@ import SectionLabel from './SectionLabel.astro';
   .pain__heading {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 1rem;
-    padding: 1.5rem 0;
+    padding: 1.15rem 0;
     background: none;
     border: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -176,8 +204,19 @@ import SectionLabel from './SectionLabel.astro';
     border-top: 1px solid rgba(255, 255, 255, 0.06);
   }
 
+  .pain__num {
+    font: 700 0.7rem/1 var(--font-mono);
+    color: var(--text-faint);
+    flex-shrink: 0;
+    transition: color 0.3s ease;
+  }
+  .pain__heading--active .pain__num {
+    color: var(--accent-cyan);
+  }
+
   .pain__heading-text {
-    font: 700 clamp(1.125rem, 2vw, 1.5rem)/1.25 var(--font-heading);
+    flex: 1;
+    font: 700 clamp(1rem, 1.8vw, 1.35rem)/1.25 var(--font-heading);
     text-transform: uppercase;
     letter-spacing: -0.02em;
     color: var(--text-muted);
@@ -208,23 +247,44 @@ import SectionLabel from './SectionLabel.astro';
   /* ===== Right: Content Panels ===== */
   .pain__content {
     position: relative;
-    min-height: 480px;
+    height: 520px;
   }
 
   .pain__panel {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
+    overflow-y: auto;
     opacity: 0;
     pointer-events: none;
     transform: translateY(8px);
-    transition: opacity 0.35s ease, transform 0.35s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+
+    padding: 2rem 2.25rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.3),
+      0 8px 32px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
   .pain__panel--active {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
+    border-color: rgba(0, 212, 255, 0.1);
+  }
+
+  .pain__panel::-webkit-scrollbar { width: 4px; }
+  .pain__panel::-webkit-scrollbar-track { background: transparent; }
+  .pain__panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+  }
+  .pain__panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .pain__panel-title {
@@ -261,7 +321,7 @@ import SectionLabel from './SectionLabel.astro';
     margin-right: 0.2rem;
   }
 
-  /* ===== Bullet list (Panel 2) ===== */
+  /* ===== Bullet list ===== */
   .pain__bullets {
     list-style: none;
     padding: 0;
@@ -394,7 +454,16 @@ import SectionLabel from './SectionLabel.astro';
   .hex--3 { top: 40px; right: -20px; width: 50px; height: 50px; opacity: 0.15; }
 
   @media (max-width: 1023px) {
-    .pain__content { min-height: auto; }
+    .pain__content { height: auto; }
+    .pain__panel {
+      position: relative;
+      inset: auto;
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
+      margin-bottom: 1.5rem;
+    }
+    .pain__panel:last-child { margin-bottom: 0; }
     .pain__solution-deco { display: none; }
   }
 

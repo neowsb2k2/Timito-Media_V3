@@ -10,25 +10,520 @@ interface Props {
 }
 
 const { sectionTitle, cards, resolution, colorRGB } = Astro.props;
+
+/**
+ * Abstract decorative SVGs — one per panel.
+ * Rendered at low opacity in the bottom-right of each glass card.
+ */
+const decoSvgs = [
+  // 0: Concentric rings (target/focus)
+  `<circle cx="80" cy="80" r="60" stroke-width="1" fill="none"/>
+   <circle cx="80" cy="80" r="42" stroke-width="0.7" fill="none" stroke-dasharray="4 4"/>
+   <circle cx="80" cy="80" r="24" stroke-width="0.5" fill="none"/>
+   <circle cx="80" cy="80" r="4" fill="currentColor" opacity="0.5"/>
+   <line x1="20" y1="80" x2="140" y2="80" stroke-width="0.3" stroke-dasharray="2 6"/>
+   <line x1="80" y1="20" x2="80" y2="140" stroke-width="0.3" stroke-dasharray="2 6"/>`,
+
+  // 1: Node network (connections/data)
+  `<circle cx="40" cy="40" r="4" fill="currentColor" opacity="0.4"/>
+   <circle cx="120" cy="30" r="3" fill="currentColor" opacity="0.3"/>
+   <circle cx="80" cy="80" r="5" fill="currentColor" opacity="0.5"/>
+   <circle cx="130" cy="100" r="3.5" fill="currentColor" opacity="0.35"/>
+   <circle cx="35" cy="120" r="3" fill="currentColor" opacity="0.3"/>
+   <circle cx="100" cy="135" r="2.5" fill="currentColor" opacity="0.25"/>
+   <line x1="40" y1="40" x2="80" y2="80" stroke-width="0.5" opacity="0.5"/>
+   <line x1="120" y1="30" x2="80" y2="80" stroke-width="0.5" opacity="0.4"/>
+   <line x1="80" y1="80" x2="130" y2="100" stroke-width="0.5" opacity="0.4"/>
+   <line x1="80" y1="80" x2="35" y2="120" stroke-width="0.5" opacity="0.35"/>
+   <line x1="130" y1="100" x2="100" y2="135" stroke-width="0.5" opacity="0.3"/>
+   <line x1="35" y1="120" x2="100" y2="135" stroke-width="0.5" opacity="0.25"/>`,
+
+  // 2: Bar chart / metrics
+  `<rect x="30" y="90" width="16" height="50" rx="2" fill="currentColor" opacity="0.15"/>
+   <rect x="56" y="60" width="16" height="80" rx="2" fill="currentColor" opacity="0.2"/>
+   <rect x="82" y="40" width="16" height="100" rx="2" fill="currentColor" opacity="0.25"/>
+   <rect x="108" y="70" width="16" height="70" rx="2" fill="currentColor" opacity="0.18"/>
+   <line x1="25" y1="140" x2="130" y2="140" stroke-width="0.5" opacity="0.3"/>
+   <path d="M38 85 L64 55 L90 35 L116 65" stroke-width="1" fill="none" stroke-dasharray="3 3" opacity="0.4"/>`,
+
+  // 3: Hexagonal grid (structure)
+  `<polygon points="80,30 110,47 110,83 80,100 50,83 50,47" stroke-width="0.7" fill="none" opacity="0.3"/>
+   <polygon points="80,45 97,55 97,75 80,85 63,75 63,55" stroke-width="0.5" fill="none" opacity="0.4"/>
+   <polygon points="80,57 88,62 88,72 80,77 72,72 72,62" stroke-width="0.5" fill="currentColor" opacity="0.06"/>
+   <line x1="80" y1="30" x2="80" y2="10" stroke-width="0.4" opacity="0.2"/>
+   <line x1="110" y1="47" x2="128" y2="37" stroke-width="0.4" opacity="0.2"/>
+   <line x1="110" y1="83" x2="128" y2="93" stroke-width="0.4" opacity="0.2"/>
+   <line x1="50" y1="47" x2="32" y2="37" stroke-width="0.4" opacity="0.2"/>
+   <line x1="50" y1="83" x2="32" y2="93" stroke-width="0.4" opacity="0.2"/>
+   <circle cx="80" cy="65" r="2.5" fill="currentColor" opacity="0.4"/>`,
+
+  // 4: Signal waves (broadcast/reach)
+  `<path d="M40 80 Q80 20 120 80 Q80 140 40 80Z" stroke-width="0.5" fill="none" opacity="0.15"/>
+   <path d="M50 80 Q80 35 110 80 Q80 125 50 80Z" stroke-width="0.5" fill="none" opacity="0.2"/>
+   <path d="M60 80 Q80 50 100 80 Q80 110 60 80Z" stroke-width="0.5" fill="none" opacity="0.25"/>
+   <circle cx="80" cy="80" r="6" fill="currentColor" opacity="0.3"/>
+   <circle cx="80" cy="80" r="2" fill="currentColor" opacity="0.6"/>
+   <line x1="80" y1="80" x2="80" y2="30" stroke-width="0.4" stroke-dasharray="2 4" opacity="0.2"/>
+   <line x1="80" y1="80" x2="125" y2="60" stroke-width="0.4" stroke-dasharray="2 4" opacity="0.2"/>
+   <line x1="80" y1="80" x2="125" y2="100" stroke-width="0.4" stroke-dasharray="2 4" opacity="0.2"/>`,
+];
 ---
 
 <section id="problem" class="svc-problems section" style={`--svc-c: ${colorRGB}`}>
+  <!-- Dot grid background -->
+  <div class="sp__dot-grid" aria-hidden="true"></div>
+
   <div class="container">
     <SectionLabel text="// Das Problem" />
     <h2 class="svc-problems__title" data-split-reveal style="overflow:hidden"><SplitWords text={sectionTitle} gap="0.28em" /></h2>
-    <div class="problem-grid reveal-stagger">
-      {cards.map(card => (
-        <div class="problem-card">
-          <h3>{card.title}</h3>
-          <p>{card.text}</p>
+
+    <div class="sp__grid">
+      <!-- Left: Accordion Headlines with timeline -->
+      <div class="sp__headings">
+        <div class="sp__timeline" aria-hidden="true">
+          <div class="sp__timeline-track"></div>
+          <div class="sp__timeline-fill" data-sp-fill></div>
         </div>
-      ))}
+        {cards.map((card, i) => (
+          <button class={`sp__heading${i === 0 ? ' sp__heading--active' : ''}`} data-sp={i + 1}>
+            <span class="sp__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="sp__heading-text">{card.title}</span>
+            <span class="sp__arrow">&rarr;</span>
+          </button>
+        ))}
+      </div>
+
+      <!-- Right: Glass Card Panels with decorations -->
+      <div class="sp__content">
+        <!-- Glow behind active panel -->
+        <div class="sp__glow" data-sp-glow aria-hidden="true"></div>
+        <!-- Large deco number -->
+        <span class="sp__deco-num" data-sp-deco aria-hidden="true">01</span>
+
+        {cards.map((card, i) => (
+          <div class={`sp__panel${i === 0 ? ' sp__panel--active' : ''}`} data-sp-panel={i + 1}>
+            <div class="sp__panel-corner sp__panel-corner--tl" aria-hidden="true"></div>
+            <div class="sp__panel-corner sp__panel-corner--br" aria-hidden="true"></div>
+            <svg class="sp__panel-svg" viewBox="0 0 160 160" fill="none" stroke="currentColor" aria-hidden="true" set:html={decoSvgs[i % decoSvgs.length]} />
+            <h3 class="sp__panel-title">{card.title}</h3>
+            <p class="sp__panel-text">{card.text}</p>
+          </div>
+        ))}
+      </div>
     </div>
-    <div class="resolution reveal">
-      <h3>{resolution.title}</h3>
+
+    <!-- Resolution -->
+    <div class="sp__resolution reveal">
+      <h3 class="sp__resolution-title">{resolution.title}</h3>
       {resolution.paragraphs.map(p => (
-        <p set:html={p} />
+        <p class="sp__resolution-text" set:html={p} />
       ))}
     </div>
   </div>
 </section>
+
+<script>
+(function () {
+  const headings = document.querySelectorAll('.sp__heading');
+  const panels = document.querySelectorAll('.sp__panel');
+  const decoNum = document.querySelector('[data-sp-deco]');
+  const timelineFill = document.querySelector('[data-sp-fill]') as HTMLElement | null;
+  const glow = document.querySelector('[data-sp-glow]') as HTMLElement | null;
+  if (!headings.length) return;
+
+  const count = headings.length;
+
+  function activate(index: number) {
+    headings.forEach(h => h.classList.remove('sp__heading--active'));
+    panels.forEach(p => p.classList.remove('sp__panel--active'));
+    headings[index]?.classList.add('sp__heading--active');
+    panels[index]?.classList.add('sp__panel--active');
+
+    // Update deco number
+    if (decoNum) {
+      decoNum.textContent = String(index + 1).padStart(2, '0');
+    }
+
+    // Update timeline fill
+    if (timelineFill) {
+      const pct = ((index + 1) / count) * 100;
+      timelineFill.style.height = `${pct}%`;
+    }
+
+    // Animate glow
+    if (glow) {
+      glow.style.opacity = '0';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          glow.style.opacity = '1';
+        });
+      });
+    }
+  }
+
+  headings.forEach((heading, i) => {
+    heading.addEventListener('mouseenter', () => activate(i));
+    heading.addEventListener('click', () => activate(i));
+    heading.addEventListener('keydown', (e: Event) => {
+      const ke = e as KeyboardEvent;
+      if (ke.key === 'Enter' || ke.key === ' ') {
+        ke.preventDefault();
+        activate(i);
+      }
+    });
+  });
+
+  // Initialize timeline
+  if (timelineFill) {
+    timelineFill.style.height = `${(1 / count) * 100}%`;
+  }
+})();
+</script>
+
+<style>
+  /* ===== Dot grid background ===== */
+  .sp__dot-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 70% 50% at 80% 50%, black 0%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 50% at 80% 50%, black 0%, transparent 100%);
+  }
+
+  /* ===== Grid ===== */
+  .sp__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: left;
+  }
+  @media (min-width: 1024px) {
+    .sp__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+  }
+
+  /* ===== Left: Headings with timeline ===== */
+  .sp__headings {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  /* Vertical timeline */
+  .sp__timeline {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sp__timeline-track {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+  }
+
+  .sp__timeline-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 33%;
+    background: rgb(var(--svc-c));
+    border-radius: 2px;
+    transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 0 12px rgba(var(--svc-c), 0.4);
+  }
+
+  .sp__heading {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    padding-left: 0.5rem;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    transition: all 0.35s ease;
+    color: inherit;
+    font: inherit;
+    position: relative;
+  }
+  .sp__heading:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  /* Active heading glow bar */
+  .sp__heading::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background: rgb(var(--svc-c));
+    border-radius: 3px;
+    transition: height 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 0 8px rgba(var(--svc-c), 0.5);
+  }
+  .sp__heading--active::before {
+    height: 60%;
+  }
+
+  .sp__num {
+    font: 700 0.7rem/1 var(--font-mono);
+    color: var(--text-faint);
+    flex-shrink: 0;
+    transition: color 0.35s ease, text-shadow 0.35s ease;
+  }
+  .sp__heading--active .sp__num {
+    color: rgb(var(--svc-c));
+    text-shadow: 0 0 12px rgba(var(--svc-c), 0.5);
+  }
+
+  .sp__heading-text {
+    flex: 1;
+    font: 700 clamp(1rem, 1.8vw, 1.35rem)/1.25 var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: var(--text-muted);
+    transition: color 0.35s ease;
+  }
+  .sp__heading--active .sp__heading-text {
+    color: var(--text-primary);
+  }
+  .sp__heading:hover .sp__heading-text {
+    color: var(--text-primary);
+  }
+
+  .sp__arrow {
+    font-size: 1.25rem;
+    color: transparent;
+    transition: all 0.35s ease;
+    flex-shrink: 0;
+  }
+  .sp__heading--active .sp__arrow {
+    color: rgb(var(--svc-c));
+    transform: translateX(4px);
+  }
+  .sp__heading:hover .sp__arrow {
+    color: rgb(var(--svc-c));
+    transform: translateX(4px);
+  }
+
+  /* ===== Right: Glass Panels with decorations ===== */
+  .sp__content {
+    position: relative;
+    height: 320px;
+  }
+
+  /* Radial glow behind panel */
+  .sp__glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(var(--svc-c), 0.08), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.6s ease;
+    filter: blur(40px);
+  }
+
+  /* Large decorative number */
+  .sp__deco-num {
+    position: absolute;
+    right: -0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-size: clamp(6rem, 12vw, 10rem);
+    font-weight: 900;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(var(--svc-c), 0.08);
+    user-select: none;
+    pointer-events: none;
+    z-index: 0;
+    transition: -webkit-text-stroke-color 0.4s ease;
+  }
+
+  .sp__panel {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    z-index: 1;
+
+    padding: 2rem 2.25rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.3),
+      0 8px 32px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+  .sp__panel--active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    border-color: rgba(var(--svc-c), 0.2);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.3),
+      0 8px 32px rgba(0, 0, 0, 0.25),
+      0 0 40px rgba(var(--svc-c), 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  /* Corner accents */
+  .sp__panel-corner {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .sp__panel--active .sp__panel-corner {
+    opacity: 1;
+  }
+
+  .sp__panel-corner--tl {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid rgb(var(--svc-c));
+    border-left: 2px solid rgb(var(--svc-c));
+    border-radius: 16px 0 0 0;
+  }
+
+  .sp__panel-corner--br {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid rgb(var(--svc-c));
+    border-right: 2px solid rgb(var(--svc-c));
+    border-radius: 0 0 16px 0;
+  }
+
+  .sp__panel::-webkit-scrollbar { width: 4px; }
+  .sp__panel::-webkit-scrollbar-track { background: transparent; }
+  .sp__panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+  }
+  .sp__panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  /* Decorative SVG in panel */
+  .sp__panel-svg {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    width: 120px;
+    height: 120px;
+    color: rgb(var(--svc-c));
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+  .sp__panel--active .sp__panel-svg {
+    opacity: 0.35;
+  }
+
+  .sp__panel-title {
+    font: 700 1.25rem/1.3 var(--font-body);
+    color: rgb(var(--svc-c));
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .sp__panel-text {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== Resolution ===== */
+  .sp__resolution {
+    position: relative;
+    margin-top: clamp(3rem, 6vw, 5rem);
+    padding: 2rem 2.5rem;
+    border-left: 3px solid rgb(var(--svc-c));
+    background: rgba(var(--svc-c), 0.02);
+    border-radius: 0 16px 16px 0;
+    max-width: 700px;
+    margin-inline: auto;
+    text-align: left;
+  }
+
+  .sp__resolution-title {
+    font: 700 1.2rem/1.3 var(--font-heading);
+    margin-bottom: 1rem;
+    color: rgb(var(--svc-c));
+  }
+
+  .sp__resolution-text {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  .sp__resolution-text + .sp__resolution-text {
+    margin-top: 0.75rem;
+  }
+
+  /* ===== Mobile ===== */
+  @media (max-width: 1023px) {
+    .sp__dot-grid { display: none; }
+    .sp__headings { padding-left: 0; }
+    .sp__timeline { display: none; }
+    .sp__heading::before { display: none; }
+
+    .sp__content { height: auto; }
+    .sp__glow { display: none; }
+    .sp__deco-num { display: none; }
+
+    .sp__panel {
+      position: relative;
+      inset: auto;
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
+      margin-bottom: 1.5rem;
+    }
+    .sp__panel:last-child { margin-bottom: 0; }
+    .sp__panel-corner { display: none; }
+    .sp__panel-svg { opacity: 0.2; }
+
+    .sp__resolution {
+      padding: 1.5rem;
+    }
+  }
+</style>

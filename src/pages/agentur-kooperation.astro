@@ -1,0 +1,931 @@
+---
+/**
+ * agentur-kooperation.astro
+ * B2B partnership page — White-Label & Referral for DACH agencies.
+ * Cooperation models, process, FAQ, and contact funnel.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Contact from '../components/Contact.astro';
+import ProcessTimeline from '../components/ProcessTimeline.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+
+const siteUrl = 'https://timito-media.at';
+
+const heroStats = [
+  { num: '3', label: 'Kooperationsmodelle' },
+  { num: '100%', label: 'Kundenschutz per NDA' },
+  { num: 'DACH', label: 'Marktfokus AT · DE · CH' },
+  { num: '24h', label: 'Reaktionszeit als Partner' },
+];
+
+const howItWorks = [
+  { col: 'Deine Agentur', items: ['Kundenbeziehung', 'Briefing & Sales', 'Abrechnung'] },
+  { col: 'Timito Media', items: ['Execution & Delivery', 'Tracking, Ads, Design', 'NDA-geschützt'] },
+  { col: 'Ergebnis', items: ['Zufriedene Kunden', 'Wiederholungsaufträge', 'Deine Marge'] },
+];
+
+const problems = [
+  {
+    num: '/01',
+    title: 'Unerfüllte Kundenanfragen',
+    text: 'Kunden fragen nach Services die du nicht hast. Tracking-Anfragen, Ads-Management, technische Implementierungen — jedes abgelehnte Projekt ist verlorener Umsatz. Oft wandert der Kunde komplett zur Full-Service-Konkurrenz.',
+    icon: 'M12 9v2m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',
+  },
+  {
+    num: '/02',
+    title: 'Unzuverlässige Freelancer',
+    text: 'Freelancer sind teuer, unzuverlässig oder beides. Projektbasiertes Hiring kostet Zeit und Nerven. Qualitätssicherung liegt bei dir. SLAs gibt es keine. Und beim nächsten Projekt beginnt die Suche von vorne.',
+    icon: 'M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z',
+  },
+  {
+    num: '/03',
+    title: 'Hohe Inhouse-Kosten',
+    text: 'Eigene Mitarbeiter aufzubauen dauert Monate und kostet Fixkosten. Senior-Tracking-Expertise intern aufzubauen ist ein 6–12-Monatsprojekt — mit ungewissem Ausgang. Und bis dahin verlierst du weiter Aufträge.',
+    icon: 'M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z',
+  },
+];
+
+const models = [
+  {
+    num: '/01',
+    title: 'White-Label Services',
+    text: 'Wir liefern Performance Marketing, Tracking und Webdesign vollständig unter deiner Marke. Dein Kunde erfährt nie von uns. Alle Reports tragen dein Logo. Alle Kommunikation läuft über dich.',
+    tags: ['NDA-Standard', 'White-Label Reports', 'Logo-Branding'],
+    color: 'cyan',
+  },
+  {
+    num: '/02',
+    title: 'Referral Partner',
+    text: 'Du empfiehlst uns an Kunden aus deinem Netzwerk, die du nicht selbst bedienen kannst oder willst. Attraktive Provision, voller Kundenschutz, kein Mindestvolumen.',
+    tags: ['Transparente Provision', 'Kein Mindestvolumen', 'Kundenschutz'],
+    color: 'pink',
+  },
+  {
+    num: '/03',
+    title: 'Tech Integration',
+    text: 'Du bietest ein Marketing-Tool oder eine SaaS-Lösung an. Wir werden dein bevorzugter Implementation Partner im DACH-Markt — mit Co-Marketing, Case Studies und technischer Dokumentation.',
+    tags: ['Preferred Partner', 'Co-Marketing', 'DACH-Fokus'],
+    color: 'green',
+  },
+  {
+    num: '/04',
+    title: 'Joint Venture',
+    text: 'Gemeinsam Märkte erschließen, Produkte entwickeln oder Ressourcen teilen. Für Partner die langfristig denken und echte strategische Tiefe suchen.',
+    tags: ['Revenue Share', 'Langfristig', 'Strategisch'],
+    color: 'yellow',
+  },
+];
+
+const reasons = [
+  {
+    title: 'Tracking-First Expertise',
+    text: 'Server-Side Tracking ist unser Kerngeschäft — kein Add-On, kein Randbereich. GTM Server Container, Meta CAPI, Enhanced Conversions, Consent Mode v2.',
+    tags: ['GTM Server', 'Meta CAPI', 'Enhanced Conversions', 'Consent Mode v2'],
+  },
+  {
+    title: '100% Kundenschutz',
+    text: 'NDA und Kundenschutzvereinbarung zu Beginn jeder Partnerschaft. Wir kontaktieren deine Kunden nie eigenständig und löschen Kundendaten nach Projektende.',
+    tags: ['NDA-Standard', 'Keine Direktkontaktierung', 'Datenlöschung'],
+  },
+  {
+    title: 'Direkte Ansprechpartner',
+    text: 'Du kommunizierst mit Christina oder Mike — nicht mit einem Account Manager der Entscheidungen erst intern abstimmen muss. Kurze Wege, verbindliche Aussagen.',
+    tags: ['Senior-Level', 'Keine Zwischenebene', 'Verbindlich'],
+  },
+  {
+    title: 'DSGVO by Default',
+    text: 'Alle Leistungen sind von Grund auf DSGVO-konform. Daten werden auf dem Kundenserver anonymisiert, bevor sie US-Plattformen erreichen.',
+    tags: ['Server-Side Anonymisierung', 'Enterprise-ready'],
+  },
+  {
+    title: 'Flexible Kapazität',
+    text: 'Kein Mindestvolumen, keine Langzeitverträge, keine Kündigungsfristen. Du nutzt unsere Expertise genau dann wenn du sie brauchst.',
+    tags: ['Kein Mindestvolumen', 'Keine Bindung', 'On-demand'],
+  },
+  {
+    title: 'DACH-Marktkenntnis',
+    text: 'Österreich, Deutschland, Schweiz — wir kennen die rechtlichen Rahmenbedingungen und die Plattform-Besonderheiten. International arbeiten wir auf Englisch.',
+    tags: ['AT', 'DE', 'CH', 'Deutsch & Englisch'],
+  },
+];
+
+const processSteps = [
+  {
+    title: 'Erstgespräch — 30 Min, unverbindlich.',
+    text: 'Wir lernen uns kennen: Was bietest du an? Wo fehlen dir Ressourcen? Welche Kunden könnten profitieren?',
+    deliverable: 'Erste Einschätzung & Modell-Empfehlung',
+  },
+  {
+    title: 'Modell & Konditionen definieren.',
+    text: 'White-Label, Referral oder etwas Individuelles? Wir erarbeiten gemeinsam die Rahmenbedingungen — transparent, ohne versteckte Kosten.',
+    deliverable: 'Angebot & Konditionen in 48h',
+  },
+  {
+    title: 'Vertragliche Basis schaffen.',
+    text: 'NDA, Kundenschutzvereinbarung, Partnerkonditionen. Alles was du brauchst um sicher zu arbeiten — ohne monatelange Vertragsverhandlungen.',
+    deliverable: 'NDA & Partnervereinbarung',
+  },
+  {
+    title: 'Pilotprojekt starten.',
+    text: 'Wir starten mit einem überschaubaren ersten Projekt. Du siehst wie wir arbeiten — Qualität, Kommunikation, Timing. Kein Risiko, kein langfristiges Commitment.',
+    deliverable: 'Fertiges Deliverable mit QA-Dokumentation',
+  },
+  {
+    title: 'Laufende Partnerschaft skalieren.',
+    text: 'Hat das Pilotprojekt gepasst? Dann integrieren wir uns in deine Prozesse — mit deinen Tools, deinen Templates, deiner Kommunikationsstruktur.',
+    deliverable: 'Skalierbare Partnerschaft mit klaren SLAs',
+  },
+];
+
+const faqs = [
+  {
+    question: 'Wie funktioniert White-Label konkret?',
+    answer: 'Bei White-Label Services arbeitest du unter deiner eigenen Marke. Wir agieren vollständig im Hintergrund. Reports tragen dein Logo, die Kommunikation läuft über dich, dein Kunde erfährt nie von uns. Standard in jeder Partnerschaft: NDA + Kundenschutzvereinbarung vor dem ersten gemeinsamen Projekt.',
+  },
+  {
+    question: 'Wie ist der Kundenschutz geregelt?',
+    answer: '100% Kundenschutz ist Standard, nicht Verhandlungsmasse. Wir unterzeichnen zu Beginn eine NDA und eine Kundenschutzvereinbarung. Wir kontaktieren deine Kunden niemals eigenständig, akquirieren nicht in deinem Bestand und löschen Kundendaten nach Projektende.',
+  },
+  {
+    question: 'Gibt es Mindestvolumen oder Langzeitverträge?',
+    answer: 'Nein. Keine Mindestabnahme, keine versteckten Kosten, keine Kündigungsfristen bei Projektarbeit. Du nutzt unsere Expertise genau dann wenn du sie brauchst.',
+  },
+  {
+    question: 'Wie sind die Konditionen für Partner?',
+    answer: 'Konditionen besprechen wir im Erstgespräch individuell — abhängig von Modell, Volumen und strategischer Tiefe der Partnerschaft. Wir arbeiten mit transparenten Partner-Preislisten die dir klare Kalkulationsgrundlagen geben.',
+  },
+  {
+    question: 'Welche Services bietet ihr als White-Label an?',
+    answer: 'Server-Side Tracking (GTM Server Container, Meta CAPI, Enhanced Conversions, Consent Mode v2), Google Ads (Search, Shopping, Performance Max), Social Ads (Meta, TikTok, LinkedIn, Pinterest), Webdesign (Webflow, Shopify) und Strategie & Beratung. Alle Services können einzeln oder als Bundle gebucht werden.',
+  },
+  {
+    question: 'Wie schnell könnt ihr auf Projektanfragen reagieren?',
+    answer: 'Als Partner hast du priorisierten Support. Auf Anfragen reagieren wir in der Regel innerhalb von 24 Stunden. Bei dringenden Projekten können wir oft innerhalb einer Woche starten. Für langfristige Partnerschaften bieten wir reservierte Kapazitäten an.',
+  },
+  {
+    question: 'Wie läuft die Kommunikation während eines Projekts?',
+    answer: 'Wir passen uns deinen Prozessen an — ob du Slack, Asana, ClickUp oder E-Mail bevorzugst. Bei White-Label Projekten kommunizieren wir niemals direkt mit dem Endkunden, außer du wünschst es ausdrücklich.',
+  },
+  {
+    question: 'Arbeitet ihr auch mit kleinen Agenturen oder Freelancern?',
+    answer: 'Ja. Größe ist kein Kriterium — Qualitätsanspruch und kulturelle Passung schon. Gerade Freelancer und kleine Agenturen profitieren oft am meisten, weil sie ihr Portfolio erweitern können ohne eigenes Personal aufzubauen.',
+  },
+];
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'B2B Agenturkooperation — Timito Media',
+  url: `${siteUrl}/agentur-kooperation`,
+  description: 'White-Label & Referral für DACH-Agenturen. Erweitere dein Portfolio ohne Fixkosten, Risiko oder Kundenverlust.',
+  publisher: { '@id': `${siteUrl}/#business` },
+};
+---
+
+<BaseLayout
+  title="B2B Agenturkooperation — White-Label & Referral | Timito Media"
+  description="White-Label & Referral für DACH-Agenturen. Erweitere dein Portfolio ohne Fixkosten, Risiko oder Kundenverlust. 100% Kundenschutz per NDA."
+  canonical={`${siteUrl}/agentur-kooperation`}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+  </Fragment>
+
+  <Header />
+
+  <main class="b2b-page">
+    <!-- Hero -->
+    <section class="section b2b__hero">
+      <div class="container">
+        <SectionLabel text="// B2B Agenturkooperation" />
+        <h1 class="reveal">White-Label & Referral für DACH-Agenturen — <span class="text_cyan">Erweitere dein Portfolio ohne Fixkosten, Risiko oder Kundenverlust.</span></h1>
+        <p class="b2b__hero-sub reveal">
+          Kunden fragen nach Services die du nicht intern abdeckst — Server-Side Tracking, Performance Ads, Webdesign. Wir übernehmen die Execution vollständig unter deiner Marke. 100% Kundenschutz per NDA, keine Langzeitverträge, sofort einsatzbereit.
+        </p>
+        <div class="b2b__hero-stats">
+          {heroStats.map((stat) => (
+            <div class="b2b__stat reveal">
+              <span class="b2b__stat-num">{stat.num}</span>
+              <span class="b2b__stat-label">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section b2b__how">
+      <div class="container">
+        <SectionLabel text="// So funktioniert's" />
+        <h2 class="b2b__section-title reveal">Dein Name. Unsere Execution. Euer Ergebnis.</h2>
+        <div class="b2b__how-grid">
+          {howItWorks.map((col) => (
+            <div class="b2b__how-col reveal">
+              <h3 class="b2b__how-heading">{col.col}</h3>
+              <ul class="b2b__how-list">
+                {col.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div class="b2b__how-badges reveal">
+          <span class="b2b__badge">100% Kundenschutz per NDA</span>
+          <span class="b2b__badge">White-Label Reports mit deinem Logo</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problems -->
+    <section class="section b2b__problems">
+      <div class="container">
+        <SectionLabel text="// Das Problem" />
+        <h2 class="b2b__section-title reveal">Warum Agenturen Kapazitäten auslagern —<span class="text_cyan"> und warum das Risiko nicht bei dir liegen sollte.</span></h2>
+        <div class="b2b__problem-grid">
+          {problems.map((p) => (
+            <div class="b2b__problem-card reveal">
+              <div class="b2b__problem-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={p.icon} />
+                </svg>
+              </div>
+              <span class="b2b__problem-num">{p.num}</span>
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </div>
+          ))}
+        </div>
+        <div class="b2b__solution-card reveal">
+          <p><strong>Die Lösung:</strong> Expertise on-demand, sofort einsatzbereit, NDA-geschützt. Dein Portfolio wächst — ohne dass dein Risiko es tut.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cooperation Models -->
+    <section class="section b2b__models">
+      <div class="container">
+        <SectionLabel text="// Kooperationsmodelle" />
+        <h2 class="b2b__section-title reveal">Vier Modelle. <span class="text_cyan">Passend für jedes Bedürfniss.</span></h2>
+        <p class="b2b__section-sub reveal">Ob du einmalige Kapazität brauchst oder einen langfristigen strategischen Partner — wir passen uns deinem Modell an, nicht umgekehrt.</p>
+        <div class="b2b__model-grid">
+          {models.map((m) => (
+            <div class={`b2b__model-card b2b__model-card--${m.color} reveal`}>
+              <span class="b2b__model-num">{m.num}</span>
+              <h3>{m.title}</h3>
+              <p>{m.text}</p>
+              <div class="b2b__model-tags">
+                {m.tags.map((tag) => (
+                  <span class={`b2b__model-tag b2b__model-tag--${m.color}`}>{tag}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Timito -->
+    <section class="section b2b__why">
+      <div class="container">
+        <SectionLabel text="// Warum Timito" />
+        <h2 class="b2b__section-title reveal">Sechs Gründe warum Partner bei uns bleiben.</h2>
+        <div class="b2b__reason-grid">
+          {reasons.map((r) => (
+            <div class="b2b__reason-card reveal">
+              <h3>{r.title}</h3>
+              <p>{r.text}</p>
+              <div class="b2b__reason-tags">
+                {r.tags.map((tag) => (
+                  <span class="b2b__reason-tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Timeline -->
+    <ProcessTimeline
+      sectionTitle="Von der Anfrage zum ersten gemeinsamen Projekt."
+      steps={processSteps}
+      colorRGB="0, 212, 255"
+    />
+
+    <!-- FAQ -->
+    <section class="section b2b__faq">
+      <div class="container">
+        <SectionLabel text="// FAQ" />
+        <h2 class="b2b__section-title reveal">Häufige Fragen zur Partnerschaft.</h2>
+        <div class="faq__list" data-faq-group>
+          {faqs.map((faq, i) => (
+            <div class="faq__item reveal">
+              <button
+                class="faq__trigger"
+                type="button"
+                aria-expanded="false"
+                aria-controls={`b2b-faq-${i}`}
+              >
+                <span class="faq__num">/{String(i + 1).padStart(2, '0')}</span>
+                <span class="faq__question">{faq.question}</span>
+                <span class="faq__toggle" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </span>
+              </button>
+              <div class="faq__panel" id={`b2b-faq-${i}`}>
+                <div>
+                  <div class="faq__answer">
+                    <p>{faq.answer}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Funnel -->
+    <Contact />
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  (function () {
+    const groups = document.querySelectorAll('[data-faq-group]');
+    groups.forEach((group) => {
+      const items = group.querySelectorAll('.faq__item');
+
+      function toggle(item: Element) {
+        const isOpen = item.classList.contains('is-open');
+        items.forEach((i) => {
+          i.classList.remove('is-open');
+          i.querySelector('.faq__trigger')?.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('is-open');
+          item.querySelector('.faq__trigger')?.setAttribute('aria-expanded', 'true');
+        }
+      }
+
+      items.forEach((item) => {
+        const trigger = item.querySelector('.faq__trigger');
+        if (!trigger) return;
+        trigger.addEventListener('click', () => toggle(item));
+      });
+    });
+  })();
+</script>
+
+<style>
+  /* ===== HERO ===== */
+  .b2b__hero {
+    padding-top: clamp(8rem, 16vw, 12rem);
+    padding-bottom: 0;
+  }
+
+  .b2b__hero h1 {
+    font: 800 clamp(2rem, 4.5vw, 3.5rem)/1.12 var(--font-heading);
+    letter-spacing: -0.03em;
+    max-width: 820px;
+    margin-bottom: 1.25rem;
+  }
+
+  .b2b__hero-sub {
+    color: var(--text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    max-width: 700px;
+    margin-bottom: 2.5rem;
+  }
+
+  .b2b__hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .b2b__stat {
+    padding: 1.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    text-align: center;
+  }
+
+  .b2b__stat-num {
+    display: block;
+    font: 800 clamp(1.5rem, 3vw, 2.25rem)/1 var(--font-heading);
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+  }
+
+  .b2b__stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  /* ===== SHARED SECTION STYLES ===== */
+  .b2b__section-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    margin-bottom: 1rem;
+    max-width: 800px;
+    color: var(--text-primary);
+  }
+
+  .b2b__section-sub {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ===== HOW IT WORKS ===== */
+  .b2b__how .b2b__section-title {
+    margin-bottom: 2.5rem;
+  }
+
+  .b2b__how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .b2b__how-col {
+    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+  }
+
+  .b2b__how-heading {
+    font: 600 0.75rem/1 var(--font-mono);
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.25rem;
+  }
+
+  .b2b__how-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .b2b__how-list li {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .b2b__how-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  .b2b__how-badges {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .b2b__badge {
+    font: 500 0.75rem/1 var(--font-mono);
+    color: var(--accent-cyan);
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 999px;
+    background: rgba(0, 212, 255, 0.06);
+  }
+
+  /* ===== PROBLEMS ===== */
+  .b2b__problems .b2b__section-title {
+    margin-bottom: 2.5rem;
+  }
+
+  .b2b__problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .b2b__problem-card {
+    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .b2b__problem-card:hover {
+    border-color: rgba(255, 45, 120, 0.2);
+  }
+
+  .b2b__problem-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 45, 120, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 45, 120, 0.06);
+    color: var(--accent-pink);
+    margin-bottom: 1.25rem;
+  }
+
+  .b2b__problem-num {
+    display: block;
+    font: 500 0.8rem/1 var(--font-mono);
+    color: var(--accent-pink);
+    margin-bottom: 0.75rem;
+  }
+
+  .b2b__problem-card h3 {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .b2b__problem-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .b2b__solution-card {
+    padding: 1.5rem 2rem;
+    background: rgba(0, 212, 255, 0.04);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    border-radius: var(--radius);
+    max-width: 700px;
+  }
+
+  .b2b__solution-card p {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .b2b__solution-card strong {
+    color: var(--accent-cyan);
+  }
+
+  /* ===== COOPERATION MODELS ===== */
+  .b2b__model-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .b2b__model-card {
+    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .b2b__model-card--cyan:hover { border-color: rgba(0, 212, 255, 0.25); }
+  .b2b__model-card--pink:hover { border-color: rgba(255, 45, 120, 0.25); }
+  .b2b__model-card--green:hover { border-color: rgba(0, 220, 130, 0.25); }
+  .b2b__model-card--yellow:hover { border-color: rgba(255, 200, 0, 0.25); }
+
+  .b2b__model-num {
+    display: block;
+    font: 500 0.8rem/1 var(--font-mono);
+    margin-bottom: 0.75rem;
+  }
+
+  .b2b__model-card--cyan .b2b__model-num { color: var(--accent-cyan); }
+  .b2b__model-card--pink .b2b__model-num { color: var(--accent-pink); }
+  .b2b__model-card--green .b2b__model-num { color: #00dc82; }
+  .b2b__model-card--yellow .b2b__model-num { color: #ffc800; }
+
+  .b2b__model-card h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .b2b__model-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .b2b__model-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .b2b__model-tag {
+    font: 500 0.65rem/1 var(--font-mono);
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+  }
+
+  .b2b__model-tag--cyan {
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    color: var(--accent-cyan);
+  }
+
+  .b2b__model-tag--pink {
+    background: rgba(255, 45, 120, 0.1);
+    border: 1px solid rgba(255, 45, 120, 0.2);
+    color: var(--accent-pink);
+  }
+
+  .b2b__model-tag--green {
+    background: rgba(0, 220, 130, 0.1);
+    border: 1px solid rgba(0, 220, 130, 0.2);
+    color: #00dc82;
+  }
+
+  .b2b__model-tag--yellow {
+    background: rgba(255, 200, 0, 0.1);
+    border: 1px solid rgba(255, 200, 0, 0.2);
+    color: #ffc800;
+  }
+
+  /* ===== WHY TIMITO ===== */
+  .b2b__why .b2b__section-title {
+    margin-bottom: 2.5rem;
+  }
+
+  .b2b__reason-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .b2b__reason-card {
+    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .b2b__reason-card:hover {
+    border-color: var(--border-hover);
+  }
+
+  .b2b__reason-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .b2b__reason-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .b2b__reason-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .b2b__reason-tag {
+    font: 500 0.65rem/1 var(--font-mono);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(0, 212, 255, 0.08);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    color: var(--accent-cyan);
+  }
+
+
+  /* ===== FAQ (reuses faq.astro pattern) ===== */
+  .b2b__faq .b2b__section-title {
+    margin-bottom: 2rem;
+  }
+
+  .faq__list {
+    max-width: 900px;
+  }
+
+  .faq__item {
+    border: 1px solid transparent;
+    border-top-color: var(--border);
+    border-radius: 12px;
+    transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .faq__item:last-child {
+    border-bottom-color: var(--border);
+  }
+
+  .faq__item.is-open {
+    border-color: rgba(0, 212, 255, 0.35);
+    background: rgba(0, 212, 255, 0.04);
+    box-shadow:
+      0 0 25px rgba(0, 212, 255, 0.15),
+      0 0 60px rgba(0, 212, 255, 0.06),
+      inset 0 0 40px rgba(0, 212, 255, 0.03);
+  }
+
+  .faq__trigger {
+    display: grid;
+    grid-template-columns: 50px 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+    font: inherit;
+  }
+
+  .faq__trigger:focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: -2px;
+    border-radius: 12px;
+  }
+
+  .faq__num {
+    font: 500 0.875rem/1 var(--font-mono);
+    color: var(--text-muted);
+    transition: color 0.35s ease;
+  }
+
+  .faq__item.is-open .faq__num {
+    color: var(--accent-cyan);
+  }
+
+  .faq__question {
+    font: 600 1rem/1.4 var(--font-body);
+    color: var(--text-secondary);
+    transition: color 0.35s ease;
+    text-align: left;
+  }
+
+  .faq__trigger:hover .faq__question {
+    color: var(--text-primary);
+  }
+
+  .faq__item.is-open .faq__question {
+    color: var(--text-primary);
+  }
+
+  .faq__toggle {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    transition: all 0.35s ease;
+    flex-shrink: 0;
+  }
+
+  .faq__toggle svg {
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .faq__item.is-open .faq__toggle {
+    color: var(--accent-cyan);
+    border-color: rgba(0, 212, 255, 0.3);
+    background: rgba(0, 212, 255, 0.06);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+  }
+
+  .faq__item.is-open .faq__toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .faq__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: grid-template-rows 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .faq__item.is-open .faq__panel {
+    grid-template-rows: 1fr;
+  }
+
+  .faq__panel > div {
+    overflow: hidden;
+  }
+
+  .faq__answer {
+    padding: 0 1.5rem 1.5rem;
+    padding-left: calc(50px + 1rem + 1.5rem);
+  }
+
+  .faq__answer p {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    max-width: 600px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+  }
+
+  .faq__item.is-open .faq__answer p {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .text_cyan {
+    color: var(--accent-cyan);
+  }
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1023px) {
+    .b2b__hero-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .b2b__problem-grid,
+    .b2b__reason-grid,
+    .b2b__how-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .b2b__model-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .b2b__hero-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .faq__trigger {
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem;
+      padding: 1rem;
+    }
+
+    .faq__num {
+      display: none;
+    }
+
+    .faq__question {
+      font-size: 0.9375rem;
+    }
+
+    .faq__toggle {
+      width: 28px;
+      height: 28px;
+    }
+
+    .faq__toggle svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .faq__answer {
+      padding: 0 1rem 1.25rem;
+    }
+  }
+</style>

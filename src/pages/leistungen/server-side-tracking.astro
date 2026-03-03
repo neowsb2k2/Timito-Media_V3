@@ -6,7 +6,7 @@ import StrategistProfile from '../../components/StrategistProfile.astro';
 import ProcessTimeline from '../../components/ProcessTimeline.astro';
 import PricingCards from '../../components/PricingCards.astro';
 import ServiceFAQ from '../../components/ServiceFAQ.astro';
-import ServiceCTA from '../../components/ServiceCTA.astro';
+import ServiceFunnel from '../../components/ServiceFunnel.astro';
 import { serverSideTrackingPage as data } from '../../data/service-pages';
 ---
 
@@ -47,5 +47,12 @@ import { serverSideTrackingPage as data } from '../../data/service-pages';
     colorRGB={data.colorRGB}
   />
   <ServiceFAQ faqs={data.faqs} colorRGB={data.colorRGB} />
-  <ServiceCTA colorRGB={data.colorRGB} relatedServices={data.relatedServices} />
+  <ServiceFunnel
+    serviceName="Server-Side Tracking"
+    serviceSlug={data.slug}
+    colorRGB={data.colorRGB}
+    ctaHeadline={data.funnel.ctaHeadline}
+    funnelCards={data.funnel.cards}
+    relatedServices={data.relatedServices}
+  />
 </ServiceLayout>

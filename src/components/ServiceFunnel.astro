@@ -1,0 +1,658 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import Terminal from './Terminal.astro';
+import SplitWords from './SplitWords.astro';
+
+interface Props {
+  serviceName: string;
+  serviceSlug: string;
+  colorRGB: string;
+  ctaHeadline: string;
+  funnelCards: Array<{ label: string; value: string; icon: string }>;
+  relatedServices?: Array<{ slug: string; name: string }>;
+}
+
+const {
+  serviceName,
+  serviceSlug,
+  colorRGB,
+  ctaHeadline,
+  funnelCards,
+  relatedServices = [],
+} = Astro.props;
+
+/**
+ * Icon map — feather-icon-style SVG paths.
+ * Referenced by the `icon` key in funnelCards data.
+ */
+const icons: Record<string, string> = {
+  search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+  refresh: '<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+  target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  question: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  image: '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
+  server: '<rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>',
+  'bar-chart': '<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>',
+  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  'file-text': '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>',
+  layout: '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>',
+  code: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+  'pen-tool': '<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/>',
+  grid: '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
+  compass: '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+  sliders: '<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',
+  'shopping-cart': '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>',
+};
+---
+
+<section id="kontakt" class="section svc-funnel" style={`--svc-c: ${colorRGB}`}>
+  <div class="svc-funnel__glow svc-funnel__glow--accent" aria-hidden="true"></div>
+  <div class="svc-funnel__glow svc-funnel__glow--purple" aria-hidden="true"></div>
+  <div class="container">
+    <div class="svc-funnel__grid">
+      <!-- Left: Content -->
+      <div class="svc-funnel__content reveal">
+        <SectionLabel text="// Strategiegespräch" />
+        <h2 class="giant-title headline-reveal">
+          <span class="h-line" style="overflow:hidden"><SplitWords text="Bereit für" /></span>
+          <span class="h-line line-accent" style="overflow:hidden"><SplitWords text={ctaHeadline + '?'} /></span>
+        </h2>
+        <p class="svc-funnel__sub">Wir nehmen uns 45 Minuten für eine ehrliche Analyse deiner Situation. <strong>Kein Pitch. Keine Unverbindlichkeit.</strong> Nur ein klares Bild davon, was möglich ist — und was es braucht.</p>
+
+        <ul class="svc-funnel__guarantees">
+          <li><span class="check">&#10003;</span> Qualifiziertes Erstgespräch</li>
+          <li><span class="check">&#10003;</span> Konkrete Quick-Wins — auch wenn wir nicht zusammenarbeiten</li>
+          <li><span class="check">&#10003;</span> Direkt mit Christina oder Mike — kein Sales-Team</li>
+          <li><span class="check">&#10003;</span> 45 Minuten — respektvoll mit deiner Zeit</li>
+        </ul>
+
+        <div class="svc-funnel__badge">
+          <span class="svc-funnel__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <span>5.0 auf Google</span>
+        </div>
+
+        <Terminal />
+      </div>
+
+      <!-- Right: Mini-Funnel -->
+      <div class="svc-funnel__form-wrap reveal">
+        <!-- Progress Bar -->
+        <div class="sf__progress">
+          <div class="sf__progress-bar" style="width: 33%"></div>
+        </div>
+        <div class="sf__step-label">
+          <span class="sf__step-mono">Schritt <span class="sf__current">1</span> von 3</span>
+        </div>
+
+        <!-- Step 1: Service Need -->
+        <div class="sf__step sf__step--active" data-sf-step="1">
+          <h3 class="sf__question">Wobei können wir dir bei {serviceName} helfen?</h3>
+          <div class="sf__cards sf__cards--grid">
+            {funnelCards.map((card) => (
+              <button type="button" class="sf__card" data-sf-value={card.value}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <Fragment set:html={icons[card.icon] || icons['question']} />
+                </svg>
+                <span>{card.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Step 2: Budget -->
+        <div class="sf__step" data-sf-step="2">
+          <h3 class="sf__question">Wie hoch ist dein monatliches Budget?</h3>
+          <div class="sf__cards sf__cards--list">
+            <button type="button" class="sf__option" data-sf-value="unter-3k">
+              <span class="sf__option-label">Unter &euro;3.000/Monat</span>
+              <span class="sf__option-sub">Erste Projekte</span>
+            </button>
+            <button type="button" class="sf__option" data-sf-value="3k-10k">
+              <span class="sf__option-label">&euro;3.000 &ndash; &euro;10.000/Monat</span>
+              <span class="sf__option-sub">Wachstumsphase</span>
+            </button>
+            <button type="button" class="sf__option" data-sf-value="10k-30k">
+              <span class="sf__option-label">&euro;10.000 &ndash; &euro;30.000/Monat</span>
+              <span class="sf__option-sub">Skalierung</span>
+            </button>
+            <button type="button" class="sf__option" data-sf-value="ueber-30k">
+              <span class="sf__option-label">&Uuml;ber &euro;30.000/Monat</span>
+              <span class="sf__option-sub">Enterprise</span>
+            </button>
+            <button type="button" class="sf__option" data-sf-value="unklar">
+              <span class="sf__option-label">Noch unklar</span>
+              <span class="sf__option-sub">Kl&auml;ren wir im Gespr&auml;ch</span>
+            </button>
+          </div>
+          <button type="button" class="sf__back" data-sf-goto="1">&larr; Zur&uuml;ck</button>
+        </div>
+
+        <!-- Step 3: Contact Form -->
+        <div class="sf__step" data-sf-step="3">
+          <h3 class="sf__question">Fast geschafft — wie erreichen wir dich?</h3>
+          <form name="kontakt-service" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="sf__form">
+            <input type="hidden" name="form-name" value="kontakt-service" />
+            <input type="hidden" name="interesse" class="sf__hidden-interesse" value="" />
+            <input type="hidden" name="budget" class="sf__hidden-budget" value="" />
+            <input type="hidden" name="service" value={serviceSlug} />
+            <p class="hidden" aria-hidden="true">
+              <label>Don't fill this out: <input name="bot-field" /></label>
+            </p>
+
+            <div class="sf__field">
+              <label>Name *</label>
+              <input type="text" name="name" required placeholder="Dein Name" />
+            </div>
+            <div class="sf__field">
+              <label>Email *</label>
+              <input type="email" name="email" required placeholder="deine@email.at" />
+            </div>
+            <div class="sf__field">
+              <label>Unternehmen</label>
+              <input type="text" name="unternehmen" placeholder="Optional" />
+            </div>
+            <div class="sf__field">
+              <label>Nachricht</label>
+              <textarea name="nachricht" rows="2" placeholder="Erzähl uns kurz von deinem Projekt..."></textarea>
+            </div>
+
+            <button type="submit" class="sf__submit" data-magnetic>Kostenloses Erstgespräch anfragen</button>
+            <p class="sf__submit-note">Unverbindlich &middot; Antwort in 24h</p>
+          </form>
+          <button type="button" class="sf__back" data-sf-goto="2">&larr; Zur&uuml;ck</button>
+        </div>
+
+        <!-- Success State -->
+        <div class="sf__step sf__success" data-sf-step="success">
+          <div class="sf__success-icon">&#10003;</div>
+          <h3 class="sf__question">Anfrage gesendet!</h3>
+          <p class="sf__success-text">Wir melden uns innerhalb von 24h bei dir. Schau auch in deinen Spam-Ordner.</p>
+        </div>
+      </div>
+    </div>
+
+    {relatedServices.length > 0 && (
+      <div class="svc-related reveal">
+        <span class="svc-related__label">Weitere Leistungen:</span>
+        {relatedServices.map(s => (
+          <a href={`/leistungen/${s.slug}`} class="svc-related__link">{s.name} &rarr;</a>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+(function () {
+  // Scope to .svc-funnel__form-wrap to avoid conflicting with homepage Contact funnel
+  const wraps = document.querySelectorAll('.svc-funnel__form-wrap');
+  wraps.forEach((wrap) => {
+    let interesse = '';
+    let budget = '';
+
+    const bar = wrap.querySelector('.sf__progress-bar');
+    const counter = wrap.querySelector('.sf__current');
+    const stepLabel = wrap.querySelector('.sf__step-label');
+
+    function goToStep(step: string | number) {
+      wrap.querySelectorAll('.sf__step').forEach((s) => {
+        s.classList.remove('sf__step--active');
+      });
+
+      const target = wrap.querySelector(`.sf__step[data-sf-step="${step}"]`);
+      if (target) {
+        target.classList.add('sf__step--active');
+      }
+
+      if (step === 'success') {
+        if (bar) (bar as HTMLElement).style.width = '100%';
+        if (stepLabel) (stepLabel as HTMLElement).style.display = 'none';
+      } else {
+        const pct = Math.round((Number(step) / 3) * 100);
+        if (bar) (bar as HTMLElement).style.width = pct + '%';
+        if (counter) counter.textContent = String(step);
+        if (stepLabel) (stepLabel as HTMLElement).style.display = '';
+      }
+    }
+
+    // Step 1: Service Need Cards
+    wrap.querySelectorAll('.sf__card').forEach((card) => {
+      card.addEventListener('click', () => {
+        interesse = (card as HTMLElement).dataset.sfValue || '';
+        const hidden = wrap.querySelector('.sf__hidden-interesse') as HTMLInputElement;
+        if (hidden) hidden.value = interesse;
+        goToStep(2);
+      });
+    });
+
+    // Step 2: Budget Options
+    wrap.querySelectorAll('.sf__option').forEach((option) => {
+      option.addEventListener('click', () => {
+        budget = (option as HTMLElement).dataset.sfValue || '';
+        const hidden = wrap.querySelector('.sf__hidden-budget') as HTMLInputElement;
+        if (hidden) hidden.value = budget;
+        goToStep(3);
+      });
+    });
+
+    // Back Buttons
+    wrap.querySelectorAll('.sf__back').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetStep = parseInt((btn as HTMLElement).dataset.sfGoto || '1');
+        goToStep(targetStep);
+      });
+    });
+
+    // Form Submit
+    const form = wrap.querySelector('.sf__form') as HTMLFormElement;
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = form.querySelector('.sf__submit') as HTMLButtonElement;
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Wird gesendet...';
+
+        try {
+          const formData = new FormData(form);
+          await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData as any).toString(),
+          });
+        } catch (err) {
+          console.error('Form error:', err);
+        }
+
+        goToStep('success');
+
+        // DataLayer push for Google Ads / GA4
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({
+          event: 'generate_lead',
+          lead_interesse: interesse,
+          lead_budget: budget,
+          lead_service: form.querySelector('[name="service"]')?.getAttribute('value') || '',
+        });
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      });
+    }
+  });
+})();
+</script>
+
+<style>
+  /* ===== Ambient Glows ===== */
+  .svc-funnel__glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(100px);
+    animation: sfGlowDrift 25s ease-in-out infinite alternate;
+  }
+  .svc-funnel__glow--accent {
+    width: 450px;
+    height: 450px;
+    top: -15%;
+    left: -10%;
+    background: rgba(var(--svc-c), 0.06);
+  }
+  .svc-funnel__glow--purple {
+    width: 350px;
+    height: 350px;
+    bottom: -10%;
+    right: -5%;
+    background: rgba(168, 85, 247, 0.04);
+    animation-delay: -12s;
+    animation-duration: 35s;
+  }
+  @keyframes sfGlowDrift {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-25px, 20px) scale(1.08); }
+    100% { transform: translate(15px, -10px) scale(0.95); }
+  }
+  @media (max-width: 767px) {
+    .svc-funnel__glow { width: 250px; height: 250px; filter: blur(80px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .svc-funnel__glow { animation: none; }
+  }
+
+  /* ===== Grid ===== */
+  .svc-funnel__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .svc-funnel__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* ===== Left Content ===== */
+  .svc-funnel__sub {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .svc-funnel__guarantees {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+  }
+  .svc-funnel__guarantees li {
+    padding: 0.5rem 0;
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+  }
+  .svc-funnel__guarantees li .check {
+    color: rgb(var(--svc-c));
+  }
+
+  .svc-funnel__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    padding: 0.3rem 0.75rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .svc-funnel__stars {
+    color: var(--accent-yellow);
+  }
+
+  /* ===== Accent line ===== */
+  .line-accent {
+    color: rgb(var(--svc-c));
+  }
+
+  /* ===== Related Services ===== */
+  .svc-related {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .svc-related__label {
+    font: 500 0.7rem/1 var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .svc-related__link {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    transition: all 0.2s ease;
+  }
+  .svc-related__link:hover {
+    color: rgb(var(--svc-c));
+    border-color: rgba(var(--svc-c), 0.4);
+    background: rgba(var(--svc-c), 0.04);
+  }
+
+  /* ===== FUNNEL WRAPPER ===== */
+  .svc-funnel__form-wrap {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    transition: border-color var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+  }
+  .svc-funnel__form-wrap:hover {
+    border-color: rgba(var(--svc-c), 0.25);
+    box-shadow: 0 0 25px rgba(var(--svc-c), 0.12), 0 0 60px rgba(var(--svc-c), 0.05);
+  }
+
+  /* ===== PROGRESS BAR ===== */
+  .sf__progress {
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .sf__progress-bar {
+    height: 100%;
+    background: rgb(var(--svc-c));
+    border-radius: 3px;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 8px rgba(var(--svc-c), 0.4);
+  }
+
+  /* ===== STEP LABEL ===== */
+  .sf__step-label {
+    margin-bottom: 1.25rem;
+  }
+  .sf__step-mono {
+    font: 500 0.7rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  /* ===== STEPS ===== */
+  .sf__step {
+    display: none;
+  }
+  .sf__step--active {
+    display: block;
+    animation: sfFadeIn 0.35s ease;
+  }
+  @keyframes sfFadeIn {
+    from { opacity: 0; transform: translateX(12px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ===== QUESTION TITLE ===== */
+  .sf__question {
+    font: 700 1.125rem/1.3 var(--font-body);
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+  }
+
+  /* ===== STEP 1: SERVICE CARDS (3x2 Grid) ===== */
+  .sf__cards--grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+  @media (max-width: 480px) {
+    .sf__cards--grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .sf__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.25rem 0.75rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .sf__card:hover {
+    border-color: rgb(var(--svc-c));
+    background: rgba(var(--svc-c), 0.04);
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(var(--svc-c), 0.12);
+  }
+  .sf__card:active {
+    transform: translateY(0);
+  }
+  .sf__card svg {
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+  }
+  .sf__card:hover svg {
+    color: rgb(var(--svc-c));
+  }
+
+  /* ===== STEP 2: BUDGET OPTIONS (Stacked List) ===== */
+  .sf__cards--list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .sf__option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+  .sf__option:hover {
+    border-color: rgb(var(--svc-c));
+    background: rgba(var(--svc-c), 0.04);
+    transform: translateX(4px);
+    box-shadow: 0 0 15px rgba(var(--svc-c), 0.12);
+  }
+  .sf__option-label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .sf__option-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* ===== STEP 3: FORM FIELDS ===== */
+  .sf__field {
+    margin-bottom: 1rem;
+  }
+  .sf__field label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+  }
+  .sf__field input,
+  .sf__field textarea {
+    width: 100%;
+    padding: 0.65rem 0.875rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    transition: border-color var(--duration) var(--ease);
+  }
+  .sf__field input:focus,
+  .sf__field textarea:focus {
+    outline: none;
+    border-color: rgb(var(--svc-c));
+    box-shadow: 0 0 0 3px rgba(var(--svc-c), 0.1);
+  }
+  .sf__field textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
+
+  /* ===== SUBMIT ===== */
+  .sf__submit {
+    width: 100%;
+    padding: 0.875rem;
+    background: rgb(var(--svc-c));
+    color: var(--bg-primary);
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all var(--duration) var(--ease);
+    margin-top: 0.25rem;
+  }
+  .sf__submit:hover {
+    filter: brightness(1.15);
+    box-shadow: 0 0 25px rgba(var(--svc-c), 0.3);
+  }
+  .sf__submit-note {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.6rem;
+  }
+
+  /* ===== BACK BUTTON ===== */
+  .sf__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 1rem;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .sf__back:hover {
+    color: rgb(var(--svc-c));
+  }
+
+  /* ===== SUCCESS STATE ===== */
+  .sf__success {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  .sf__success-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(var(--svc-c), 0.1);
+    border: 2px solid rgb(var(--svc-c));
+    color: rgb(var(--svc-c));
+    font-size: 1.5rem;
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(var(--svc-c), 0.2);
+  }
+  .sf__success-text {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+</style>

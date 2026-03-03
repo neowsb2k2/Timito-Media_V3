@@ -11,21 +11,416 @@ interface Props {
 const { sectionTitle, steps, colorRGB } = Astro.props;
 ---
 
-<section class="svc-process section" style={`--svc-c: ${colorRGB}`}>
-  <div class="container">
-    <SectionLabel text="// Ablauf" />
-    <h2 class="svc-process__title" data-split-reveal style="overflow:hidden"><SplitWords text={sectionTitle} gap="0.28em" /></h2>
-    <div class="process-steps">
+<section class="svc-process-section" style={`--svc-c: ${colorRGB}`}>
+  <div class="svc-proc__pin" data-svc-proc-pin>
+    <div class="svc-proc__header">
+      <SectionLabel text="// Ablauf" />
+      <h2 class="giant-title headline-reveal" style="overflow:hidden">
+        <span class="h-line"><SplitWords text={sectionTitle} /></span>
+      </h2>
+    </div>
+
+    <div class="svc-proc__blob" data-svc-proc-blob aria-hidden="true"></div>
+    <div class="svc-proc__grain" aria-hidden="true"></div>
+
+    <div class="svc-proc__scenes" data-svc-proc-scenes>
       {steps.map((step, i) => (
-        <div class="process-step reveal">
-          <span class="process-step__num">{String(i + 1).padStart(2, '0')}</span>
-          <div>
-            <h3 class="process-step__title">{step.title}</h3>
-            <p class="process-step__text">{step.text}</p>
-            <span class="process-step__deliverable">→ {step.deliverable}</span>
+        <div
+          class={`svc-proc__scene ${i === 0 ? 'is-active' : ''}`}
+          data-svc-scene={i}
+          style={`--scene-rgb: ${colorRGB}`}
+        >
+          <span class="svc-proc__deco-num" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+
+          <div class="svc-proc__scene-content">
+            <span class="svc-proc__phase">Phase {String(i + 1).padStart(2, '0')}</span>
+            <h3 class="svc-proc__scene-title">{step.title}</h3>
+            <p class="svc-proc__scene-desc">{step.text}</p>
+            <span class="svc-proc__deliverable-badge">→ {step.deliverable}</span>
           </div>
         </div>
       ))}
     </div>
+
+    <!-- Progress bar -->
+    <div class="svc-proc__progress" data-svc-proc-progress aria-hidden="true">
+      <div class="svc-proc__progress-fill" data-svc-proc-fill></div>
+      <div class="svc-proc__progress-dots">
+        {steps.map((_, i) => (
+          <span class="svc-proc__progress-dot" data-svc-dot={i}></span>
+        ))}
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  .svc-process-section { position: relative; overflow: visible; }
+
+  .svc-proc__pin {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .svc-proc__header {
+    text-align: left;
+    padding: 5rem 2rem 0;
+    padding-left: max(2rem, calc((100vw - var(--container, 1200px)) / 2 + 2rem));
+    max-width: 55%;
+    flex-shrink: 0;
+    z-index: 3;
+    position: relative;
+  }
+
+  /* Background blob */
+  .svc-proc__blob {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    filter: blur(100px);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(var(--svc-c), 0.1), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .svc-proc__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Scenes container */
+  .svc-proc__scenes {
+    position: relative;
+    flex: 1;
+    z-index: 2;
+  }
+
+  .svc-proc__scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 max(2rem, calc((100vw - var(--container, 1200px)) / 2 + 2rem));
+    padding-bottom: max(9rem, 15vh);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .svc-proc__scene.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Large decorative number */
+  .svc-proc__deco-num {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-size: clamp(8rem, 15vw, 12rem);
+    font-weight: 900;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 4px rgba(var(--svc-c), 0.4);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Scene content */
+  .svc-proc__scene-content { max-width: 560px; }
+
+  .svc-proc__phase {
+    display: inline-block;
+    font: 700 1.3rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgb(var(--svc-c));
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    background: rgba(var(--svc-c), 0.1);
+    border: 1px solid rgba(var(--svc-c), 0.2);
+    margin-bottom: 1.25rem;
+  }
+
+  .svc-proc__scene-title {
+    font: 700 clamp(1.6rem, 3.5vw, 2.6rem)/1.15 var(--font-heading);
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .svc-proc__scene-desc {
+    font: 400 clamp(0.9rem, 1.2vw, 1.05rem)/1.6 var(--font-body);
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+  }
+
+  .svc-proc__deliverable-badge {
+    display: inline-block;
+    font: 600 0.7rem/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgb(var(--svc-c));
+  }
+
+  /* Progress bar — horizontal at top */
+  .svc-proc__progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    z-index: 5;
+  }
+
+  .svc-proc__progress-fill {
+    height: 100%;
+    width: 0%;
+    background: rgb(var(--svc-c));
+    transition: width 0.3s ease;
+    box-shadow: 0 0 12px rgba(var(--svc-c), 0.4);
+  }
+
+  .svc-proc__progress-dots {
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 max(2rem, calc((100vw - var(--container, 1200px)) / 2 + 2rem));
+    pointer-events: none;
+  }
+
+  .svc-proc__progress-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .svc-proc__progress-dot.is-active {
+    background: rgb(var(--svc-c));
+    border-color: rgb(var(--svc-c));
+    box-shadow: 0 0 12px rgba(var(--svc-c), 0.5);
+  }
+
+  /* ===== Mobile ===== */
+  @media (max-width: 767px) {
+    .svc-proc__pin {
+      height: auto;
+      overflow: visible;
+      display: block;
+    }
+
+    .svc-proc__header {
+      padding: 2rem 1.25rem 0;
+      max-width: 100%;
+    }
+
+    .svc-proc__scenes {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 1rem 1.25rem 3rem;
+    }
+
+    .svc-proc__scene {
+      position: static;
+      opacity: 0;
+      visibility: visible;
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+      border-radius: var(--radius);
+      background: rgba(17, 17, 24, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(var(--svc-c), 0.12);
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .svc-proc__scene.is-mobile-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .svc-proc__deco-num {
+      position: static;
+      transform: none;
+      font-size: 3rem;
+      opacity: 0.15;
+      margin-bottom: -1rem;
+    }
+
+    .svc-proc__scene-content { max-width: 100%; }
+    .svc-proc__progress { display: none; }
+    .svc-proc__blob { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .svc-proc__scene { opacity: 1; visibility: visible; transition: none; }
+    .svc-proc__progress-fill { transition: none; }
+  }
+
+  /* No-JS fallback */
+  .svc-process-section:not(.js-ready) .svc-proc__pin { height: auto; overflow: visible; display: block; }
+  .svc-process-section:not(.js-ready) .svc-proc__scenes {
+    display: flex; flex-direction: column; gap: 2rem; padding: 1rem 1.25rem 3rem;
+  }
+  .svc-process-section:not(.js-ready) .svc-proc__scene {
+    position: static; opacity: 1; visibility: visible; pointer-events: auto;
+    padding: 2rem 1.5rem; border-radius: var(--radius);
+    background: rgba(17, 17, 24, 0.6); border: 1px solid rgba(var(--svc-c), 0.12);
+  }
+  .svc-process-section:not(.js-ready) .svc-proc__deco-num { position: static; font-size: 3rem; opacity: 0.15; }
+  .svc-process-section:not(.js-ready) .svc-proc__progress { display: none; }
+  .svc-process-section:not(.js-ready) .svc-proc__blob { display: none; }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  (function () {
+    const section = document.querySelector<HTMLElement>('.svc-process-section');
+    const pinEl = document.querySelector<HTMLElement>('[data-svc-proc-pin]');
+    if (!section || !pinEl) return;
+
+    section.classList.add('js-ready');
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const scenes = pinEl.querySelectorAll<HTMLElement>('[data-svc-scene]');
+    const progressFill = pinEl.querySelector<HTMLElement>('[data-svc-proc-fill]');
+    const progressDots = pinEl.querySelectorAll<HTMLElement>('[data-svc-dot]');
+    const count = scenes.length;
+
+    if (prefersReduced) {
+      scenes.forEach(s => {
+        s.classList.add('is-active');
+        s.classList.add('is-mobile-visible');
+      });
+      return;
+    }
+
+    let mobileObs: IntersectionObserver | null = null;
+
+    function setActiveScene(idx: number) {
+      scenes.forEach((s, i) => {
+        s.classList.toggle('is-active', i === idx);
+      });
+    }
+
+    ScrollTrigger.matchMedia({
+      // Desktop: pinned scroll
+      '(min-width: 768px)': function () {
+        scenes.forEach((s, i) => {
+          gsap.set(s, { autoAlpha: i === 0 ? 1 : 0, x: 0 });
+        });
+        setActiveScene(0);
+
+        // Calculate transition points evenly across timeline
+        const segmentSize = 1 / count;
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: pinEl,
+            pin: true,
+            scrub: 0.5,
+            anticipatePin: 1,
+            start: 'top top',
+            end: `+=${count * 80}%`,
+            onUpdate: (self) => {
+              const p = self.progress;
+
+              if (progressFill) {
+                progressFill.style.width = `${p * 100}%`;
+              }
+
+              // Determine active scene index
+              let activeIdx = Math.min(Math.floor(p * count), count - 1);
+
+              progressDots.forEach((dot, i) => {
+                dot.classList.toggle('is-active', i <= activeIdx);
+              });
+
+              setActiveScene(activeIdx);
+            },
+          },
+        });
+
+        // Build transitions between scenes
+        for (let i = 0; i < count - 1; i++) {
+          const exitPoint = (i + 1) * segmentSize - 0.04;
+          const enterPoint = (i + 1) * segmentSize;
+
+          tl.to(scenes[i], {
+            autoAlpha: 0, x: -40,
+            duration: 0.03, ease: 'power2.in',
+          }, exitPoint);
+
+          tl.fromTo(scenes[i + 1],
+            { autoAlpha: 0, x: 40 },
+            { autoAlpha: 1, x: 0, duration: 0.03, ease: 'power2.out', immediateRender: false },
+            enterPoint,
+          );
+        }
+      },
+
+      // Mobile: intersection-based reveals
+      '(max-width: 767px)': function () {
+        scenes.forEach(s => {
+          gsap.set(s, { clearProps: 'all' });
+        });
+
+        mobileObs = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              (e.target as HTMLElement).classList.add('is-mobile-visible');
+              mobileObs?.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.2 });
+
+        scenes.forEach(s => mobileObs!.observe(s));
+
+        return function () {
+          if (mobileObs) {
+            mobileObs.disconnect();
+            mobileObs = null;
+          }
+          scenes.forEach(s => s.classList.remove('is-mobile-visible'));
+        };
+      },
+    });
+
+    document.addEventListener('astro:before-swap', () => {
+      ScrollTrigger.getAll().forEach(st => st.kill());
+      if (mobileObs) mobileObs.disconnect();
+    }, { once: true });
+  })();
+</script>

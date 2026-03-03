@@ -1,7 +1,7 @@
 export interface Service {
   name: string;
   slug: string;
-  color: 'green' | 'cyan' | 'pink' | 'yellow' | 'orange' | 'purple';
+  color: 'green' | 'cyan' | 'pink' | 'yellow' | 'orange' | 'purple' | 'red';
   iconPath: string;
   tagline: string;
   features: string[];
@@ -82,7 +82,7 @@ export const services: Service[] = [
   {
     name: 'UI/UX Design',
     slug: 'ui-ux-design',
-    color: 'cyan',
+    color: 'purple',
     iconPath:
       'M12 2L2 7l10 5 10-5-10-5ZM2 17l10 5 10-5M2 12l10 5 10-5',
     tagline: 'Interfaces die Nutzer führen — nicht verwirren',
@@ -100,7 +100,7 @@ export const services: Service[] = [
   {
     name: 'Shop Design',
     slug: 'shop-design',
-    color: 'orange',
+    color: 'red',
     iconPath:
       'M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4ZM3 6h18M16 10a4 4 0 0 1-8 0',
     tagline: 'Online-Shops die verkaufen — Shopify, Shopware & WooCommerce',
@@ -118,7 +118,7 @@ export const services: Service[] = [
   {
     name: 'Strategie & Beratung',
     slug: 'strategie-beratung',
-    color: 'purple',
+    color: 'orange',
     iconPath:
       'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2ZM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7Z',
     tagline: 'Klarheit statt Komplexität — ein Plan der funktioniert',

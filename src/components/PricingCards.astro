@@ -34,7 +34,7 @@ const { sectionTitle, note, cards, colorRGB } = Astro.props;
               <li>{f}</li>
             ))}
           </ul>
-          <a href="#kontakt" class="btn-primary btn--full" data-magnetic>{card.ctaText} ↗</a>
+          <a href="#kontakt" class={`${card.featured ? 'btn-primary' : 'btn-ghost'} btn--full`} data-magnetic>{card.ctaText}</a>
         </div>
       ))}
     </div>

@@ -4,6 +4,16 @@
  * page accent color, set via inline style on the hero section.
  */
 
+/* Section labels always left-aligned on service pages */
+.svc-problems .section-label,
+.svc-cta .section-label,
+.svc-faq .section-label,
+.svc-pricing .section-label {
+  margin-right: auto;
+  display: flex;
+  width: fit-content;
+}
+
 /* ===== SERVICE HERO ===== */
 .svc-hero {
   --svc-c: 0, 212, 255;
@@ -77,84 +87,19 @@
 /* ===== PROBLEM SECTION ===== */
 .svc-problems {
   position: relative;
+  text-align: center;
 }
+
 
 .svc-problems__title {
-  font: 800 clamp(1.5rem, 3vw, 2.25rem)/1.2 var(--font-heading);
-  letter-spacing: -0.02em;
-  max-width: 700px;
-  margin-bottom: 2rem;
+  padding-top: 1.5rem;
+  font: 800 clamp(2rem, 4vw, 3rem)/1.15 var(--font-heading);
+  letter-spacing: -0.03em;
+  max-width: 900px;
+  margin-inline: auto;
+  margin-bottom: clamp(2rem, 4vw, 4rem);
   color: var(--text-primary);
-}
-
-.problem-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
-}
-
-.problem-card {
-  padding: 1.75rem;
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
-  transition: border-color var(--duration) var(--ease),
-              box-shadow var(--duration) var(--ease);
-}
-
-.problem-card:hover {
-  border-color: rgba(255, 45, 120, 0.25);
-  box-shadow: 0 0 25px rgba(255, 45, 120, 0.08);
-}
-
-.problem-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--accent-pink);
-}
-
-.problem-card h3 {
-  font: 700 1.1rem/1.3 var(--font-heading);
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-}
-
-.problem-card p {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-/* Resolution block */
-.resolution {
-  margin-top: 2rem;
-  padding: 2rem 2.5rem;
-  border-left: 3px solid rgb(var(--svc-c));
-  background: rgba(var(--svc-c), 0.02);
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.resolution h3 {
-  font: 700 1.2rem/1.3 var(--font-heading);
-  margin-bottom: 1rem;
-  color: rgb(var(--svc-c));
-}
-
-.resolution p {
-  font-size: 0.9375rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  max-width: 700px;
-}
-
-.resolution p + p {
-  margin-top: 0.75rem;
+  text-align: center;
 }
 
 /* ===== STRATEGIST PROFILE ===== */
@@ -247,64 +192,7 @@
 }
 
 /* ===== PROCESS TIMELINE ===== */
-.svc-process {
-  position: relative;
-}
-
-.svc-process__title {
-  font: 800 clamp(1.5rem, 3vw, 2.25rem)/1.2 var(--font-heading);
-  letter-spacing: -0.02em;
-  max-width: 600px;
-  margin-bottom: 2.5rem;
-  color: var(--text-primary);
-}
-
-.process-steps {
-  max-width: 800px;
-}
-
-.process-step {
-  display: grid;
-  grid-template-columns: 60px 1fr;
-  gap: 1.5rem;
-  padding: 2rem 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.process-step:last-child {
-  border-bottom: none;
-}
-
-.process-step__num {
-  font: 800 1.5rem/1 var(--font-heading);
-  color: rgb(var(--svc-c));
-  opacity: 0.5;
-}
-
-.process-step__title {
-  font: 700 1.1rem/1.3 var(--font-heading);
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-}
-
-.process-step__text {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-.process-step__deliverable {
-  display: inline-block;
-  margin-top: 0.75rem;
-  padding: 0.25rem 0.75rem;
-  font: 500 0.7rem/1.4 var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  background: rgba(var(--svc-c), 0.06);
-  color: rgb(var(--svc-c));
-  border-radius: 4px;
-  border: 1px solid rgba(var(--svc-c), 0.12);
-}
+/* Process section styles now live in ProcessTimeline.astro (scoped) */
 
 /* ===== PRICING CARDS ===== */
 .svc-pricing {
@@ -321,17 +209,24 @@
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.25rem;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin-inline: auto;
 }
 
 .pricing-card {
-  padding: 2rem;
-  border-radius: var(--radius);
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
+  padding: 2.5rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3),
+              0 8px 32px rgba(0, 0, 0, 0.25),
+              inset 0 1px 0 rgba(255, 255, 255, 0.04);
   position: relative;
+  display: flex;
+  flex-direction: column;
   transition: border-color var(--duration) var(--ease),
               box-shadow var(--duration) var(--ease);
 }
@@ -348,52 +243,55 @@
 .pricing-card--featured::before {
   content: 'Für Wachstum';
   position: absolute;
-  top: -1px;
-  right: 1.5rem;
-  padding: 0.3rem 0.75rem;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0.35rem 1rem;
   font: 600 0.65rem/1 var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   background: rgb(var(--svc-c));
   color: var(--bg-primary);
-  border-radius: 0 0 6px 6px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
 .pricing-card__label {
-  font: 500 0.7rem/1 var(--font-mono);
+  font: 600 0.7rem/1 var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--text-muted);
-  margin-bottom: 0.5rem;
-}
-
-.pricing-card__title {
-  font: 800 1.35rem/1.2 var(--font-heading);
-  color: var(--text-primary);
+  color: rgb(var(--svc-c));
   margin-bottom: 0.75rem;
 }
 
+.pricing-card__title {
+  font: 800 1.5rem/1.2 var(--font-heading);
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
 .pricing-card__desc {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+  line-height: 1.65;
+  margin-bottom: 2rem;
 }
 
 .pricing-card__features {
   list-style: none;
   padding: 0;
-  margin: 0 0 1.5rem;
+  margin: 0 0 2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 0.75rem;
+  flex: 1;
 }
 
 .pricing-card__features li {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
+  gap: 0.6rem;
+  font-size: 0.875rem;
   color: var(--text-primary);
   line-height: 1.5;
 }
@@ -406,12 +304,40 @@
   margin-top: 1px;
 }
 
+/* Service-page button overrides — use service color */
+.pricing-card .btn-primary {
+  background: rgb(var(--svc-c));
+  border-color: rgb(var(--svc-c));
+  color: var(--bg-primary);
+  animation: none;
+}
+
+.pricing-card .btn-primary:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 25px rgba(var(--svc-c), 0.3);
+  border-color: rgb(var(--svc-c));
+  background: rgb(var(--svc-c));
+}
+
+.pricing-card .btn-ghost {
+  color: var(--text-secondary);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.pricing-card .btn-ghost:hover {
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+}
+
 .svc-pricing__note {
-  margin-top: 1.5rem;
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  max-width: 600px;
+  margin-top: 2rem;
+  font: 500 0.8125rem/1.6 var(--font-mono);
+  font-style: italic;
+  color: rgb(var(--svc-c));
+  text-align: center;
+  max-width: 100%;
 }
 
 /* ===== SERVICE FAQ ===== */
@@ -428,6 +354,7 @@
 
 .svc-faq__list {
   max-width: 800px;
+  margin-inline: auto;
 }
 
 .svc-faq__item {
@@ -637,13 +564,6 @@
     font-size: 1.5rem;
   }
 
-  .process-step {
-    grid-template-columns: 1fr;
-  }
-
-  .process-step__num {
-    font-size: 1.25rem;
-  }
 
   .resolution {
     padding: 1.5rem;

@@ -15,75 +15,81 @@ import BurningCounter from './react/BurningCounter.tsx';
   </div>
 
   <div class="container hero__container">
-    <!-- Monospace label -->
-    <div class="hero__label" data-hero-label>
-      <SectionLabel text="Performance Marketing Infrastruktur" />
-    </div>
+    <div class="hero__grid">
+      <!-- Left: Text content -->
+      <div class="hero__text">
+        <!-- Monospace label -->
+        <div class="hero__label" data-hero-label>
+          <SectionLabel text="Performance Marketing Agentur " />
+        </div>
 
-    <!-- Main headline -->
-    <h1 class="hero__headline headline-reveal" data-hero-headline>
-      <span class="h-line" style="overflow:hidden">
-        <SplitWords text="Dein Marketing" />
-      </span>
-      <span class="h-line hero__headline--accent" style="overflow:hidden">
-        <SplitWords text="könnte mehr." />
-      </span>
-    </h1>
+        <h1 class="hero__headline headline-reveal" data-hero-headline>
+          <span class="h-line" style="overflow:hidden">
+            <SplitWords text="Mehr Umsatz ist" />
+          </span>
+          <span class="h-line" style="overflow:hidden">
+            <SplitWords text="kein Ziel." />
+          </span>
+          <span class="h-line hero__headline--accent" style="overflow:hidden">
+            <SplitWords text="Es ist ein Ergebnis." />
+          </span>
+        </h1>
 
-    <!-- Subheadline -->
-    <p class="hero__sub" data-hero-sub>
-      Die meisten Unternehmen verlieren 40% ihrer Daten &mdash;
-      und wundern sich, warum ihre Kampagnen nicht skalieren.
-    </p>
+        <!-- Subheadline -->
+        <p class="hero__sub" data-hero-sub>
+          Wenn Tracking, Kampagnenstrategie und Landingpages zusammenspielen, steigen ROAS und Conversion Rate automatisch.
+        </p>
 
-    <!-- Service pillars -->
-    <div class="hero__pillars" data-hero-pillars>
-      <span class="hero__pillar">Google &amp; Social Ads</span>
-      <span class="hero__pillar">Server-Side Tracking</span>
-      <span class="hero__pillar">Webdesign &amp; CRO</span>
-      <span class="hero__pillar">Strategie</span>
-    </div>
+        <!-- Service pillars -->
+        <div class="hero__pillars" data-hero-pillars>
+          <span class="hero__pillar">Google &amp; Social Ads</span>
+          <span class="hero__pillar">Server-Side Tracking</span>
+          <span class="hero__pillar">Webdesign &amp; CRO</span>
+          <span class="hero__pillar">Strategie</span>
+        </div>
 
-    <!-- Resolution -->
-    <p class="hero__resolution" data-hero-resolution>
-      Wir bauen die Infrastruktur, die alles verbindet &mdash;
-      von sauberem Tracking bis zur Kampagne, die performt.
-    </p>
+        <!-- Resolution -->
+        <p class="hero__resolution" data-hero-resolution>
+          Wir bauen die Grundlage für Wachstum — UI/UX & Webdesign, Tracking und Kampagnen als ein System.
+        </p>
 
-    <!-- Burning counter -->
-    <div class="hero__counter" data-hero-counter>
-      <BurningCounter client:visible />
-    </div>
+        <!-- Burning counter -->
+        <div class="hero__counter" data-hero-counter>
+          <BurningCounter client:visible />
+        </div>
 
-    <!-- CTA buttons -->
-    <div class="hero__cta" data-hero-cta>
-      <a href="#kontakt" class="btn-primary btn--lg" data-magnetic>
-        Kostenloses Audit anfragen
-      </a>
-      <a href="#leistungen" class="btn-ghost btn--lg" data-magnetic>
-        Was wir machen &darr;
-      </a>
-    </div>
+        <!-- CTA buttons -->
+        <div class="hero__cta" data-hero-cta>
+          <a href="#kontakt" class="btn-primary btn--lg" data-magnetic>
+            Kostenloses Audit anfragen
+          </a>
+          <a href="#leistungen" class="btn-ghost btn--lg" data-magnetic>
+            Unsere Leistungen &darr;
+          </a>
+        </div>
 
-    <!-- Trust bar -->
-    <div class="hero__bar" data-hero-bar>
-      <div class="hero__bar-founders">
-        <img src="/assets/team/christina.webp" alt="Christina Bauer, Co-Founderin" width="80" height="80" class="hero__bar-avatar" loading="eager" />
-        <img src="/assets/team/mike.webp" alt="Mike Wendl, Co-Founder" width="80" height="80" class="hero__bar-avatar hero__bar-avatar--overlap" loading="eager" />
+        <!-- Trust bar -->
+        <div class="hero__bar" data-hero-bar>
+          <div class="hero__bar-founders">
+            <img src="/assets/team/christina.webp" alt="Christina Bauer, Co-Founderin" width="80" height="80" class="hero__bar-avatar" loading="eager" />
+            <img src="/assets/team/mike.webp" alt="Michael Wendl, Co-Founder" width="80" height="80" class="hero__bar-avatar hero__bar-avatar--overlap" loading="eager" />
+          </div>
+          <span class="hero__bar-divider" aria-hidden="true"></span>
+          <div class="hero__bar-trust">
+            <span>&#10003; 15 Jahre Expertise</span>
+            <span>&middot;</span>
+            <span>&#10003; &euro;8M+ verwaltetes Budget</span>
+            <span>&middot;</span>
+            <span>&#10003; DSGVO-konform</span>
+          </div>
+          <span class="hero__bar-divider" aria-hidden="true"></span>
+          <div class="hero__bar-reviews">
+            <span class="hero__bar-stars" aria-label="5 von 5 Sternen">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <span class="hero__bar-rating">5.0 Google Reviews</span>
+          </div>
+        </div>
       </div>
-      <span class="hero__bar-divider" aria-hidden="true"></span>
-      <div class="hero__bar-trust">
-        <span>&#10003; 15 Jahre Expertise</span>
-        <span>&middot;</span>
-        <span>&#10003; &euro;8M+ verwaltetes Budget</span>
-        <span>&middot;</span>
-        <span>&#10003; DSGVO-konform</span>
-      </div>
-      <span class="hero__bar-divider" aria-hidden="true"></span>
-      <div class="hero__bar-reviews">
-        <span class="hero__bar-stars" aria-label="5 von 5 Sternen">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-        <span class="hero__bar-rating">5.0 Google Reviews</span>
-      </div>
+
     </div>
   </div>
 </section>
@@ -102,12 +108,23 @@ import BurningCounter from './react/BurningCounter.tsx';
   }
 
   .hero__container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     width: 100%;
     position: relative;
     z-index: 2;
+  }
+
+  .hero__grid {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 75vh;
+    justify-content: center;
+  }
+
+  .hero__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   /* Gradient mesh background */
@@ -175,7 +192,7 @@ import BurningCounter from './react/BurningCounter.tsx';
   /* Headline */
   .hero__headline {
     font-family: 'Unbounded', system-ui, sans-serif;
-    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-size: clamp(2.8rem, 8vw, 4.5rem);
     font-weight: 900;
     line-height: 1.05;
     letter-spacing: -0.04em;
@@ -190,7 +207,7 @@ import BurningCounter from './react/BurningCounter.tsx';
 
   /* Subheadline */
   .hero__sub {
-    font: 400 clamp(1rem, 1.5vw, 1.2rem)/1.6 var(--font-body);
+    font: 400 clamp(1rem, 1.5vw, 1.0rem)/1.6 var(--font-body);
     color: var(--text-secondary);
     max-width: 600px;
     margin-bottom: 2rem;
@@ -373,7 +390,6 @@ import BurningCounter from './react/BurningCounter.tsx';
     const counter = hero.querySelector('[data-hero-counter]');
     const cta = hero.querySelector('[data-hero-cta]');
     const bar = hero.querySelector('[data-hero-bar]');
-
     if (prefersReduced) {
       [label, sub, pillars, resolution, counter, cta, bar].forEach(el => {
         if (el) el.classList.add('is-revealed');

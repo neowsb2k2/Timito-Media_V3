@@ -5,6 +5,7 @@
  * system status, social links, and legal bottom bar.
  */
 import { services } from '../data/services';
+import Logo from './Logo.astro';
 
 const slugMap: Record<string, string> = {
   'webdesign-entwicklung': 'webdesign',
@@ -19,6 +20,7 @@ const agencyLinks = [
   { label: 'Agency', href: '#about' },
   { label: 'Ablauf', href: '#ablauf' },
   { label: 'Leistungen', href: '/leistungen' },
+  { label: 'B2B Kooperation', href: '/agentur-kooperation' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Blog', href: '/blog' },
   { label: 'Kontakt', href: '/kontakt' },
@@ -37,7 +39,7 @@ const legalLinks = [
       <!-- Column 1: Brand -->
       <div class="footer__brand">
         <a href="/" class="footer__logo" aria-label="Timito Media – Startseite">
-          <img src="/assets/images/logo.webp" alt="Timito Media" width="140" height="32" class="footer__logo-img" />
+          <Logo height={28} />
         </a>
         <p class="footer__desc">
           Performance Marketing Agentur aus Österreich. Google&nbsp;Ads, Server-Side Tracking und Webdesign — mit Senior-Verantwortung auf jedem Account.

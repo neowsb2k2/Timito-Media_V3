@@ -3,3 +3,7 @@ dist/
 .astro/
 .DS_Store
 .netlify
+*.zip
+*.mp4
+.vscode/
+timito-mascot-v3.html

@@ -9,7 +9,7 @@ export interface ServicePageData {
   slug: string;
   title: string;
   description: string;
-  color: 'green' | 'cyan' | 'pink' | 'yellow' | 'orange' | 'purple';
+  color: 'green' | 'cyan' | 'pink' | 'yellow' | 'orange' | 'purple' | 'red';
   colorRGB: string;
   sectionLabel: string;
 
@@ -66,6 +66,11 @@ export interface ServicePageData {
   };
 
   faqs: Array<{ question: string; answer: string }>;
+
+  funnel: {
+    ctaHeadline: string;
+    cards: Array<{ label: string; value: string; icon: string }>;
+  };
 
   relatedServices: Array<{ slug: string; name: string }>;
 }
@@ -244,6 +249,18 @@ export const googleAdsPage: ServicePageData = {
         'Unser Tracking-First Ansatz: Bevor wir eine Google Ads Kampagne starten, reparieren wir dein Tracking. Die meisten Agenturen überspringen diesen Schritt — und optimieren auf unvollständige Daten. Dazu kommt direkte Senior-Verantwortung und volle Transparenz.',
     },
   ],
+
+  funnel: {
+    ctaHeadline: 'profitable Google Ads',
+    cards: [
+      { label: 'Audit & Setup', value: 'audit-setup', icon: 'search' },
+      { label: 'Laufende Betreuung', value: 'retainer', icon: 'refresh' },
+      { label: 'Tracking + Ads', value: 'tracking-ads', icon: 'target' },
+      { label: 'Komplett-Paket', value: 'komplett', icon: 'zap' },
+      { label: 'Erstberatung', value: 'erstberatung', icon: 'chat' },
+      { label: 'Anderes', value: 'anderes', icon: 'question' },
+    ],
+  },
 
   relatedServices: [
     { slug: 'server-side-tracking', name: 'Server-Side Tracking' },
@@ -428,6 +445,18 @@ export const socialAdsPage: ServicePageData = {
     },
   ],
 
+  funnel: {
+    ctaHeadline: 'profitable Social Ads',
+    cards: [
+      { label: 'Audit & Strategie', value: 'audit-strategie', icon: 'search' },
+      { label: 'Laufende Betreuung', value: 'retainer', icon: 'refresh' },
+      { label: 'Creative + Ads', value: 'creative-ads', icon: 'image' },
+      { label: 'Komplett-Paket', value: 'komplett', icon: 'zap' },
+      { label: 'Erstberatung', value: 'erstberatung', icon: 'chat' },
+      { label: 'Anderes', value: 'anderes', icon: 'question' },
+    ],
+  },
+
   relatedServices: [
     { slug: 'google-ads', name: 'Google Ads' },
     { slug: 'server-side-tracking', name: 'Server-Side Tracking' },
@@ -607,6 +636,18 @@ export const serverSideTrackingPage: ServicePageData = {
         'Ja. Server-Side Tracking funktioniert mit jedem CMS, Shop-System und Framework — Shopify, WooCommerce, WordPress, Webflow, Custom-Builds. Die Integration erfolgt über den GTM Server-Side Container.',
     },
   ],
+
+  funnel: {
+    ctaHeadline: 'lückenloses Tracking',
+    cards: [
+      { label: 'Tracking-Audit', value: 'tracking-audit', icon: 'search' },
+      { label: 'Server-Side Setup', value: 'sst-setup', icon: 'server' },
+      { label: 'GA4 + GTM', value: 'ga4-gtm', icon: 'bar-chart' },
+      { label: 'Consent Mode', value: 'consent-mode', icon: 'shield' },
+      { label: 'Erstberatung', value: 'erstberatung', icon: 'chat' },
+      { label: 'Anderes', value: 'anderes', icon: 'question' },
+    ],
+  },
 
   relatedServices: [
     { slug: 'google-ads', name: 'Google Ads' },
@@ -788,6 +829,18 @@ export const webdesignPage: ServicePageData = {
     },
   ],
 
+  funnel: {
+    ctaHeadline: 'eine Website die konvertiert',
+    cards: [
+      { label: 'Landingpage', value: 'landingpage', icon: 'file-text' },
+      { label: 'Komplette Website', value: 'website', icon: 'layout' },
+      { label: 'Redesign', value: 'redesign', icon: 'refresh' },
+      { label: 'CMS-Einrichtung', value: 'cms', icon: 'code' },
+      { label: 'Erstberatung', value: 'erstberatung', icon: 'chat' },
+      { label: 'Anderes', value: 'anderes', icon: 'question' },
+    ],
+  },
+
   relatedServices: [
     { slug: 'ui-ux-design', name: 'UI/UX Design' },
     { slug: 'server-side-tracking', name: 'Server-Side Tracking' },
@@ -803,8 +856,8 @@ export const uiUxDesignPage: ServicePageData = {
   title: 'UI/UX Design Agentur Österreich | Datengetriebene Interfaces · Timito Media',
   description:
     'UI/UX Design für DACH-Unternehmen. User Research, Wireframes, Prototyping in Figma und datengestützte Conversion-Optimierung. Design das Nutzer führt — nicht verwirrt. → Projekt anfragen.',
-  color: 'cyan',
-  colorRGB: '0, 212, 255',
+  color: 'purple',
+  colorRGB: '168, 85, 247',
   sectionLabel: '// UI/UX DESIGN',
 
   hero: {
@@ -971,6 +1024,18 @@ export const uiUxDesignPage: ServicePageData = {
     },
   ],
 
+  funnel: {
+    ctaHeadline: 'UX die konvertiert',
+    cards: [
+      { label: 'UX-Audit', value: 'ux-audit', icon: 'search' },
+      { label: 'UX/UI Redesign', value: 'redesign', icon: 'layers' },
+      { label: 'Prototyping', value: 'prototyping', icon: 'pen-tool' },
+      { label: 'Design System', value: 'design-system', icon: 'grid' },
+      { label: 'Erstberatung', value: 'erstberatung', icon: 'chat' },
+      { label: 'Anderes', value: 'anderes', icon: 'question' },
+    ],
+  },
+
   relatedServices: [
     { slug: 'webdesign', name: 'Webdesign' },
     { slug: 'strategie-beratung', name: 'Strategie & Beratung' },
@@ -987,8 +1052,8 @@ export const strategieBeratungPage: ServicePageData = {
     'Marketing Strategie & Beratung | Full-Funnel DACH · Timito Media',
   description:
     'Marketing-Strategie für DACH-Unternehmen. Full-Funnel Planung, Channel-Mix Optimierung & datengetriebene Budget-Allokation. Senior-Beratung ohne Agentur-Overhead. → Strategiegespräch anfragen.',
-  color: 'purple',
-  colorRGB: '168, 85, 247',
+  color: 'orange',
+  colorRGB: '255, 160, 50',
   sectionLabel: '// STRATEGIE & BERATUNG',
 
   hero: {
@@ -1155,6 +1220,18 @@ export const strategieBeratungPage: ServicePageData = {
     },
   ],
 
+  funnel: {
+    ctaHeadline: 'eine klare Digitalstrategie',
+    cards: [
+      { label: 'Strategy Sprint', value: 'strategy-sprint', icon: 'zap' },
+      { label: 'Laufende Beratung', value: 'advisory', icon: 'refresh' },
+      { label: 'Performance Audit', value: 'performance-audit', icon: 'bar-chart' },
+      { label: 'Channel-Strategie', value: 'channel-strategie', icon: 'compass' },
+      { label: 'Erstberatung', value: 'erstberatung', icon: 'chat' },
+      { label: 'Anderes', value: 'anderes', icon: 'question' },
+    ],
+  },
+
   relatedServices: [
     { slug: 'google-ads', name: 'Google Ads' },
     { slug: 'social-ads', name: 'Social Ads' },
@@ -1170,8 +1247,8 @@ export const shopDesignPage: ServicePageData = {
   title: 'Shop Design Agentur | Shopify · Shopware · WooCommerce · Timito Media',
   description:
     'Wir gestalten und entwickeln Online-Shops die verkaufen. Shopify, Shopware & WooCommerce — Conversion-optimiert, schnell und tracking-ready.',
-  color: 'orange',
-  colorRGB: '255, 160, 50',
+  color: 'red',
+  colorRGB: '242, 78, 82',
   sectionLabel: '// SHOP DESIGN',
 
   hero: {
@@ -1343,6 +1420,18 @@ export const shopDesignPage: ServicePageData = {
         'Ja. Server-Side Tracking, Enhanced Conversions und GA4 E-Commerce Events sind bei uns Teil der Entwicklung — nicht ein Nachgedanke. Dein Shop ist ab Tag 1 kampagnenfähig.',
     },
   ],
+
+  funnel: {
+    ctaHeadline: 'einen Shop der verkauft',
+    cards: [
+      { label: 'Shop-Optimierung', value: 'optimierung', icon: 'sliders' },
+      { label: 'Shop Neubau', value: 'neubau', icon: 'shopping-cart' },
+      { label: 'Shopify Setup', value: 'shopify', icon: 'code' },
+      { label: 'Laufende Betreuung', value: 'retainer', icon: 'refresh' },
+      { label: 'Erstberatung', value: 'erstberatung', icon: 'chat' },
+      { label: 'Anderes', value: 'anderes', icon: 'question' },
+    ],
+  },
 
   relatedServices: [
     { slug: 'webdesign', name: 'Webdesign & Entwicklung' },

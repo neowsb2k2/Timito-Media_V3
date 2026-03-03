@@ -6,6 +6,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import Contact from '../../components/Contact.astro';
 import SectionLabel from '../../components/SectionLabel.astro';
 import { services } from '../../data/services';
 
@@ -105,16 +106,7 @@ const breadcrumbSchema = {
       </div>
     </section>
 
-    <!-- Bottom CTA -->
-    <section class="section leistungen-page__cta">
-      <div class="container">
-        <div class="leistungen-page__cta-card reveal">
-          <h2>Nicht sicher welche Leistung?</h2>
-          <p>Im kostenlosen Erstgespräch analysieren wir dein Setup und empfehlen den richtigen Startpunkt.</p>
-          <a href="/kontakt" class="btn-primary">Gespräch vereinbaren</a>
-        </div>
-      </div>
-    </section>
+    <Contact />
   </main>
 
   <Footer />
@@ -128,9 +120,10 @@ const breadcrumbSchema = {
   }
 
   .leistungen-page__hero h1 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    margin-bottom: 1rem;
-    max-width: 800px;
+    font: 800 clamp(2rem, 4.5vw, 3.5rem)/1.12 var(--font-heading);
+    letter-spacing: -0.03em;
+    max-width: 820px;
+    margin-bottom: 1.25rem;
   }
 
   .leistungen-page__sub {
@@ -260,27 +253,4 @@ const breadcrumbSchema = {
     transform: translateX(2px);
   }
 
-  /* ===== BOTTOM CTA ===== */
-  .leistungen-page__cta-card {
-    text-align: center;
-    padding: 3.5rem 2rem;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius);
-    max-width: 640px;
-    margin-inline: auto;
-  }
-
-  .leistungen-page__cta-card h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .leistungen-page__cta-card p {
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-  }
 </style>

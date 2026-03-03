@@ -49,20 +49,16 @@ const scenes = [
 ---
 
 <section id="ablauf" class="process-section">
-  <!-- Header (before pin) -->
-  <div class="container">
+  <!-- Pinned scroll area (header inside pin so it stays visible) -->
+  <div class="process__pin" data-process-pin>
     <div class="process__header">
       <SectionLabel text="Unser Prozess" />
       <h2 class="giant-title headline-reveal">
-        <span class="h-line" style="overflow:hidden"><SplitWords text="So arbeiten" /></span>
-        <span class="h-line line-accent" style="overflow:hidden"><SplitWords text="wir." /></span>
+        <span class="h-line" style="overflow:hidden"><SplitWords text="Was du bei der Zusammenarbeit" /></span>
+        <span class="h-line line-accent" style="overflow:hidden"><SplitWords text="mit uns erwarten kannst." /></span>
       </h2>
-      <p class="process__sub reveal">Drei Phasen. Ein Ziel: Marketing, das skaliert.</p>
+      
     </div>
-  </div>
-
-  <!-- Pinned scroll area -->
-  <div class="process__pin" data-process-pin>
     <div class="process__bg-blob" data-process-blob aria-hidden="true"></div>
     <div class="process__grain" aria-hidden="true"></div>
 
@@ -74,7 +70,7 @@ const scenes = [
           style={`--scene-accent: var(${scene.accent}); --scene-rgb: ${scene.accentRgb};`}
         >
           <span class="process__deco-num" aria-hidden="true" data-scene-deco>
-            {scenes[i + 1]?.phase || '✓'}
+            {scene.phase}
           </span>
 
           <div class="process__scene-content">
@@ -118,19 +114,28 @@ const scenes = [
 <style>
   .process-section { position: relative; overflow: visible; }
 
-  .process__header { text-align: center; margin-bottom: 3rem; }
-  .process__header :global(.section-label) { justify-content: center; }
-  .process__sub {
-    color: var(--text-secondary);
-    max-width: 500px;
-    margin: 1rem auto 0;
-    text-align: center;
-  }
-
   .process__pin {
     position: relative;
     height: 100vh;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .process__header {
+    text-align: left;
+    padding: 5rem 2rem 0;
+    padding-left: max(2rem, calc((100vw - var(--container, 1200px)) / 2 + 2rem));
+    max-width: 50%;
+    flex-shrink: 0;
+    z-index: 3;
+    position: relative;
+  }
+  .process__sub {
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 0.75rem 0 0;
+    text-align: left;
   }
 
   .process__bg-blob {
@@ -159,7 +164,7 @@ const scenes = [
 
   .process__scenes {
     position: relative;
-    width: 100%; height: 100%;
+    flex: 1;
     z-index: 2;
   }
 
@@ -169,14 +174,16 @@ const scenes = [
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 4rem max(2rem, calc((100vw - var(--container, 1200px)) / 2 + 2rem));
+    padding: 0 max(2rem, calc((100vw - var(--container, 1200px)) / 2 + 2rem));
+    padding-bottom: max(9rem, 15vh);
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.5s ease;
   }
 
   .process__scene.is-active {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
   }
 
@@ -190,7 +197,7 @@ const scenes = [
     font-weight: 900;
     line-height: 1;
     color: transparent;
-    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.06);
+    -webkit-text-stroke: 4px rgba(var(--scene-rgb), 0.4);
     user-select: none;
     pointer-events: none;
   }
@@ -199,11 +206,11 @@ const scenes = [
 
   .process__phase {
     display: inline-block;
-    font: 700 0.65rem/1 var(--font-mono);
+    font: 700 1.3rem/1 var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--scene-accent);
-    padding: 0.3rem 0.65rem;
+    padding: 0.5rem 1rem;
     border-radius: 4px;
     background: rgba(var(--scene-rgb), 0.1);
     border: 1px solid rgba(var(--scene-rgb), 0.2);
@@ -256,13 +263,13 @@ const scenes = [
 
   .process__progress {
     position: absolute;
-    bottom: 2rem;
+    bottom: 5.5rem;
     left: 50%;
     transform: translateX(-50%);
     width: min(400px, 80vw);
-    height: 2px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 2px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
     z-index: 5;
   }
 
@@ -270,7 +277,7 @@ const scenes = [
     height: 100%;
     width: 0%;
     background: var(--accent-cyan);
-    border-radius: 2px;
+    border-radius: 3px;
     transition: width 0.3s ease, background-color 0.6s ease;
   }
 
@@ -285,24 +292,25 @@ const scenes = [
   }
 
   .process__progress-dot {
-    width: 8px; height: 8px;
+    width: 10px; height: 10px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   .process__progress-dot.is-active {
     background: var(--accent-cyan);
     border-color: var(--accent-cyan);
-    box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
   }
 
   .process__cta { text-align: center; padding: 3rem 0 1rem; }
 
   /* Mobile */
   @media (max-width: 767px) {
-    .process__pin { height: auto; overflow: visible; }
+    .process__pin { height: auto; overflow: visible; display: block; }
+    .process__header { padding: 2rem 1.25rem 0; }
 
     .process__scenes {
       display: flex;
@@ -314,6 +322,7 @@ const scenes = [
     .process__scene {
       position: static;
       opacity: 0;
+      visibility: visible;
       pointer-events: auto;
       display: flex;
       flex-direction: column;
@@ -346,18 +355,18 @@ const scenes = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .process__scene { opacity: 1; transition: none; }
+    .process__scene { opacity: 1; visibility: visible; transition: none; }
     .process__progress-fill { transition: none; }
     .process__bg-blob { transition: none; }
   }
 
   /* No-JS fallback: show all scenes if JS never loads */
-  .process-section:not(.js-ready) .process__pin { height: auto; overflow: visible; }
+  .process-section:not(.js-ready) .process__pin { height: auto; overflow: visible; display: block; }
   .process-section:not(.js-ready) .process__scenes {
     display: flex; flex-direction: column; gap: 2rem; padding: 1rem 1.25rem 3rem;
   }
   .process-section:not(.js-ready) .process__scene {
-    position: static; opacity: 1; pointer-events: auto;
+    position: static; opacity: 1; visibility: visible; pointer-events: auto;
     padding: 2rem 1.5rem; border-radius: var(--radius);
     background: rgba(17, 17, 24, 0.6); border: 1px solid rgba(var(--scene-rgb), 0.12);
   }
@@ -377,7 +386,6 @@ const scenes = [
     const pinEl = document.querySelector<HTMLElement>('[data-process-pin]');
     if (!section || !pinEl) return;
 
-    // Mark JS as loaded for progressive enhancement
     section.classList.add('js-ready');
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -393,7 +401,6 @@ const scenes = [
       { rgb: '63, 185, 80', cssVar: 'var(--accent-green)' },
     ];
 
-    // Reduced motion: show everything immediately
     if (prefersReduced) {
       scenes.forEach(s => {
         s.classList.add('is-active');
@@ -402,27 +409,34 @@ const scenes = [
       return;
     }
 
-    // Use ScrollTrigger.matchMedia for resize-safe desktop/mobile split
     let mobileObs: IntersectionObserver | null = null;
+
+    function setActiveScene(idx: number) {
+      scenes.forEach((s, i) => {
+        s.classList.toggle('is-active', i === idx);
+      });
+    }
 
     ScrollTrigger.matchMedia({
       // Desktop: pinned scroll
       '(min-width: 768px)': function () {
+        // autoAlpha = opacity + visibility in one — no ghosting
         scenes.forEach((s, i) => {
-          if (i > 0) {
-            gsap.set(s, { opacity: 0, x: 60 });
-          } else {
-            gsap.set(s, { opacity: 1, x: 0 });
-          }
+          gsap.set(s, {
+            autoAlpha: i === 0 ? 1 : 0,
+            x: 0,
+          });
         });
+        setActiveScene(0);
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinEl,
             pin: true,
-            scrub: 1,
+            scrub: 0.5,
+            anticipatePin: 1,
             start: 'top top',
-            end: '+=300%',
+            end: '+=180%',
             onUpdate: (self) => {
               const p = self.progress;
 
@@ -431,8 +445,8 @@ const scenes = [
               }
 
               let activeIdx = 0;
-              if (p >= 0.66) activeIdx = 2;
-              else if (p >= 0.33) activeIdx = 1;
+              if (p >= 0.62) activeIdx = 2;
+              else if (p >= 0.30) activeIdx = 1;
 
               progressDots.forEach((dot, i) => {
                 dot.classList.toggle('is-active', i <= activeIdx);
@@ -445,24 +459,37 @@ const scenes = [
               if (bgBlob) {
                 bgBlob.style.background = `radial-gradient(circle, rgba(${COLORS[activeIdx].rgb}, 0.1), transparent 70%)`;
               }
+
+              setActiveScene(activeIdx);
             },
           },
         });
 
-        // Scene 1 → 2 crossfade transition (intentional overlap for smooth blend)
-        tl.to(scenes[0], { opacity: 0, x: -60, duration: 0.03 }, 0.30);
-        tl.fromTo(scenes[1], { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.04 }, 0.32);
+        // Scene 0 → 1: sequential, no overlap
+        tl.to(scenes[0], {
+          autoAlpha: 0, x: -40,
+          duration: 0.08, ease: 'power2.in',
+        }, 0.28);
+        tl.fromTo(scenes[1],
+          { autoAlpha: 0, x: 40 },
+          { autoAlpha: 1, x: 0, duration: 0.08, ease: 'power2.out', immediateRender: false },
+          0.32,
+        );
 
-        // Scene 2 → 3 crossfade transition
-        tl.to(scenes[1], { opacity: 0, x: -60, duration: 0.03 }, 0.63);
-        tl.fromTo(scenes[2], { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.04 }, 0.65);
-
-        // matchMedia auto-reverts GSAP tweens when media query no longer matches
+        // Scene 1 → 2: sequential, no overlap
+        tl.to(scenes[1], {
+          autoAlpha: 0, x: -40,
+          duration: 0.08, ease: 'power2.in',
+        }, 0.60);
+        tl.fromTo(scenes[2],
+          { autoAlpha: 0, x: 40 },
+          { autoAlpha: 1, x: 0, duration: 0.08, ease: 'power2.out', immediateRender: false },
+          0.64,
+        );
       },
 
       // Mobile: intersection-based reveals
       '(max-width: 767px)': function () {
-        // Reset any desktop GSAP inline styles
         scenes.forEach(s => {
           gsap.set(s, { clearProps: 'all' });
         });
@@ -479,7 +506,6 @@ const scenes = [
         scenes.forEach(s => mobileObs!.observe(s));
 
         return function () {
-          // Cleanup when switching back to desktop
           if (mobileObs) {
             mobileObs.disconnect();
             mobileObs = null;
@@ -489,7 +515,6 @@ const scenes = [
       },
     });
 
-    // Cleanup for Astro SPA navigation
     document.addEventListener('astro:before-swap', () => {
       ScrollTrigger.getAll().forEach(st => st.kill());
       if (mobileObs) mobileObs.disconnect();

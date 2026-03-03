@@ -1,0 +1,614 @@
+---
+/**
+ * team.astro
+ * Team page — Christina & Mike profiles, approach, stats, differentiators.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Contact from '../components/Contact.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+
+const siteUrl = 'https://timito-media.at';
+
+const christinaSkills = [
+  { label: 'Google Ads', style: 'filled' },
+  { label: 'Performance Max', style: 'outline' },
+  { label: 'Social Ads', style: 'filled' },
+  { label: 'Meta · TikTok · LinkedIn', style: 'outline' },
+  { label: 'Full-Funnel Strategy', style: 'filled' },
+  { label: 'Attribution & Reporting', style: 'outline' },
+  { label: 'DACH & International', style: 'filled' },
+];
+const mikeSkills = [
+  { label: 'Webdesign', style: 'filled' },
+  { label: 'Webflow · Shopify · Astro', style: 'outline' },
+  { label: 'UI/UX Design', style: 'filled' },
+  { label: 'GSAP · Motion Design', style: 'outline' },
+  { label: 'WCAG 2.2 AA', style: 'filled' },
+  { label: 'Server-Side Tracking', style: 'filled' },
+  { label: 'GTM · CAPI · Data Layer', style: 'outline' },
+];
+
+const stats = [
+  { num: '15+', label: 'Jahre Senior-Expertise' },
+  { num: '€8M+', label: 'verwaltetes Werbebudget' },
+  { num: '2', label: 'Gründer · direkte Ansprechpartner' },
+  { num: 'DACH', label: '& International' },
+];
+
+const differentiators = [
+  {
+    icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+    title: 'Kein Junior an deinem Budget',
+    text: 'Bei uns arbeiten keine Berufseinsteiger an deinen Kampagnen. Christina und Mike übernehmen persönlich — auf jedem Account.',
+  },
+  {
+    icon: 'M3 3v18h18M18.7 8l-5.1 5.2-2.8-2.7L7 14.3',
+    title: 'Kein Reporting-Theater',
+    text: 'Keine aufgehübschten Monats-PDFs. Du bekommst Live-Dashboards mit echten Zahlen — jederzeit einsehbar.',
+  },
+  {
+    icon: 'M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7',
+    title: 'Keine Account-Geiseln',
+    text: 'Alle Accounts gehören dir. Google Ads, Analytics, Tag Manager — voller Zugriff, volle Ownership, ab Tag 1.',
+  },
+  {
+    icon: 'M12 2L2 7l10 5 10-5-10-5ZM2 17l10 5 10-5M2 12l10 5 10-5',
+    title: 'Keine isolierten Taktiken',
+    text: 'Website, Tracking und Ads funktionieren als ein System. Kein Silo-Denken, keine Informationsverluste zwischen Teams.',
+  },
+];
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'Team — Timito Media',
+  url: `${siteUrl}/team`,
+  mainEntity: {
+    '@type': 'Organization',
+    name: 'Timito Media',
+    founder: [
+      {
+        '@type': 'Person',
+        name: 'Christina',
+        jobTitle: 'Co-Founderin & Head of Performance Marketing',
+      },
+      {
+        '@type': 'Person',
+        name: 'Mike',
+        jobTitle: 'Co-Founder & Head of Tech & Design',
+      },
+    ],
+  },
+};
+---
+
+<BaseLayout
+  title="Team — Christina & Mike | Timito Media"
+  description="Senior-Expertise ohne Umwege. Christina (15 Jahre Ads) und Mike (Tech & Design) übernehmen persönlich Verantwortung auf jedem Account."
+  canonical={`${siteUrl}/team`}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  </Fragment>
+
+  <Header />
+
+  <main class="team-page">
+    <!-- Hero -->
+    <section class="section team-page__hero">
+      <div class="container">
+        <SectionLabel text="// Das Team" />
+        <h1 class="reveal">Christina & Mike — Senior Expertise. <span class="text_cyan"> Direkte Verantwortung. Auf jedem Account.</span></h1>
+        <p class="team-page__intro reveal">
+          Große Agenturen pitchen mit Seniors — und liefern mit Juniors. Bei Timito übernehmen Christina und Mike persönlich die strategische und operative Verantwortung für jeden Account. Ohne Ausnahme. 15 Jahre Erfahrung aus einer der größten Digital-Agenturen Österreichs. Jetzt mit vollem Fokus auf deinen ROAS.
+        </p>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="section team-page__stats-section">
+      <div class="container">
+        <div class="team-page__stats">
+          {stats.map((stat) => (
+            <div class="stat-item reveal">
+              <span class="stat-item__num">{stat.num}</span>
+              <span class="stat-item__label">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Approach -->
+    <section class="section team-page__approach">
+      <div class="container">
+        <SectionLabel text="// Unser Ansatz" />
+        <h2 class="team-page__approach-title reveal">Ergebnisse entstehen dort, wo Strategie führt — <span class="text_cyan">und Technik konsequent folgt.</span></h2>
+        <div class="team-page__principles">
+          <div class="principle reveal">
+            <span class="principle__num">/01</span>
+            <h3>Datenbasis vor Skalierung</h3>
+            <p>Erst wenn das Tracking stimmt, investieren wir in Reichweite. Alles andere verbrennt Budget auf Basis falscher Signale.</p>
+          </div>
+          <div class="principle reveal">
+            <span class="principle__num">/02</span>
+            <h3>Wer pitcht, liefert auch</h3>
+            <p>Kein Übergabe-Chaos zwischen Sales und Operations. Christina und Mike sind vom Erstgespräch bis zur Optimierung dabei.</p>
+          </div>
+          <div class="principle reveal">
+            <span class="principle__num">/03</span>
+            <h3>Website, Tracking und Ads als ein System</h3>
+            <p>Integration statt Infrastruktur-Silos. Alles wird als zusammenhängendes System gedacht — nicht als Einzelleistungen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Christina -->
+    <section class="section profile-section">
+      <div class="container">
+        <SectionLabel text="// Co-Founderin & Head of Performance" />
+        <div class="profile-editorial reveal">
+          <div class="profile-editorial__photo profile-editorial__photo--pink">
+            <img src="/assets/team/Christina-Bauer_Timito-Media.webp" alt="Christina Bauer — Co-Founderin Timito Media" width="560" height="700" loading="lazy" />
+          </div>
+          <div class="profile-editorial__card profile-editorial__card--pink">
+            <h2 class="profile-editorial__name">Christina.</h2>
+            <p class="profile-editorial__title profile-editorial__title--pink">Co-Founderin · Head of Performance Marketing</p>
+            <div class="profile-editorial__bio">
+              <p>15 Jahre Performance Marketing. Davon über ein Jahrzehnt bei einer der größten Digital-Agenturen Österreichs — verantwortlich für Google Ads, Meta, LinkedIn und TikTok mit sechsstelligen Monatsbudgets in vier europäischen Märkten gleichzeitig.</p>
+              <p>Christina denkt in Funnels, nicht in Kanälen. Von der ersten Impression bis zur Conversion wird jede Kampagne als zusammenhängendes System geplant — mit klarer Attribution, sauberen Daten und einem Fokus auf echten Business-Impact statt Vanity Metrics.</p>
+              <p>Bei Timito betreut sie jeden Account persönlich. Kein Handoff an Junior-Teams, kein Reporting-Theater. Du bekommst die gleiche Person im Strategiegespräch und in der täglichen Optimierung.</p>
+            </div>
+            <div class="profile-editorial__skills">
+              {christinaSkills.map((skill) => (
+                <span class={`skill-tag skill-tag--pink skill-tag--${skill.style}`}>{skill.label}</span>
+              ))}
+            </div>
+            <a href="https://www.linkedin.com/in/christina-timito-media/" target="_blank" rel="noopener noreferrer" class="profile-editorial__link profile-editorial__link--pink">
+              LinkedIn Profil ansehen
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mike -->
+    <section class="section profile-section">
+      <div class="container">
+        <SectionLabel text="// Co-Founder & Head of Tech & Design" />
+        <div class="profile-editorial profile-editorial--reverse reveal">
+          <div class="profile-editorial__photo profile-editorial__photo--cyan">
+            <img src="/assets/team/Michael-Wendl_Timito-Media.webp" alt="Michael Wendl — Co-Founder Timito Media" width="560" height="700" loading="lazy" />
+          </div>
+          <div class="profile-editorial__card profile-editorial__card--cyan">
+            <h2 class="profile-editorial__name">Mike.</h2>
+            <p class="profile-editorial__title profile-editorial__title--cyan">Co-Founder · Head of Tech & Design</p>
+            <div class="profile-editorial__bio">
+              <p>Verantwortet den gesamten technischen Stack: Server-Side Tracking, Webdesign, UI/UX und Marketing-Infrastruktur. Damit Kampagnen auf vollständigen Daten optimieren — nicht auf dem, was AdBlocker und iOS-Updates übrig lassen.</p>
+              <p>Mike baut Websites, die nicht nur gut aussehen, sondern als Conversion-Maschinen funktionieren. Jede Seite wird als Teil des Marketing-Systems gedacht — mit sauberem Data Layer, optimierter Core Web Vitals Performance und barrierefreiem Design nach WCAG 2.2 AA.</p>
+              <p>Vom Tag-Management über Custom Tracking Setups bis zur Landing Page — alles kommt aus einer Hand. Keine Abstimmungsverluste zwischen Agenturen, keine technischen Blackboxen. Du siehst was passiert, jederzeit.</p>
+            </div>
+            <div class="profile-editorial__skills">
+              {mikeSkills.map((skill) => (
+                <span class={`skill-tag skill-tag--cyan skill-tag--${skill.style}`}>{skill.label}</span>
+              ))}
+            </div>
+            <a href="https://www.linkedin.com/in/mike-timito-media/" target="_blank" rel="noopener noreferrer" class="profile-editorial__link profile-editorial__link--cyan">
+              LinkedIn Profil ansehen
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Timito -->
+    <section class="section team-page__why">
+      <div class="container">
+        <SectionLabel text="// Warum wir die Richtigen sind." />
+        <h2 class="team-page__why-title reveal">Wir unterscheiden uns grundlegend von unseren Mitbewerbern.</h2>
+        <div class="team-page__diff-grid">
+          {differentiators.map((d) => (
+            <div class="diff-card reveal">
+              <div class="diff-card__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={d.icon} />
+                </svg>
+              </div>
+              <h3>{d.title}</h3>
+              <p>{d.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Contact />
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ===== HERO ===== */
+  .team-page__hero {
+    padding-top: clamp(8rem, 16vw, 12rem);
+    padding-bottom: 0;
+  }
+
+  .team-page__hero h1 {
+    font: 800 clamp(2rem, 4.5vw, 3.5rem)/1.12 var(--font-heading);
+    letter-spacing: -0.03em;
+    max-width: 820px;
+    margin-bottom: 1.25rem;
+  }
+
+  .team-page__intro {
+    color: var(--text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    max-width: 700px;
+  }
+
+  /* ===== STATS ===== */
+  .team-page__stats-section {
+    padding-top: 2rem;
+    padding-bottom: 0;
+  }
+
+  .team-page__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .stat-item {
+    padding: 1.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    text-align: center;
+  }
+
+  .stat-item__num {
+    display: block;
+    font: 800 clamp(1.5rem, 3vw, 2.25rem)/1 var(--font-heading);
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-item__label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  /* ===== APPROACH ===== */
+  .team-page__approach-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+    color: var(--text-primary);
+  }
+
+  .team-page__principles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .principle {
+    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .principle:hover {
+    border-color: var(--border-hover);
+  }
+
+  .principle__num {
+    display: block;
+    font: 500 0.8rem/1 var(--font-mono);
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+  }
+
+  .principle h3 {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .principle p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ===== PROFILE SECTIONS (Editorial Layout) ===== */
+  .profile-section {
+    padding-top: 0;
+  }
+
+  .profile-editorial {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .profile-editorial--reverse {
+    direction: rtl;
+  }
+
+  .profile-editorial--reverse > * {
+    direction: ltr;
+  }
+
+  /* Photo */
+  .profile-editorial__photo {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .profile-editorial__photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 4 / 5;
+  }
+
+  .profile-editorial__photo--pink {
+    border: 1px solid rgba(255, 45, 120, 0.15);
+    box-shadow: 0 8px 48px rgba(255, 45, 120, 0.08);
+  }
+
+  .profile-editorial__photo--cyan {
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    box-shadow: 0 8px 48px rgba(0, 212, 255, 0.08);
+  }
+
+  /* Content Card */
+  .profile-editorial__card {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    align-self: start;
+  }
+
+  .profile-editorial__card--pink {
+    border-color: rgba(255, 45, 120, 0.1);
+  }
+
+  .profile-editorial__card--cyan {
+    border-color: rgba(0, 212, 255, 0.1);
+  }
+
+  .profile-editorial__name {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .profile-editorial__title {
+    font: 500 0.85rem/1.4 var(--font-mono);
+    margin-bottom: 2rem;
+  }
+
+  .profile-editorial__title--pink {
+    color: var(--accent-pink);
+  }
+
+  .profile-editorial__title--cyan {
+    color: var(--accent-cyan);
+  }
+
+  .profile-editorial__bio {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .profile-editorial__bio p {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .profile-editorial__skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .skill-tag {
+    font: 500 0.7rem/1 var(--font-mono);
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Filled variants */
+  .skill-tag--pink.skill-tag--filled {
+    background: rgba(255, 45, 120, 0.12);
+    border: 1px solid rgba(255, 45, 120, 0.25);
+    color: var(--accent-pink);
+  }
+
+  .skill-tag--cyan.skill-tag--filled {
+    background: rgba(0, 212, 255, 0.12);
+    border: 1px solid rgba(0, 212, 255, 0.25);
+    color: var(--accent-cyan);
+  }
+
+  /* Outline variants */
+  .skill-tag--pink.skill-tag--outline {
+    background: transparent;
+    border: 1px solid rgba(255, 45, 120, 0.2);
+    color: rgba(255, 45, 120, 0.7);
+  }
+
+  .skill-tag--cyan.skill-tag--outline {
+    background: transparent;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    color: rgba(0, 212, 255, 0.7);
+  }
+
+  /* LinkedIn link */
+  .profile-editorial__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font: 500 0.8rem/1 var(--font-mono);
+    padding: 0.65rem 1.25rem;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all var(--duration) var(--ease);
+  }
+
+  .profile-editorial__link--pink {
+    border: 1px solid rgba(255, 45, 120, 0.25);
+    color: var(--accent-pink);
+  }
+
+  .profile-editorial__link--pink:hover {
+    background: rgba(255, 45, 120, 0.1);
+    border-color: rgba(255, 45, 120, 0.4);
+    box-shadow: 0 0 16px rgba(255, 45, 120, 0.12);
+  }
+
+  .profile-editorial__link--cyan {
+    border: 1px solid rgba(0, 212, 255, 0.25);
+    color: var(--accent-cyan);
+  }
+
+  .profile-editorial__link--cyan:hover {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 0 0 16px rgba(0, 212, 255, 0.12);
+  }
+
+  .profile-editorial__link svg {
+    transition: transform var(--duration) var(--ease);
+  }
+
+  .profile-editorial__link:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  /* ===== WHY TIMITO ===== */
+  .team-page__why-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    margin-bottom: 2rem;
+  }
+
+  .team-page__diff-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .diff-card {
+    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .diff-card:hover {
+    border-color: var(--border-hover);
+  }
+
+  .diff-card__icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(0, 212, 255, 0.06);
+    color: var(--accent-cyan);
+    margin-bottom: 1.25rem;
+  }
+
+  .diff-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .diff-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+.text_cyan {
+      color: var(--accent-cyan);
+;
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1023px) {
+    .team-page__stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .team-page__principles {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .profile-editorial {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .profile-editorial--reverse {
+      direction: ltr;
+    }
+
+    .profile-editorial__photo {
+      max-width: 320px;
+    }
+
+    .profile-editorial__name {
+      font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .team-page__diff-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .team-page__stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+  }
+</style>
