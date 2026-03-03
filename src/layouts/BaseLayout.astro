@@ -20,6 +20,7 @@ const {
 } = Astro.props;
 
 import '../styles/global.css';
+import '../styles/mobile.css';
 import Preloader from '../components/Preloader.astro';
 import HexGrid from '../components/HexGrid.astro';
 
@@ -206,6 +207,10 @@ const jsonLd = {
       (window as any).__lenis = lenis;
 
       // ===== 2. Query pre-split elements (split at build time by SplitWords.astro) =====
+      const isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
+      const headlineStagger = isMobileLayout ? 0.04 : 0.06;
+      const splitStagger = isMobileLayout ? 0.035 : 0.055;
+
       const headlineData: { headline: Element; lines: NodeListOf<Element> }[] = [];
       document.querySelectorAll('.headline-reveal').forEach((headline) => {
         const lines = headline.querySelectorAll('.h-line');
@@ -244,7 +249,7 @@ const jsonLd = {
                 lines.forEach((line) => {
                   const words = line.querySelectorAll('.h-word');
                   words.forEach((word) => {
-                    (word as HTMLElement).style.transitionDelay = `${globalIndex * 0.06}s`;
+                    (word as HTMLElement).style.transitionDelay = `${globalIndex * headlineStagger}s`;
                     word.classList.add('is-visible');
                     globalIndex++;
                   });
@@ -262,7 +267,7 @@ const jsonLd = {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
                 el.querySelectorAll('.h-word').forEach((w, i) => {
-                  (w as HTMLElement).style.transitionDelay = `${i * 0.055}s`;
+                  (w as HTMLElement).style.transitionDelay = `${i * splitStagger}s`;
                   w.classList.add('is-visible');
                 });
                 obs.unobserve(el);

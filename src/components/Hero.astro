@@ -36,8 +36,11 @@ import BurningCounter from './react/BurningCounter.tsx';
         </h1>
 
         <!-- Subheadline -->
-        <p class="hero__sub" data-hero-sub>
+        <p class="hero__sub desktop-only" data-hero-sub>
           Wenn Tracking, Kampagnenstrategie und Landingpages zusammenspielen, steigen ROAS und Conversion Rate automatisch.
+        </p>
+        <p class="hero__sub mobile-only" data-hero-sub-mobile>
+          Tracking, Strategie und Landingpages als ein System &mdash; ROAS und CVR steigen automatisch.
         </p>
 
         <!-- Service pillars -->
@@ -382,9 +385,10 @@ import BurningCounter from './react/BurningCounter.tsx';
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
     const label = hero.querySelector('[data-hero-label]');
     const headline = hero.querySelector('[data-hero-headline]');
-    const sub = hero.querySelector('[data-hero-sub]');
+    const sub = hero.querySelector(isMobile ? '[data-hero-sub-mobile]' : '[data-hero-sub]');
     const pillars = hero.querySelector('[data-hero-pillars]');
     const resolution = hero.querySelector('[data-hero-resolution]');
     const counter = hero.querySelector('[data-hero-counter]');
@@ -412,12 +416,20 @@ import BurningCounter from './react/BurningCounter.tsx';
       if (headline) {
         const words = headline.querySelectorAll('.h-word');
         heroTimeline.call(() => {
-          let i = 0;
-          words.forEach((w) => {
-            (w as HTMLElement).style.transitionDelay = `${i * 0.08}s`;
-            w.classList.add('is-visible');
-            i++;
-          });
+          if (isMobile) {
+            // Mobile: reveal all words at once (CSS handles simple fade)
+            words.forEach((w) => {
+              (w as HTMLElement).style.transitionDelay = '0s';
+              w.classList.add('is-visible');
+            });
+          } else {
+            let i = 0;
+            words.forEach((w) => {
+              (w as HTMLElement).style.transitionDelay = `${i * 0.08}s`;
+              w.classList.add('is-visible');
+              i++;
+            });
+          }
         }, [], 0.3);
       }
 
