@@ -1,4 +1,2 @@
 User-agent: *
-Allow: /
-
-Sitemap: https://timito-media.at/sitemap-index.xml
+Disallow: /
