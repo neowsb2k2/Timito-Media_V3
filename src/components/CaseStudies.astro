@@ -61,6 +61,8 @@ import SplitWords from './SplitWords.astro';
     requestAnimationFrame(step);
   }
 
+  const isMobile = window.matchMedia('(max-width: 768px)');
+
   items.forEach(item => {
     const header = item.querySelector('.cs-header');
     if (!header) return;
@@ -68,13 +70,25 @@ import SplitWords from './SplitWords.astro';
     header.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(item); }
     });
+    // Desktop only: open on hover
+    item.addEventListener('mouseenter', () => {
+      if (!isMobile.matches) toggle(item);
+    });
   });
 
-  if (items[0]) toggle(items[0]);
+  if (items[0] && !isMobile.matches) toggle(items[0]);
 
-  const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)');
-  if (isDesktop.matches) {
-    items.forEach(item => item.addEventListener('mouseenter', () => toggle(item)));
+  // Mobile: fade-in items on scroll
+  if (isMobile.matches) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).classList.add('is-mobile-visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    items.forEach(item => obs.observe(item));
   }
 })();
 </script>
@@ -217,6 +231,18 @@ import SplitWords from './SplitWords.astro';
     .cs-grid { grid-template-columns: 1fr; gap: 2rem; }
     .cs-lesson { flex-direction: column; align-items: flex-start; }
     .cs-lesson__text { max-width: 100%; }
+  }
+
+  @media (max-width: 768px) {
+    .cs-item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+    }
+    .cs-item.is-mobile-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (max-width: 600px) {
