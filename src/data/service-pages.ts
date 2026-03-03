@@ -139,7 +139,7 @@ export const googleAdsPage: ServicePageData = {
     name: 'Christina',
     role: 'Co-Founderin · Head of Performance Marketing',
     bio: '15 Jahre Ads-Expertise aus einer der größten Digitalagenturen Österreichs. Hat Google Ads, Meta und LinkedIn für Premium-Marken mit monatlichen Budgets im sechsstelligen Bereich gesteuert — in vier europäischen Märkten gleichzeitig. Bei Timito Media betreut sie dein Konto <strong>persönlich</strong>. Keine Junior-Delegation. Kein Durchreichen.',
-    image: '/assets/team/christina.webp',
+    image: '/assets/team/Christina-Bauer_Timito-Media.webp',
     skills: [
       'Google Ads & Performance Max',
       'Social Ads (Meta, TikTok, LinkedIn)',
@@ -335,7 +335,7 @@ export const socialAdsPage: ServicePageData = {
     name: 'Christina',
     role: 'Co-Founderin · Head of Performance Marketing',
     bio: '15 Jahre Erfahrung im Performance Marketing, davon über 8 Jahre spezialisiert auf Social Ads für Premium-Marken. Hat Meta-, TikTok- und LinkedIn-Kampagnen in vier europäischen Märkten gleichzeitig gesteuert. Bei Timito Media betreut sie dein Konto <strong>persönlich</strong> — mit direktem Draht und voller Transparenz.',
-    image: '/assets/team/christina.webp',
+    image: '/assets/team/Christina-Bauer_Timito-Media.webp',
     skills: [
       'Meta Ads (Facebook & Instagram)',
       'TikTok & LinkedIn Ads',
@@ -527,7 +527,7 @@ export const serverSideTrackingPage: ServicePageData = {
     name: 'Mike',
     role: 'Co-Founder · Tech & Tracking',
     bio: 'Technischer Experte für Server-Side Tracking, GTM-Architekturen und Daten-Infrastruktur. Hat Tracking-Setups für E-Commerce- und B2B-Unternehmen mit monatlichen Werbebudgets im fünf- bis sechsstelligen Bereich implementiert. Bei Timito Media verantwortet er <strong>persönlich</strong> dein Tracking-Setup — von der Architektur bis zum Go-Live.',
-    image: '/assets/team/mike.webp',
+    image: '/assets/team/Michael-Wendl_Timito-Media.webp',
     skills: [
       'GTM Server-Side (Stape / Google Cloud)',
       'Meta CAPI & Enhanced Conversions',
@@ -719,7 +719,7 @@ export const webdesignPage: ServicePageData = {
     name: 'Mike',
     role: 'Co-Founder · Tech & Design',
     bio: 'Entwickler und Designer mit Erfahrung in modernen Frontend-Technologien. Baut Websites mit Astro, React und WordPress — immer mit Fokus auf Performance, SEO und Conversion. Bei Timito Media verantwortet er <strong>Design und Entwicklung persönlich</strong> — vom Wireframe bis zum Go-Live.',
-    image: '/assets/team/mike.webp',
+    image: '/assets/team/Michael-Wendl_Timito-Media.webp',
     skills: [
       'Astro, React & moderne Frontends',
       'WordPress & Headless CMS',
@@ -914,7 +914,7 @@ export const uiUxDesignPage: ServicePageData = {
     name: 'Mike',
     role: 'Co-Founder · Tech & Design',
     bio: 'Designer und Entwickler mit Fokus auf datengetriebenes UI/UX. Hat Interfaces für E-Commerce, SaaS und B2B-Plattformen gestaltet — immer mit messbaren Ergebnissen. Bei Timito Media verantwortet er <strong>Design und Prototyping persönlich</strong> — von der User Research bis zum Handoff an die Entwicklung.',
-    image: '/assets/team/mike.webp',
+    image: '/assets/team/Michael-Wendl_Timito-Media.webp',
     skills: [
       'User Research & Journey Mapping',
       'Wireframes & Prototyping (Figma)',
@@ -1110,7 +1110,7 @@ export const strategieBeratungPage: ServicePageData = {
     name: 'Christina',
     role: 'Co-Founderin · Head of Performance Marketing',
     bio: '15 Jahre strategische Marketing-Erfahrung. Hat Channel-Mix-Strategien für Unternehmen mit jährlichen Marketingbudgets im siebenstelligen Bereich entwickelt — über Google Ads, Social Ads, SEO und Offline-Kanäle hinweg. Bei Timito Media berät sie dich <strong>persönlich</strong> — mit dem Blick fürs große Ganze und dem Fokus auf messbare Ergebnisse.',
-    image: '/assets/team/christina.webp',
+    image: '/assets/team/Christina-Bauer_Timito-Media.webp',
     skills: [
       'Full-Funnel Marketing-Strategie',
       'Channel-Mix & Budget-Allokation',
@@ -1295,7 +1295,7 @@ export const shopDesignPage: ServicePageData = {
     name: 'Mike',
     role: 'Co-Founder · Tech & E-Commerce',
     bio: 'Mike hat über 50 Tracking-Setups und zahlreiche E-Commerce-Projekte auf Shopify, Shopware und WooCommerce umgesetzt. Bei Timito verantwortet er <strong>Shop-Entwicklung und Tracking-Integration persönlich</strong> — kein Junior, kein Handover.',
-    image: '/assets/team/mike.webp',
+    image: '/assets/team/Michael-Wendl_Timito-Media.webp',
     skills: [
       'Shopify (Liquid, Hydrogen, OS 2.0)',
       'Shopware 6 & Plugins',

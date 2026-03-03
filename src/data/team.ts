@@ -13,7 +13,7 @@ export const team: TeamMember[] = [
     description:
       '15 Jahre Ads-Expertise aus Österreichs Top-Agenturen. Premium-Marken, sechsstellige Budgets, 4 Märkte. Jetzt voll auf deinen ROAS fokussiert.',
     skills: ['Google Ads', 'Social Ads', 'Full-Funnel Strategie', 'DACH-Erfahrung'],
-    image: '/assets/team/christina.webp',
+    image: '/assets/team/Christina-Bauer_Timito-Media.webp',
   },
   {
     name: 'Mike',
@@ -21,6 +21,6 @@ export const team: TeamMember[] = [
     description:
       'Server-Side Tracking, Webdesign und technische Marketing-Infrastruktur. Baut Websites die nicht nur gut aussehen — sondern konvertieren.',
     skills: ['Webdesign', 'UI/UX', 'Server-Side Tracking', 'Analytics'],
-    image: '/assets/team/mike.webp',
+    image: '/assets/team/Michael-Wendl_Timito-Media.webp',
   },
 ];
