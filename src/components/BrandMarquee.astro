@@ -31,15 +31,20 @@ const logos = [
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .marquee__track {
     overflow: hidden;
+    width: 100%;
   }
 
   .marquee__items {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 4rem;
     animation: scroll 25s linear infinite;
     width: max-content;
@@ -51,7 +56,6 @@ const logos = [
     align-items: center;
     justify-content: center;
     height: 36px;
-    overflow: hidden;
   }
 
   .marquee__item img {
