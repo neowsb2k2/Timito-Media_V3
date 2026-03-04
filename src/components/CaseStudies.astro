@@ -18,7 +18,7 @@ import SplitWords from './SplitWords.astro';
     </div>
 
     <div class="cs-section-cta">
-      <a href="#kontakt" class="btn-gradient">Kostenloses Erstgespräch →</a>
+      <a href="#kontakt" class="btn-gradient">Kostenloses Audit anfragen →</a>
     </div>
   </div>
 </section>
@@ -76,7 +76,7 @@ import SplitWords from './SplitWords.astro';
     });
   });
 
-  if (items[0] && !isMobile.matches) toggle(items[0]);
+  if (items[0]) toggle(items[0]);
 
   // Mobile: fade-in items on scroll
   if (isMobile.matches) {

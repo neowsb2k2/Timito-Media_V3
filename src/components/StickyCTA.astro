@@ -45,7 +45,7 @@ const { colorRGB } = Astro.props;
 
     <!-- CTA -->
     <a href="#kontakt" class="bottom-bar__cta">
-      Audit anfragen <span aria-hidden="true">&rarr;</span>
+      Kostenloses Audit anfragen <span aria-hidden="true">&rarr;</span>
     </a>
   </div>
 </div>
@@ -284,6 +284,7 @@ const { colorRGB } = Astro.props;
       left: 0;
       right: 0;
       padding-inline: 0;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
     .bottom-bar.is-visible {
