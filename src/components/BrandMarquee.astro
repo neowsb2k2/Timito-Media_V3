@@ -12,9 +12,17 @@ const logos = [
 ---
 
 <div class="marquee" aria-label="Unsere Kunden">
+  {/* Mobile: static centered row */}
+  <div class="marquee__static">
+    {logos.map((logo) => (
+      <div class="marquee__item">
+        <img src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />
+      </div>
+    ))}
+  </div>
+  {/* Desktop: animated scrolling track */}
   <div class="marquee__track">
     <div class="marquee__items">
-      {/* Double the logos for seamless loop */}
       {[...logos, ...logos, ...logos, ...logos].map((logo) => (
         <div class="marquee__item">
           <img src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />
@@ -78,6 +86,23 @@ const logos = [
     }
     to {
       transform: translateX(-50%);
+    }
+  }
+
+  /* Mobile: static centered row, no animation, no duplicates */
+  .marquee__static {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .marquee__track { display: none; }
+    .marquee__static {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      width: 100%;
+      padding: 0 1rem;
     }
   }
 

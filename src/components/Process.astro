@@ -105,8 +105,9 @@ const scenes = [
   <div class="container">
     <div class="process__cta reveal">
       <a href="#kontakt" class="btn-primary btn--lg" data-magnetic>
-        Kostenloses Audit starten &rarr;
+        Kostenloses Audit anfragen &rarr;
       </a>
+      <a href="/leistungen" class="process__detail-link">Ablauf im Detail &darr;</a>
     </div>
   </div>
 </section>
@@ -306,6 +307,19 @@ const scenes = [
   }
 
   .process__cta { text-align: center; padding: 3rem 0 1rem; }
+
+  .process__detail-link {
+    display: block;
+    margin-top: 1rem;
+    font: 500 0.85rem/1 var(--font-mono);
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color var(--duration) var(--ease);
+  }
+  .process__detail-link:hover {
+    color: var(--accent-cyan);
+  }
 
   /* Mobile */
   @media (max-width: 768px) {
